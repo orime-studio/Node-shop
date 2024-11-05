@@ -1,6 +1,6 @@
 import { IMessage } from "../@types/@types";
 import { messageService } from "../services/message-service";
-import router from "./users";
+import router from "./users-router";
 
 //create new message
 router.post('/send-message', async (req, res, next) => {
