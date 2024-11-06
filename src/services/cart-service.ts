@@ -3,12 +3,19 @@ import { ICart, ICartWithTotals } from '../@types/@types';
 import CartModel from '../db/models/cart-model';
 import BizCardsError from '../errors/BizCardsError';
 
+// במקרה שאין עגלה ב-MongoDB (למשתמש לא מחובר), ניתן להשתמש ב-localStorage
 export const cartService = {
     getCartById: async (userId: string): Promise<ICartWithTotals | null> => {
         try {
+            // מנסים למצוא את העגלה ב-MongoDB
             const cart = await CartModel.findOne({ userId }).populate('items.variantId');
 
             if (!cart) {
+                // אם לא נמצאה עגלה ב-MongoDB, ננסה לשחזר אותה מ-localStorage (אם יש)
+                const cartFromLocalStorage = localStorage.getItem('cart');
+                if (cartFromLocalStorage) {
+                    return JSON.parse(cartFromLocalStorage);
+                }
                 return null;
             }
 
@@ -34,10 +41,19 @@ export const cartService = {
         variantId: string,
         quantity: number,
         size: string,
-
     ): Promise<ICart | null> => {
         console.log(`Starting addProductToCart for user: ${userId} with product: ${productId} and variant: ${variantId}`);
+        
         let cart = await CartModel.findOne({ userId });
+
+        if (!cart) {
+            console.log(`No cart found for userId: ${userId}, creating new cart.`);
+            cart = new CartModel({
+                userId,
+                items: [] // יצירת מערך ריק חוקי
+            });
+        }
+        
 
         const product = await Product.findById(productId);
         if (!product) {
@@ -51,92 +67,111 @@ export const cartService = {
             throw new BizCardsError(404, 'Variant not found');
         }
 
-        if (!cart) {
-            console.log(`No cart found for userId: ${userId}, creating new cart.`);
-            cart = new CartModel({
-                userId,
-                items: [
-                    {
-                        productId,
-                        variantId,
-                        quantity,
-                        size,
-                        title: product.title,
-                        price: variant.price,
-                        image: product.image,
-                    },
-                ],
-            });
-        } else {
-            const itemIndex = cart.items.findIndex(
-                item => item.productId === productId && item.size === size && item.variantId === variantId
-            );
+        const itemIndex = cart.items.findIndex(
+            item => item.productId === productId && item.size === size && item.variantId === variantId
+        );
 
-            if (itemIndex > -1) {
-                console.log(`Item found in cart, updating quantity for userId: ${userId}, productId: ${productId}, variantId: ${variantId}`);
-                cart.items[itemIndex].quantity += quantity;
-            } else {
-                console.log(`Item not found in cart, adding new item for userId: ${userId}, productId: ${productId}, variantId: ${variantId}`);
-                cart.items.push({
-                    productId,
-                    variantId,
-                    quantity,
-                    size,
-                    title: product.title,
-                    price: variant.price,
-                    image: product.image,
-                });
-            }
+        if (itemIndex > -1) {
+            cart.items[itemIndex].quantity += quantity;
+        } else {
+            cart.items.push({
+                productId,
+                variantId,
+                quantity,
+                size,
+                title: product.title,
+                price: variant.price,
+                image: product.image,
+            });
         }
 
-        await cart.save();
+        // אם המשתמש לא מחובר, נשמור את העגלה ב-localStorage
+        if (!userId) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            await cart.save();
+        }
+
         console.log(`Cart saved successfully for userId: ${userId}`);
         return cart;
     },
+
     removeProductFromCart: async (userId: string, variantId: string): Promise<ICart | null> => {
-        const cart = await CartModel.findOne({ userId });
+        let cart = await CartModel.findOne({ userId });
 
         if (!cart) {
-            throw new BizCardsError(404, 'Cart not found');
+            // אם לא נמצא cart ב-MongoDB, ננסה לשחזר מה-localStorage
+            const cartFromLocalStorage = localStorage.getItem('cart');
+            if (cartFromLocalStorage) {
+                cart = JSON.parse(cartFromLocalStorage);
+            } else {
+                throw new BizCardsError(404, 'Cart not found');
+            }
         }
 
         cart.items = cart.items.filter((item) => item.variantId !== variantId);
 
-        await cart.save();
+        // עדכון ב-localStorage אם המשתמש לא מחובר
+        if (!userId) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            await cart.save();
+        }
+
         return cart;
     },
 
-    updateQuantityInCart: async (userId: string, productId: string, variantId: string, quantity: number,): Promise<ICart | null> => {
-        console.log(`Updating cart for userId: ${userId}, variantId: ${variantId}, quantity: ${quantity}`);
+    updateQuantityInCart: async (userId: string, productId: string, variantId: string, quantity: number): Promise<ICart | null> => {
+        let cart = await CartModel.findOne({ userId });
 
-        const cart = await CartModel.findOne({ userId });
         if (!cart) {
-            console.error(`Cart not found for userId: ${userId}`);
-            throw new BizCardsError(404, 'Cart not found');
+            // אם לא נמצא cart ב-MongoDB, ננסה לשחזר מה-localStorage
+            const cartFromLocalStorage = localStorage.getItem('cart');
+            if (cartFromLocalStorage) {
+                cart = JSON.parse(cartFromLocalStorage);
+            } else {
+                throw new BizCardsError(404, 'Cart not found');
+            }
         }
 
         const itemIndex = cart.items.findIndex((item) => item.variantId === variantId);
         if (itemIndex === -1) {
-            console.error(`Product not found in cart for variantId: ${variantId}`);
             throw new BizCardsError(404, 'Product not found in cart');
         }
 
         cart.items[itemIndex].quantity = quantity;
-        await cart.save();
-        console.log(`Cart updated successfully for userId: ${userId}`);
+
+        // עדכון ב-localStorage אם המשתמש לא מחובר
+        if (!userId) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            await cart.save();
+        }
 
         return cart;
     },
 
     clearCart: async (userId: string): Promise<ICart | null> => {
-        const cart = await CartModel.findOne({ userId });
+        let cart = await CartModel.findOne({ userId });
 
         if (!cart) {
-            throw new BizCardsError(404, 'Cart not found');
+            // אם לא נמצא cart ב-MongoDB, ננסה לשחזר מה-localStorage
+            const cartFromLocalStorage = localStorage.getItem('cart');
+            if (cartFromLocalStorage) {
+                cart = JSON.parse(cartFromLocalStorage);
+            } else {
+                throw new BizCardsError(404, 'Cart not found');
+            }
         }
 
         cart.items = [];
-        await cart.save();
+
+        // עדכון ב-localStorage אם המשתמש לא מחובר
+        if (!userId) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            await cart.save();
+        }
 
         return cart;
     }
