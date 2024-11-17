@@ -174,9 +174,19 @@ export type IPage = {
   components: IPageComponent[];
   createdAt: Date;
 };
-export type IIPage = {
+
+
+
+export type IParashaComponent = {
+  type: 'banner' | 'image' | 'title' | 'text'; // סוג הרכיב (כמו תוכן, תמונה, כותרת)
+  content: string; // תוכן הרכיב - טקסט או URL לתמונה
+  image?: IImage; // מבנה של תמונה (לא חובה)
+  alt?: string; // תיאור התמונה (alt)
+};
+
+export type IParasha = {
   _id?: string;
   title: string;
-  components: IPageComponent[];
+  components: IParashaComponent[];
   createdAt: Date;
 };
