@@ -174,3 +174,9 @@ export type IPage = {
   components: IPageComponent[];
   createdAt: Date;
 };
+export type IIPage = {
+  _id?: string;
+  title: string;
+  components: IPageComponent[];
+  createdAt: Date;
+};
