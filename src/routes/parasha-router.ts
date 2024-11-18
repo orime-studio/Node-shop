@@ -24,7 +24,7 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
   
       // הוספת ה-userId לנתונים של הפרשה
 
-      const imageUrl = req.file ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
+      const imageUrl = req.file `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
       res.json({ imageUrl })
       const parashaData = { 
         ...req.body, 
@@ -34,6 +34,7 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
       const result = await parashaService.createParasha(parashaData);
       res.status(201).json(result);
     } catch (e) {
+      console.error(e);
       next(e);
     }
   });
