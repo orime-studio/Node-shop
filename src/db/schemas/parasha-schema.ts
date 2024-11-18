@@ -11,6 +11,7 @@ const ParashaComponentSchema = new Schema<IParashaComponent>({
 });
 
 const ParashaSchema = new Schema<IParasha>({
+  userId: { type: String, required: true },
   title: { type: String, required: true },
   components: [ParashaComponentSchema],
   createdAt: { type: Date, default: Date.now },

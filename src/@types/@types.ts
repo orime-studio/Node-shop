@@ -189,4 +189,5 @@ export type IParasha = {
   title: string;
   components: IParashaComponent[];
   createdAt: Date;
+  userId: string
 };

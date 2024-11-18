@@ -2,8 +2,10 @@ import { IParasha } from "../@types/@types";
 import Parasha from "../db/models/parasha-model";
 
 export const parashaService = {
-  createParasha: async (data: IParasha) => {
+  createParasha: async (data: IParasha, userId: string) => {
     const parasha = new Parasha(data);
+    parasha.userId = userId;
+
     return parasha.save();
   },
   updateParasha: async (id: string, data: IParasha) => {
