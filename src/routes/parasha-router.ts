@@ -14,15 +14,18 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
         throw new Error("Invalid token");
       }
   
-      let imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
+/*       let imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
       if (req.file) {
         console.log("Image URL:", imageUrl);
       } else {
         imageUrl = req.body.imageUrl;
         console.log("Image URL2:", imageUrl);
-      }
+      } */
   
       // הוספת ה-userId לנתונים של הפרשה
+
+      const imageUrl = req.file ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
+      res.json({ imageUrl })
       const parashaData = { 
         ...req.body, 
         image: { url: imageUrl, alt: req.body.alt },
