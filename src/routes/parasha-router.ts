@@ -14,9 +14,8 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
         throw new Error("Invalid token");
       }
   
-      let imageUrl = "";
+      let imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
       if (req.file) {
-        imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
         console.log("Image URL:", imageUrl);
       } else {
         imageUrl = req.body.imageUrl;
