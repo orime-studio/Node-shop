@@ -5,7 +5,7 @@ const ParashaComponentSchema = new Schema<IParashaComponent>({
   type: { type: String, required: true },
   content: { type: String, required: true },
   image: {
-    url: { type: String, required: false },
+    url: { type: String, required: true },
   },
   alt: { type: String, required: false },
 });

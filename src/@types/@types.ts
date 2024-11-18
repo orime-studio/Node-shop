@@ -178,9 +178,9 @@ export type IPage = {
 
 
 export type IParashaComponent = {
-  type: 'banner' | 'image' | 'title' | 'text'; // סוג הרכיב (כמו תוכן, תמונה, כותרת)
+  type: 'banner' |'title' | 'text'; // סוג הרכיב (כמו תוכן, תמונה, כותרת)
   content: string; // תוכן הרכיב - טקסט או URL לתמונה
-  image?: IImage; // מבנה של תמונה (לא חובה)
+  image: IImage; // מבנה של תמונה (לא חובה)
   alt?: string; // תיאור התמונה (alt)
 };
 
