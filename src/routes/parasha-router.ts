@@ -17,6 +17,10 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
       let imageUrl = "";
       if (req.file) {
         imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
+        console.log("Image URL:", imageUrl);
+      } else {
+        imageUrl = req.body.imageUrl;
+        console.log("Image URL2:", imageUrl);
       }
   
       // הוספת ה-userId לנתונים של הפרשה
