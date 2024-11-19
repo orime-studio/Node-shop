@@ -3,21 +3,21 @@ import { parashaService } from "../services/new-parasha-service";
 import { isAdmin } from "../middleware/is-admin";
 import upload from "../middleware/uploads";
 
-
 const router = Router();
 
 // POST /parasha - Create a new Parasha
 // Add new parasha
 router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
   try {
-    console.log("Payload:", req.payload); // הוספת דיבאג
+    console.log("Payload:", req.payload); // דיבאג - מציג את ה-payload של המשתמש
     if (!req.payload) {
       throw new Error("Invalid token");
     }
 
     // יצירת URL לתמונה
     const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
-    
+    console.log("Uploaded image URL:", imageUrl);  // דיבאג - מציג את ה-URL של התמונה שהועלתה
+
     // שליחת התמונה ונתונים נוספים כתגובה לפני היצירה
     res.json({ imageUrl });
 
@@ -25,15 +25,17 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
     const parashaData = { 
       ...req.body, 
       images: [{ url: imageUrl, alt: req.body.alt }],  // הוספת URL לתמונה וה-alt
-     
     };
+    console.log("Parasha Data:", parashaData);  // דיבאג - מציג את הנתונים שהתקבלו ליצירת הפרשה
 
     // יצירת פרשה בבסיס הנתונים
     const result = await parashaService.createParasha(parashaData);
+    console.log("Created Parasha:", result);  // דיבאג - מציג את התוצאה שהתקבלה לאחר יצירת הפרשה
 
     // החזרת תוצאה מוצלחת ללקוח
     res.status(201).json(result);
   } catch (e) {
+    console.error("Error:", e);  // דיבאג - מציג את השגיאה במידה ויש
     next(e);  // טיפול בשגיאות
   }
 });
