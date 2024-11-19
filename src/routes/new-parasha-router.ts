@@ -18,9 +18,6 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
     const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
     console.log("Uploaded image URL:", imageUrl);  // דיבאג - מציג את ה-URL של התמונה שהועלתה
 
-    // שליחת התמונה ונתונים נוספים כתגובה לפני היצירה
-    res.json({ imageUrl });
-
     // יצירת אובייקט פרשה עם הנתונים שנשלחו בבקשה
     const parashaData = { 
       ...req.body, 
