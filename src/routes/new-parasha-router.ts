@@ -40,6 +40,7 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const parashot = await parashaService.getParashot();
+    console.log(parashot);
     res.json(parashot);
   } catch (e) {
     next(e);
