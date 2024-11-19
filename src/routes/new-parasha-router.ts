@@ -21,7 +21,7 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
     // יצירת אובייקט פרשה עם הנתונים שנשלחו בבקשה
     const parashaData = { 
       ...req.body, 
-      images: [{ url: imageUrl, alt: req.body.alt }],  // הוספת URL לתמונה וה-alt
+      image: { url: imageUrl, alt: req.body.alt }  // הוספת URL לתמונה וה-alt
     };
     console.log("Parasha Data:", parashaData);  // דיבאג - מציג את הנתונים שהתקבלו ליצירת הפרשה
 
