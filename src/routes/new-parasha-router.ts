@@ -9,11 +9,6 @@ router.post("/", async (req: Request, res: Response) => {
   try {
     const data = req.body;
 
-    // בדיקת שדות נדרשים
-    if (!data.author || !data.image || !data.title || !data.miniText || !data.parashPage) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
     // קריאה לשירות ליצירת פרשה חדשה
     const newParasha = await parashaService.createParasha(data);
     return res.status(201).json(newParasha);
