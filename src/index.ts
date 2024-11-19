@@ -17,7 +17,7 @@ import path from "path";
 import { cartRouter } from "./routes/cart-router";
 import { messageRouter } from "./routes/message-router";
 import pageRoute from './routes/page-router';
-import { parashaRouter } from "./routes/new-parasha-router";
+import { newParashaRouter } from "./routes/new-parasha-router";
 
 
 
@@ -41,7 +41,7 @@ app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/cart", cartRouter);  // הוספת הנתיב לעגלת הקניות
 app.use('/api/v1/pages', pageRoute);
-app.use('/api/v1/parasha', parashaRouter);
+app.use('/api/v1/parasha', newParashaRouter);
 
 app.use(express.static("public"));
 app.use(errorHandler);
