@@ -17,7 +17,7 @@ import path from "path";
 import { cartRouter } from "./routes/cart-router";
 import { messageRouter } from "./routes/message-router";
 import pageRoute from './routes/page-router';
-import { parashaRouter } from "./routes/parasha-router";
+import { parashaRouter } from "./routes/new-parasha-router";
 
 
 
