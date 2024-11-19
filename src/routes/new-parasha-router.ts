@@ -37,4 +37,13 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
   }
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const parashot = await parashaService.getParashot();
+    res.json(parashot);
+  } catch (e) {
+    next(e);
+  }
+});
+
 export { router as newParashaRouter };
