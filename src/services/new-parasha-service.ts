@@ -8,8 +8,7 @@ export const parashaService = {
 
         return parasha.save();
     },
-    getParashot: async () => Parasha.find(),
-    
-    getParasha: async (id: string) => Parasha.findById(id),
+    getParashot: async () => NewParasha.find(),
+
 
 };
