@@ -49,7 +49,7 @@ router.get("/", async (req, res, next) => {
 
 //get parasha by id
 
-router.get("beitChabad/parasha/:id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const parasha = await parashaService.getParasha(req.params.id);
     res.json(parasha);
