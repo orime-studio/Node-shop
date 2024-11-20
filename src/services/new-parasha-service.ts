@@ -10,7 +10,7 @@ export const parashaService = {
     },
     getParashot: async () => NewParasha.find(),
 
-    getParasha: async (id: string) => Parasha.findById(id),
+    getParasha: async (id: string) => NewParasha.findById(id),
 
 
 };
