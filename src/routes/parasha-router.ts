@@ -77,7 +77,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // קבלת Parasha לפי ID
-router.get("/:id", async (req, res, next) => {
+router.get("/parasha/:id", async (req, res, next) => {
   try {
     const parasha = await parashaService.getParasha(req.params.id);
     res.json(parasha);

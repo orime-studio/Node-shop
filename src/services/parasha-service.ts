@@ -18,5 +18,6 @@ export const parashaService = {
     return parasha;
   },
   getParashot: async () => Parasha.find(),
+  
   getParasha: async (id: string) => Parasha.findById(id),
 };
