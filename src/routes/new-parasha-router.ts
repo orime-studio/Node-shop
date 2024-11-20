@@ -47,4 +47,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//get parasha by id
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const parasha = await parashaService.getParasha(req.params.id);
+    res.json(parasha);
+  } catch (e) {
+    next(e);
+  }
+})
 export { router as newParashaRouter };
