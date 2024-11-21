@@ -16,15 +16,20 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     if (!req.payload) {
       throw new Error("Invalid token");
     }
+
     const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
-    res.json({ imageUrl })
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
+
+    // צור את המוצר
     const result = await productService.createProduct(productData, req.payload._id);
-    res.status(201).json(result);
+
+    // שלח את המוצר בתגובה אחת
+    res.status(201).json({ product: result, imageUrl });
   } catch (e) {
     next(e);
   }
 });
+
 
 router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {

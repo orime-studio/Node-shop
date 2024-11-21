@@ -1,16 +1,15 @@
 import multer from "multer";
 import path from "path";
 
-// הגדרת Multer עם אחסון הקבצים
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadPath = path.join("public", "uploads");
-        console.log("Destination Path:", uploadPath); // דיבאג: הנתיב לתיקיית ההעלאה
+        console.log("Upload Path:", uploadPath); // לוג: נתיב שמירה
         cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
         const uniqueFilename = `${Date.now()}-${file.originalname}`;
-        console.log("Generated Filename:", uniqueFilename); // דיבאג: שם הקובץ שנוצר
+        console.log("Saved File Name:", uniqueFilename); // לוג: שם הקובץ שנשמר
         cb(null, uniqueFilename);
     },
 });
