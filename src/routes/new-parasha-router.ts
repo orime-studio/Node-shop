@@ -37,11 +37,14 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
   }
 });
 //get all parashot
- router.get("/", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
+    console.log("Incoming request to fetch all parashot"); // לוג כדי לציין שהבקשה התקבלה
     const parashot = await parashaService.getParashot();
+    console.log("Fetched parashot:", parashot); // לוג כדי להציג את התשובה מהשירות
     res.json(parashot);
   } catch (e) {
+    console.error("Error fetching parashot:", e.message); // לוג לשגיאה עם ההודעה
     next(e);
   }
 });
