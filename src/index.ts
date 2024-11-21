@@ -8,8 +8,6 @@ import errorHandler from "./middleware/error-handler";
 import morgan from "morgan";
 import { productRouter } from "./routes/products-router";
 import { Logger } from "./logs/logger";
-configDevEnv();
-connect();
 import cors from 'cors';
 import { analyticsRouter } from "./routes/analytics-router";
 import { orderRouter } from "./routes/order-router";
@@ -19,7 +17,8 @@ import { messageRouter } from "./routes/message-router";
 import pageRoute from './routes/page-router';
 import { newParashaRouter } from "./routes/new-parasha-router";
 
-
+configDevEnv();
+connect();
 
 Logger.error("hi");
 
@@ -33,7 +32,7 @@ app.use(cors());
 
 
 
- app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads'))); 
+app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));  // תיקיית הסטטיים שהוגדרה
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/analytics", analyticsRouter);
