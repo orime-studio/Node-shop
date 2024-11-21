@@ -17,6 +17,8 @@ import { messageRouter } from "./routes/message-router";
 import pageRoute from './routes/page-router';
 import { newParashaRouter } from "./routes/new-parasha-router";
 
+
+
 configDevEnv();
 connect();
 
