@@ -17,7 +17,14 @@ export const parashaService = {
     const parasha = await Parasha.findByIdAndDelete(id);
     return parasha;
   },
-  getParashot: async () => Parasha.find(),
+  getParashot: async (getLast: boolean) => {
+    if (getLast) {
+      // שליפת הפרשה האחרונה בלבד
+      return await Parasha.findOne().sort({ createdAt: -1 }).exec();
+    }
+    // שליפת כל הפרשות
+    return await Parasha.find().exec();
+  },
   
   getParasha: async (id: string) => Parasha.findById(id),
 };
