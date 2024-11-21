@@ -16,7 +16,7 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-    const imageUrl = `https://node-tandt-shop.onrender.com/beitChabad/uploads/${req.file.filename}`;
+    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
     res.json({ imageUrl })
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
     const result = await productService.createProduct(productData, req.payload._id);
