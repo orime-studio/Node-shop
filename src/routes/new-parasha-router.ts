@@ -41,22 +41,25 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
  //get last parasha
  router.get("/", async (req, res, next) => {
   try {
-    // בודק אם יש פרמטר בקשה של "last", אם כן שולף את הפרשה האחרונה
     const getLast = req.query.last === "true"; 
-    console.log("Fetching parashot, getLast:", getLast); // לוג של הפרמטר
+    console.log("Fetching parashot, getLast:", getLast);
 
     const parashot = await parashaService.getParashot(getLast);
-    console.log("Fetched parashot:", parashot); // לוג של התשובה שהתקבלה מה-DB
+    console.log("Fetched parashot:", parashot);
 
     if (!parashot || (Array.isArray(parashot) && parashot.length === 0)) {
+      console.log("No parashot found.");
       return res.status(404).json({ message: "No parashot found" });
     }
 
-    res.json(parashot); // שולח את התשובה ללקוח
+    console.log("Returning parashot to client.");
+    res.json(parashot);
   } catch (error) {
-    next(error); // מעביר שגיאות לניהול
+    console.error("Error fetching parashot:", error);
+    next(error);
   }
 });
+
 
 
 //get parasha by id
