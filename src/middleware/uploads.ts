@@ -1,16 +1,32 @@
-import multer from 'multer';
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
-// הגדרת המיקום שבו התמונות יישמרו
+
+// הגדרת Multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads'); // המקום שבו הקובץ יישמר
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, 'public/uploads'); // תיקיית היעד
+
+    // בדוק אם התיקיה קיימת, אם לא – צור אותה
+    fs.exists(uploadPath, (exists) => {
+      if (!exists) {
+        fs.mkdir(uploadPath, { recursive: true }, (err) => {
+          if (err) {
+            return cb(err, uploadPath);
+          }
+          cb(null, uploadPath); // אם התיקיה נוצרה, הגדר את התיקיה כיעד
+        });
+      } else {
+        cb(null, uploadPath); // אם התיקיה קיימת, השתמש בה
+      }
+    });
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // שמירת שם הקובץ עם timestamp
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname); // שם הקובץ
   }
 });
 
-// יצירת המידות של multer
 const upload = multer({ storage: storage });
 
 export default upload;
