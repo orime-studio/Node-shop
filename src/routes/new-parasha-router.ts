@@ -36,7 +36,17 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
     next(e);  // טיפול בשגיאות
   }
 });
- //get all parashot
+//get all parashot
+ router.get("/", async (req, res, next) => {
+  try {
+    const parashot = await parashaService.getParashot();
+    res.json(parashot);
+  } catch (e) {
+    next(e);
+  }
+});
+
+ //get last parasha
  router.get("/", async (req, res, next) => {
   try {
     // בודק אם יש פרמטר בקשה של "last", אם כן שולף את הפרשה האחרונה
