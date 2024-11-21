@@ -39,11 +39,12 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const parashot = await parashaService.getParashot();
-    console.log(parashot);
+    // בודק אם יש פרמטר בקשה של "last", אם כן שולף את הפרשה האחרונה
+    const getLast = req.query.last === "true"; 
+    const parashot = await parashaService.getParashot(getLast);
     res.json(parashot);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 });
 
