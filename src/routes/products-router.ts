@@ -4,13 +4,14 @@ import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
+import uploadNew from "../middleware/addImage";
 
 
 const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+router.post("/", ...isAdmin, uploadNew.single("image"), async (req, res, next) => {
   try {
     console.log("Payload:", req.payload); // דיבאג
     if (!req.payload) {
