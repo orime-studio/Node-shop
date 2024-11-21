@@ -44,7 +44,7 @@ app.use("/api/v1/cart", cartRouter);  // הוספת הנתיב לעגלת הקנ
 app.use('/api/v1/pages', pageRoute);
 app.use('/api/v1/parasha', newParashaRouter);
 
-app.use(express.static("public/uploads"));
+app.use(express.static("public"));
 app.use(errorHandler);
 app.use(notFound);
 
