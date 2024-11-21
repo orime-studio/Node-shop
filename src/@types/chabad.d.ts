@@ -6,6 +6,7 @@ export type parasha = {
     title: string;
     miniText: string;
     parashPage: parashPage[]
+    createdAt: Date
 
 }
 
