@@ -1,14 +1,16 @@
-import multer from "multer";
+import multer from 'multer';
 
+// הגדרת המיקום שבו התמונות יישמרו
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, `public/uploads`);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    },
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads'); // המקום שבו הקובץ יישמר
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // שמירת שם הקובץ עם timestamp
+  }
 });
 
-const upload = multer({ storage });
+// יצירת המידות של multer
+const upload = multer({ storage: storage });
 
 export default upload;
