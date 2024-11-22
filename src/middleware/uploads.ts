@@ -4,7 +4,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../public/upload");
+    const uploadPath = path.join(__dirname, "../public/uploads");
 
     // יצירת התיקייה אם היא לא קיימת
     if (!fs.existsSync(uploadPath)) {
