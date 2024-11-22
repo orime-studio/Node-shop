@@ -26,7 +26,6 @@ router.post('/add', validateAddToCart, async (req, res, next) => {
 
         // בדיקה אם המשתמש מחובר
         if (!req.payload || !req.payload._id) {
-            console.log("User not authenticated, handling guest cart.");
             // עבור אורחים, שולחים תגובה שתטופל בצד הקדמי (שמירה בלוקל סטורג')
             return res.status(200).json({ message: "Guest user - handle in local storage" });
         }

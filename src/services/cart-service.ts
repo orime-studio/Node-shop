@@ -42,12 +42,10 @@ export const cartService = {
         quantity: number,
         size: string,
     ): Promise<ICart | null> => {
-        console.log(`Starting addProductToCart for user: ${userId} with product: ${productId} and variant: ${variantId}`);
         
         let cart = await CartModel.findOne({ userId });
 
         if (!cart) {
-            console.log(`No cart found for userId: ${userId}, creating new cart.`);
             cart = new CartModel({
                 userId,
                 items: [] // יצירת מערך ריק חוקי
@@ -92,7 +90,6 @@ export const cartService = {
             await cart.save();
         }
 
-        console.log(`Cart saved successfully for userId: ${userId}`);
         return cart;
     },
 

@@ -8,7 +8,6 @@ const _validateAddToCart = async (req: Request, res: Response, next: NextFunctio
         const userId = req.payload._id;
         const { productId, variantId, quantity, size } = req.body;
 
-        console.log('Received variantId:', variantId); // בדיקת שליחה נכונה
 
         if (!userId) {
             return next(new BizCardsError(401, "User not authenticated"));

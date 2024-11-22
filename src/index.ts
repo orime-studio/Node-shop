@@ -25,7 +25,6 @@ connect();
 Logger.error("hi");
 
 const app = express();
-console.log(process.env.JWT_SECRET);
 //middleware chain:
 app.use(json());
 app.use(morgan("dev"));
@@ -53,6 +52,5 @@ app.use(notFound);
 
 //start the server:
 app.listen(8080, () => {
-  console.log("Server is running on http://localhost:8080");
-  console.log(`App is running in ${process.env.NODE_ENV} mode`);
+
 });

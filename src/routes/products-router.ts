@@ -13,7 +13,6 @@ const router = Router();
 // Add products
 router.post("/", ...isAdmin, uploadNew.single("image"), async (req, res, next) => {
   try {
-    console.log("Payload:", req.payload); // דיבאג
     if (!req.payload) {
       throw new Error("Invalid token");
     }
@@ -21,9 +20,7 @@ router.post("/", ...isAdmin, uploadNew.single("image"), async (req, res, next) =
     const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
     const result = await productService.createProduct(productData, req.payload._id);
-    console.log("File:", req.file); // בודק אם הקובץ קיים
-    console.log("Destination:", req.file.destination); // בודק לאן הקובץ נשמר
-    console.log("Filename:", req.file.filename); // בודק את שם הקובץ
+
 
     res.status(201).json(result);
   } catch (e) {
@@ -35,7 +32,6 @@ router.post("/", ...isAdmin, uploadNew.single("image"), async (req, res, next) =
 
 router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
-    console.log("Payload:", req.payload); // הוספת דיבאג
     if (!req.payload) {
       throw new Error("Invalid token");
     }
