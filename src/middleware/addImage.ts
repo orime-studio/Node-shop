@@ -2,30 +2,27 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 
-// הגדרת Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'public/upload'); // תיקיית היעד
+    const uploadPath = path.join(__dirname, "../public/uploads");
 
-    // בדוק אם התיקיה קיימת, אם לא – צור אותה
-    fs.exists(uploadPath, (exists) => {
-      if (!exists) {
-        fs.mkdir(uploadPath, { recursive: true }, (err) => {
-          if (err) {
-            return cb(err, uploadPath);
-          }
-          cb(null, uploadPath); // אם התיקיה נוצרה, הגדר את התיקיה כיעד
-        });
-      } else {
-        cb(null, uploadPath); // אם התיקיה קיימת, השתמש בה
-      }
-    });
+    // יצירת התיקייה אם היא לא קיימת
+    if (!fs.existsSync(uploadPath)) {
+      console.log("Creating uploads directory...");
+      fs.mkdirSync(uploadPath, { recursive: true });
+    } else {
+      console.log("Uploads directory already exists.");
+    }
+
+    cb(null, uploadPath); // תיקיית היעד
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // שם הקובץ
+    const fileName = Date.now() + "-" + file.originalname;
+    console.log("Saving file as:", fileName);
+    cb(null, fileName); // שם הקובץ
   }
 });
 
-const uploadNew = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-export default uploadNew;
+export default upload;
