@@ -3,7 +3,8 @@ import { productService } from "../services/product-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
-import upload from "../middleware/uploads";
+import { upload } from "../middleware/uploads";
+
 
 
 const router = Router();

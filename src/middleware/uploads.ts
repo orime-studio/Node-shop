@@ -5,33 +5,29 @@ import path from "path";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, "../public/uploads");
+    console.log(`Upload path: ${uploadPath}`);
 
-    // בדוק אם התיקייה קיימת ואם לא - צור אותה
+    // יצירת התיקייה אם היא לא קיימת
     if (!fs.existsSync(uploadPath)) {
-      console.log(`Directory does not exist. Creating: ${uploadPath}`);
-      fs.mkdirSync(uploadPath, { recursive: true });
+      try {
+        console.log("Directory does not exist. Creating...");
+        fs.mkdirSync(uploadPath, { recursive: true });
+        console.log("Directory created successfully.");
+      } catch (error) {
+        console.error("Error creating directory:", error);
+        return cb(error, uploadPath); // החזרת שגיאה אם נכשל
+      }
     } else {
-      console.log(`Directory already exists: ${uploadPath}`);
+      console.log("Directory already exists.");
     }
 
-    cb(null, uploadPath); // העבר את הנתיב ל-multer
+    cb(null, uploadPath); // תיקיית היעד
   },
   filename: (req, file, cb) => {
     const fileName = Date.now() + "-" + file.originalname;
-    console.log(`Saving file with name: ${fileName}`); // הוסף לוג לשם הקובץ
+    console.log(`Saving file with name: ${fileName}`);
     cb(null, fileName);
-  }
+  },
 });
 
-const upload = multer({ 
-  storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // הגבלת גודל קובץ ל-5MB
-  fileFilter: (req, file, cb) => {
-    console.log(`Received file: ${file.originalname} with type: ${file.mimetype}`);
-    cb(null, true); // אפשר העלאת קבצים
-  }
-});
-
-console.log("Multer storage configured and ready.");
-
-export default upload;
+export const upload = multer({ storage });
