@@ -4,10 +4,6 @@ import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import { upload } from "../middleware/uploads";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
-
 
 
 
@@ -15,34 +11,7 @@ const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, async (req, res, next) => {
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      const uploadPath = path.join(__dirname, "../public/uploads");
-      console.log(`Upload path: ${uploadPath}`);
-  
-      // יצירת התיקייה אם היא לא קיימת
-      if (!fs.existsSync(uploadPath)) {
-        try {
-          console.log("Directory does not exist. Creating...");
-          fs.mkdirSync(uploadPath, { recursive: true });
-          console.log("Directory created successfully.");
-        } catch (error) {
-          console.error("Error creating directory:", error);
-          return cb(error, uploadPath); // החזרת שגיאה אם נכשל
-        }
-      } else {
-        console.log("Directory already exists.");
-      }
-  
-      cb(null, uploadPath); // תיקיית היעד
-    },
-    filename: (req, file, cb) => {
-      const fileName = Date.now() + "-" + file.originalname;
-      console.log(`Saving file with name: ${fileName}`);
-      cb(null, fileName);
-    },
-  });
+router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
     if (!req.payload) {
       throw new Error("Invalid token");
