@@ -3,7 +3,8 @@ import { pageService } from "../services/page-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import { IPage, IPageComponent } from "../@types/@types";
-import { upload } from "../middleware/uploads";
+import upload from "../middleware/uploads";
+
 
 const router = Router();
 

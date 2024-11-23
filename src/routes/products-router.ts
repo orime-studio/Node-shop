@@ -3,7 +3,8 @@ import { productService } from "../services/product-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
-import { upload } from "../middleware/uploads";
+import upload from "../middleware/uploads";
+
 
 
 
@@ -13,15 +14,14 @@ const router = Router();
 // Add products
 router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
+    console.log("Payload:", req.payload); // הוספת דיבאג
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-
     const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
+    res.json({ imageUrl })
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
     const result = await productService.createProduct(productData, req.payload._id);
-
-
     res.status(201).json(result);
   } catch (e) {
     next(e);

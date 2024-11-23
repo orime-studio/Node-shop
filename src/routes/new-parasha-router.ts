@@ -1,7 +1,8 @@
 import express, { Request, Response, Router } from "express";
 import { parashaService } from "../services/new-parasha-service";
 import { isAdmin } from "../middleware/is-admin";
-import { upload } from "../middleware/uploads";
+import upload from "../middleware/uploads";
+
 
 
 const router = Router();
