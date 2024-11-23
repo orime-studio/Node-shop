@@ -30,12 +30,13 @@ app.use(json());
 app.use(morgan("dev"));
 app.use(cors());
 //http://localhost:8080/api/v1/users  
+ 
 
 
 
 /* app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));  // תיקיית הסטטיים שהוגדרה
  */
-app.use("/upload", express.static(path.join(__dirname, "public/upload")));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/products", productRouter);
