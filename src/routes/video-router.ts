@@ -1,5 +1,7 @@
 import { fetchLatestVideo } from "../services/video-service";
-import router from "./users-router";
+import { Router } from "express";
+
+const router = Router();
 
 router.get('/latest-video', async (req, res) => {
     try {
