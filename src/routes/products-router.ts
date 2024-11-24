@@ -3,7 +3,10 @@ import { productService } from "../services/product-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
-import upload from "../middleware/uploads";
+
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 
 
@@ -12,7 +15,32 @@ const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+
+
+// הגדרת מיקום תיקיית העלאת הקבצים
+const uploadDir = path.join(__dirname, 'public', 'uploads');
+
+// אם תיקיית uploads לא קיימת, ניצור אותה
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// הגדרת Multer לשמירת הקבצים בתיקיה
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);  // קובעים את מיקום השמירה
+  },
+  filename: (req, file, cb) => {
+    // נותנים שם ייחודי לקובץ (תאריך זמן כדי למנוע כפילויות)
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+// הגדרת multer עם הגדרת ה-storage
+const upload = multer({ storage: storage });
+
+// הנתיב להעלאת מוצר (כולל קובץ)
+router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
   try {
     // בדיקת הטוקן
     if (!req.payload) {
@@ -51,6 +79,7 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     next(e);
   }
 });
+
 
 
 
