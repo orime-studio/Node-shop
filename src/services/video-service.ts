@@ -5,8 +5,8 @@ import axios from "axios";
 
 // הפונקציה לשליפת הסרטון האחרון
 const fetchLatestVideo = async () => {
-  const apiKey = 'AIzaSyDrMB3ATfjH8BoiFdxcMn_S32TwY_Vnol4'; // הכנס את מפתח ה-API שלך
-  const channelId = 'UCbyXmN-mZAQ2SlBX-Rze_bw'; // הכנס את מזהה הערוץ שלך
+  const apiKey = 'AIzaSyDkKrMwC91QDtre1-PTA8wQsdtdV_6OTKY'; // הכנס את מפתח ה-API שלך
+  const channelId = 'UCShooJom3QCkrDj-skeRi2w'; // הכנס את מזהה הערוץ שלך
 
   const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&order=date&part=snippet&type=video`;
 
