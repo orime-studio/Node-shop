@@ -2,7 +2,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("Saving file to destination: uploads");
+        console.log("Saving file to destination: uploads 222");
         cb(null, `uploads`); // מוודא שהתיקייה קיימת ושיש לה הרשאות מתאימות
     },
     filename: (req, file, cb) => {
