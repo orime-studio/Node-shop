@@ -9,8 +9,6 @@ import path from 'path';
 import fs from 'fs';
 
 
-
-
 const router = Router();
 
 
@@ -18,7 +16,7 @@ const router = Router();
 
 
 // הגדרת מיקום תיקיית העלאת הקבצים
-const uploadDir = path.join(__dirname, 'public', 'uploads');
+const uploadDir = path.join(__dirname, 'public', 'utploads');
 
 // אם תיקיית uploads לא קיימת, ניצור אותה
 if (!fs.existsSync(uploadDir)) {
