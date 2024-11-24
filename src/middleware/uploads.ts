@@ -2,8 +2,8 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("Saving file to destination: public/uploads");
-        cb(null, `public/uploads`); // מוודא שהתיקייה קיימת ושיש לה הרשאות מתאימות
+        console.log("Saving file to destination: uploads");
+        cb(null, `uploads`); // מוודא שהתיקייה קיימת ושיש לה הרשאות מתאימות
     },
     filename: (req, file, cb) => {
         const uniqueFilename = `${Date.now()}-${file.originalname}`;
