@@ -2,21 +2,13 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("Saving file to destination: uploads 222");
-        cb(null, `uploads`); // מוודא שהתיקייה קיימת ושיש לה הרשאות מתאימות
+        cb(null, `public/uploads`);
     },
     filename: (req, file, cb) => {
-        const uniqueFilename = `${Date.now()}-${file.originalname}`;
-        console.log("Generated filename:", uniqueFilename);
-        cb(null, uniqueFilename);
-
-
+        cb(null, `${Date.now()}-${file.originalname}`);
     },
-    
 });
 
 const upload = multer({ storage });
-
-console.log("Multer storage initialized with public/uploads directory");
 
 export default upload;
