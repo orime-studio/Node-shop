@@ -16,6 +16,7 @@ import { cartRouter } from "./routes/cart-router";
 import { messageRouter } from "./routes/message-router";
 import pageRoute from './routes/page-router';
 import { newParashaRouter } from "./routes/new-parasha-router";
+import { videoRouter } from "./routes/video-router";
 
 
 
@@ -46,7 +47,7 @@ app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/cart", cartRouter);  // הוספת הנתיב לעגלת הקניות
 app.use('/api/v1/pages', pageRoute);
 app.use('/api/v1/parasha', newParashaRouter);
-
+app.use('/api', videoRouter);
 app.use(express.static("public"));
 
 app.use(errorHandler);
