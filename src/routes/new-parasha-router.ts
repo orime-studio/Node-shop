@@ -16,7 +16,7 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
     }
 
     // יצירת URL לתמונה
-    const imageUrl = `https://node-shop-v10n.onrender.com/uploads/${req.file.filename}`;
+    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
 
     // יצירת אובייקט פרשה עם הנתונים שנשלחו בבקשה
     const parashaData = {

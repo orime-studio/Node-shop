@@ -44,7 +44,7 @@ router.post("/", validateToken, isAdmin, async (req, res, next) => {
 
         const images = Array.isArray(req.files)
             ? req.files.map((file: Express.Multer.File) => ({
-                url: `https://node-shop-v10n.onrender.com/uploads/${file.filename}`,
+                url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
             }))
             : [];
 
@@ -76,7 +76,7 @@ router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) =>
             throw new Error("Invalid token");
         }
 
-        const imageUrl = req.file ? `https://node-shop-v10n.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
+        const imageUrl = req.file ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
 
         const pageData = {
             ...req.body,
