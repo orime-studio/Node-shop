@@ -36,7 +36,7 @@ app.use(cors());
 
 /* app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));  // תיקיית הסטטיים שהוגדרה
  */
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+/* app.use("/uploads", express.static(path.join(__dirname, "uploads"))); */
 
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/products", productRouter);
@@ -48,7 +48,7 @@ app.use('/api/v1/pages', pageRoute);
 app.use('/api/v1/parasha', newParashaRouter);
 
 app.use(express.static("public"));
-app.use(express.static("uploads"));
+
 app.use(errorHandler);
 app.use(notFound);
 
