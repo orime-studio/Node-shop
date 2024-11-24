@@ -5,12 +5,14 @@ const router = Router();
 
 router.get('/latest-video', async (req, res) => {
     try {
-      const video = await fetchLatestVideo();
-      res.status(200).json(video);
+      const videoId = await fetchLatestVideo();
+      res.json({ videoUrl: `https://www.youtube.com/watch?v=${videoId}` });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch the latest video.' });
+      console.error('Error fetching video:', error);
+      res.status(500).json({ error: 'Unable to fetch the latest video' });
     }
   });
+  
 
 
 export { router as videoRouter };
