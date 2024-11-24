@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
         console.log("Generated filename:", uniqueFilename);
         cb(null, uniqueFilename);
 
-        console.log(`Saving file as: public/uploads/${uniqueFilename}`);
 
     },
     
