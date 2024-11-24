@@ -13,6 +13,8 @@ const fetchLatestVideo = async () => {
   try {
     const response = await axios.get(url);
     const latestVideoId = response.data.items[0].id.videoId;
+
+    console.log("Latest video ID:", latestVideoId);
     
     return `https://www.youtube.com/watch?v=${latestVideoId}`;
   } catch (error) {
