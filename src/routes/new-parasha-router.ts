@@ -16,11 +16,11 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
     }
 
     // יצירת URL לתמונה
-    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
+    const imageUrl = `https://node-shop-v10n.onrender.com/uploads/${req.file.filename}`;
 
     // יצירת אובייקט פרשה עם הנתונים שנשלחו בבקשה
-    const parashaData = { 
-      ...req.body, 
+    const parashaData = {
+      ...req.body,
       image: { url: imageUrl, alt: req.body.alt }  // הוספת URL לתמונה וה-alt
     };
 
@@ -35,10 +35,10 @@ router.post("/", isAdmin, upload.single("image"), async (req, res, next) => {
 });
 
 
- //get last parasha
- router.get("/", async (req, res, next) => {
+//get last parasha
+router.get("/", async (req, res, next) => {
   try {
-    const getLast = req.query.last === "true"; 
+    const getLast = req.query.last === "true";
 
     const parashot = await parashaService.getParashot(getLast);
 
