@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 // בדיקה אם תיקיית uploads קיימת ואם לא, ניצור אותה
-const uploadDirectory = 'public/uploads-new';
+const uploadDirectory = 'public/uploads';
 if (!fs.existsSync(uploadDirectory)) {
     fs.mkdirSync(uploadDirectory, { recursive: true });
 }
