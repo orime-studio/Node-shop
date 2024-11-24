@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 // הגדרת תיקיית העלאת קבצים
-const uploadDirectory = 'public/uploads';
+const uploadDirectory = 'public/uploadsfolder';
 
 // אם התיקיה לא קיימת, ניצור אותה
 if (!fs.existsSync(uploadDirectory)) {
