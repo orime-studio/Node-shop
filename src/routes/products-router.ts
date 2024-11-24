@@ -14,20 +14,44 @@ const router = Router();
 // Add products
 router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
+    // בדיקת הטוקן
     if (!req.payload) {
+      console.log("Token validation failed.");
       throw new Error("Invalid token");
     }
 
+    // הדפסת המידע על הקובץ שהועלה
+    console.log("Uploaded file:", req.file);
+
+    // יצירת כתובת URL של התמונה
     const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
-    const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
+    console.log("Image URL:", imageUrl);
+
+    // הדפסת המידע על הנתונים שהתקבלו בגוף הבקשה
+    console.log("Request body:", req.body);
+
+    // בניית המידע עבור המוצר
+    const productData = { 
+      ...req.body, 
+      image: { 
+        url: imageUrl, 
+        alt: req.body.alt 
+      } 
+    };
+    console.log("Product data:", productData);
+
+    // יצירת המוצר בשירות
     const result = await productService.createProduct(productData, req.payload._id);
+    console.log("Product creation result:", result);
 
-
+    // שליחת תשובה ללקוח
     res.status(201).json(result);
   } catch (e) {
+    console.error("Error during product creation:", e.message);
     next(e);
   }
 });
+
 
 
 
