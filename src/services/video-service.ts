@@ -8,7 +8,8 @@ const fetchLatestVideo = async () => {
   const apiKey = 'AIzaSyDkKrMwC91QDtre1-PTA8wQsdtdV_6OTKY'; // הכנס את מפתח ה-API שלך
   const channelId = 'UCShooJom3QCkrDj-skeRi2w'; // הכנס את מזהה הערוץ שלך
 
-  const url = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyDkKrMwC91QDtre1-PTA8wQsdtdV_6OTKY&channelId=UCbyXmN-mZAQ2SlBX-Rze_bw&order=date&part=snippet&type=video`;
+  const url3 = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyDkKrMwC91QDtre1-PTA8wQsdtdV_6OTKY&channelId=UCbyXmN-mZAQ2SlBX-Rze_bw&order=date&part=snippet&type=video`;
+  const url = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyDkKrMwC91QDtre1-PTA8wQsdtdV_6OTKY&channelId=UCYCWdJniUxe41JbVwO0_SLA&order=date&part=snippet&type=video`;
 
   try {
     const response = await axios.get(url);
