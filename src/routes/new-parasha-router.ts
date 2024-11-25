@@ -42,8 +42,9 @@ router.get("/", async (req, res, next) => {
 
     const parashot = await parashaService.getParashot(getLast);
 
+    // אם אין פרשות או שהן ריקות, מחזירים תשובה ללא שגיאה
     if (!parashot || (Array.isArray(parashot) && parashot.length === 0)) {
-      return res.status(404).json({ message: "No parashot found" });
+      return res.status(200).json({ message: "No parashot found" });
     }
 
     res.json(parashot);
@@ -51,7 +52,6 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
-
 
 
 //get parasha by id
