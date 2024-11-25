@@ -22,6 +22,11 @@ export const parashaService = {
   getParasha: async (id: string) => {
     return NewParasha.findById(id);
   },
+  editParasha: async (id: string, data: ParashaInput) => {
+    const parasha = await NewParasha.findByIdAndUpdate(id, data, { new: true });
+    if (!parasha) throw new Error("Parasha not found");
+    return parasha;
+  },
 };
 
 

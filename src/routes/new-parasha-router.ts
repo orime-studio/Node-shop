@@ -64,4 +64,14 @@ router.get("/:id", async (req, res, next) => {
     next(e);
   }
 })
+
+//edit parasha
+router.put("/:id", isAdmin, upload.single("image"), async (req, res, next) => {
+  try {
+    const parasha = await parashaService.editParasha(req.params.id, req.body);
+    res.json(parasha);
+  } catch (e) {
+    next(e);
+  }
+})
 export { router as newParashaRouter };
