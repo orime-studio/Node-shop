@@ -10,11 +10,12 @@ const ParashPageSchema = new Schema({
 const NewParashaSchema = new Schema({
     author: { type: String, required: true },
     image: { type: imageSchema, required: true },
+    alt: { type: String, required: false },
     title: { type: String, required: true },
     miniText: { type: String, required: true },
     parashPage: { type: [ParashPageSchema], required: true },
     createdAt: { type: Date, default: Date.now },
-    
+
 });
 
 export default NewParashaSchema;
