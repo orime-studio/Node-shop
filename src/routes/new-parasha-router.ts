@@ -66,10 +66,15 @@ router.get("/:id", async (req, res, next) => {
 })
 
 //edit parasha
-router.put("/:id", isAdmin, upload.single("image"), async (req, res, next) => {
+router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
-    const parasha = await parashaService.editParasha(req.params.id, req.body);
-    res.json(parasha);
+    if (!req.payload) {
+      throw new Error("Invalid token");
+    }
+    const imageUrl = req.file ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
+    const parashaData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
+    const updatedParasha = await parashaService.editParasha(req.params.id, parashaData);
+    res.json(updatedParasha);
   } catch (e) {
     next(e);
   }
