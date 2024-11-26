@@ -27,6 +27,10 @@ export const parashaService = {
     if (!parasha) throw new Error("Parasha not found");
     return parasha;
   },
+  deleteParasha: async (id: string) => {
+    const parasha = await NewParasha.findByIdAndDelete(id);
+    return parasha;
+  },
 };
 
 

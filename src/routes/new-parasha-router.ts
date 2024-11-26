@@ -73,5 +73,14 @@ router.put("/:id", isAdmin, upload.single("image"), async (req, res, next) => {
   } catch (e) {
     next(e);
   }
+  //delete parasha
+  router.delete("/:id", isAdmin, async (req, res, next) => {
+    try {
+      const parasha = await parashaService.deleteParasha(req.params.id);
+      res.json(parasha);
+    } catch (e) {
+      next(e);
+    }
+  });
 })
 export { router as newParashaRouter };
