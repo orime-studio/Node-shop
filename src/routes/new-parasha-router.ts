@@ -71,13 +71,27 @@ router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) =>
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-    const imageUrl = req.file ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
-    const parashaData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
+
+    // קביעת ה-URL של התמונה החדשה אם יש תמונה חדשה
+    const imageUrl = req.file
+      ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`
+      : req.body.imageUrl; // אם אין תמונה חדשה, נשמור את ה-URL הישן
+
+    // יצירת נתוני העדכון
+    const parashaData = {
+      ...req.body,
+      image: { url: imageUrl, alt: req.body.alt },
+    };
+
+    // עדכון בפרשה ב-MongoDB
     const updatedParasha = await parashaService.editParasha(req.params.id, parashaData);
-    res.json(updatedParasha);
+
+    res.json(updatedParasha); // החזרת התוצאה
   } catch (e) {
     next(e);
   }
+});
+
   //delete parasha
   router.delete("/:id", isAdmin, async (req, res, next) => {
     try {
@@ -87,5 +101,5 @@ router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) =>
       next(e);
     }
   });
-})
+
 export { router as newParashaRouter };

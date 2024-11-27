@@ -23,10 +23,19 @@ export const parashaService = {
     return NewParasha.findById(id);
   },
   editParasha: async (id: string, data: ParashaInput) => {
+    // בדוק את נתוני התמונה לפני השמירה
+    console.log("Updating Parasha with image:", data.image);
+    
     const parasha = await NewParasha.findByIdAndUpdate(id, data, { new: true });
+
     if (!parasha) throw new Error("Parasha not found");
+    
+    // גם כאן נוודא שהתמונה נשמרה ב-MongoDB
+    console.log("Updated Parasha:", parasha);
+
     return parasha;
-  },
+},
+
   deleteParasha: async (id: string) => {
     const parasha = await NewParasha.findByIdAndDelete(id);
     return parasha;
