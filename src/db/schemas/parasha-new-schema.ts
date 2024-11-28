@@ -13,7 +13,7 @@ const NewParashaSchema = new Schema({
     alt: { type: String, required: false },
     title: { type: String, required: true },
     miniText: { type: String, required: true },
-    parashPage: { type: [longTextSchema], required: true },
+    longText: { type: [longTextSchema], required: true },
     createdAt: { type: Date, default: Date.now },
 
 });
