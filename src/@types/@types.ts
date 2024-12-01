@@ -191,3 +191,33 @@ export type IParasha = {
   createdAt: Date;
   userId: string
 };
+
+
+// types/articleType.ts
+
+export type IImages = {
+  url: string;       // URL של התמונה
+  alt: string;       // תיאור התמונה (alt)
+  description?: string; // תיאור נוסף או כיתוב עבור התמונה
+};
+
+export type ArticleInput = {
+  source: string;          // שם המחבר
+  title: string;           // כותרת המאמר
+  miniText: string;        // תקציר שמתאר את המאמר
+  alt: string;             // תיאור התמונה (alt)
+  images: IImages[];        // מערך של תמונות למאמר
+  longText: ArticleLongText[];    // רשימת עמודי המאמר
+};
+
+export type ArticleLongText = {
+  title?: string; // כותרת של עמוד
+  text: string;  // תוכן של עמוד
+};
+
+export type Article = ArticleInput & {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};

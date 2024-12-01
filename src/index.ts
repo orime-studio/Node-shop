@@ -17,6 +17,7 @@ import { messageRouter } from "./routes/message-router";
 import pageRoute from './routes/page-router';
 import { newParashaRouter } from "./routes/new-parasha-router";
 import { videoRouter } from "./routes/video-router";
+import { articleRouter } from "./routes/article-router";
 
 
 
@@ -48,6 +49,7 @@ app.use("/api/v1/cart", cartRouter);  // הוספת הנתיב לעגלת הקנ
 app.use('/api/v1/pages', pageRoute);
 app.use('/api/v1/parasha', newParashaRouter);
 app.use('/api/v1/videos', videoRouter);
+app.use('/api/v1/article', articleRouter);
 app.use(express.static("public"));
 
 app.use(errorHandler);
