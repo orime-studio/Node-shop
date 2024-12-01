@@ -1,36 +1,46 @@
 // routes/article-router.ts
 
-import express, { Request, Response, Router } from "express";
+import express, { Request, Response, Router, NextFunction } from "express";
 import { articleService } from "../services/article-service";
 import { isAdmin } from "../middleware/is-admin";
 import multiUpload from "../middleware/multy-uploads";
 
 const router = Router();
 
+// עטיפת multer כפונקציה שתעבוד נכון עם TypeScript
+const multiUploadMiddleware = multiUpload.array("images", 5);
+
 // POST /article - יצירת מאמר חדש
-router.post("/", isAdmin, multiUpload.array("images", 5), async (req, res, next) => {
-  try {
-    if (!req.payload) {
-      throw new Error("Invalid token");
+router.post(
+  "/",
+  isAdmin,
+  multiUploadMiddleware, // שימוש במידלוואר להעלאת תמונות
+  async (req: Request, res: Response, next) => {
+    try {
+      if (!req.payload) {
+        throw new Error("Invalid token");
+      }
+
+      // יצירת מערך של URLs לתמונות
+      const files = req.files as Express.Multer.File[];
+      const images =
+        files?.map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
+          alt: req.body.alt,
+        })) || [];
+
+      const articleData = {
+        ...req.body,
+        images,
+      };
+
+      const result = await articleService.createArticle(articleData);
+      res.status(201).json(result);
+    } catch (e) {
+      next(e);
     }
-
-    // יצירת מערך של URLs לתמונות
-    const images = req.files?.map((file) => ({
-      url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-      alt: req.body.alt,
-    })) || [];
-
-    const articleData = {
-      ...req.body,
-      images,
-    };
-
-    const result = await articleService.createArticle(articleData);
-    res.status(201).json(result);
-  } catch (e) {
-    next(e);
   }
-});
+);
 
 // GET /article - שליפת כל המאמרים או המאמר האחרון
 router.get("/", async (req, res, next) => {
@@ -53,6 +63,9 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const article = await articleService.getArticle(req.params.id);
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
     res.json(article);
   } catch (e) {
     next(e);
@@ -60,35 +73,49 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // PUT /article/:id - עדכון מאמר לפי מזהה
-router.put("/:id", isAdmin, multiUpload.array("images", 5), async (req, res, next) => {
-  try {
-    if (!req.payload) {
-      throw new Error("Invalid token");
+router.put(
+  "/:id",
+  isAdmin,
+  multiUploadMiddleware, // שימוש במידלוואר להעלאת תמונות
+  async (req: Request, res: Response, next) => {
+    try {
+      if (!req.payload) {
+        throw new Error("Invalid token");
+      }
+
+      // קביעת ה-URLs של התמונות
+      const files = req.files as Express.Multer.File[];
+      const images =
+        files?.map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
+          alt: req.body.alt,
+        })) || JSON.parse(req.body.images);
+
+      const articleData = {
+        ...req.body,
+        images,
+      };
+
+      const updatedArticle = await articleService.editArticle(req.params.id, articleData);
+
+      if (!updatedArticle) {
+        return res.status(404).json({ message: "Article not found" });
+      }
+
+      res.json(updatedArticle);
+    } catch (e) {
+      next(e);
     }
-
-    // קביעת ה-URLs של התמונות
-    const images = req.files?.map((file) => ({
-      url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-      alt: req.body.alt,
-    })) || JSON.parse(req.body.images);
-
-    const articleData = {
-      ...req.body,
-      images,
-    };
-
-    const updatedArticle = await articleService.editArticle(req.params.id, articleData);
-
-    res.json(updatedArticle);
-  } catch (e) {
-    next(e);
   }
-});
+);
 
 // DELETE /article/:id - מחיקת מאמר לפי מזהה
 router.delete("/:id", isAdmin, async (req, res, next) => {
   try {
     const article = await articleService.deleteArticle(req.params.id);
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
     res.json(article);
   } catch (e) {
     next(e);

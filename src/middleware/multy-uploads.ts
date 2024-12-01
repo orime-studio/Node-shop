@@ -1,5 +1,3 @@
-    // middleware/multi-uploads.ts
-
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
@@ -18,11 +16,9 @@ if (!fs.existsSync(multiUploadDirectory)) {
 // הגדרת Multer לשמירת קבצים בתיקיית multi_uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("Setting destination for multi file upload...");
         cb(null, multiUploadDirectory);
     },
     filename: (req, file, cb) => {
-        console.log(`Uploading file: ${file.originalname}`);
         cb(null, `${Date.now()}-${file.originalname}`);
     },
 });
