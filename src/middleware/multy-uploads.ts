@@ -23,6 +23,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const multiUpload = multer({ storage });
+const multiUpload = multer({ storage }).array('images');
+
 
 export default multiUpload;

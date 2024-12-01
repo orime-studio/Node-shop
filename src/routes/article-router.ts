@@ -8,13 +8,13 @@ import multiUpload from "../middleware/multy-uploads";
 const router = Router();
 
 // עטיפת multer כפונקציה שתעבוד נכון עם TypeScript
-const multiUploadMiddleware = multiUpload.array("images", 5);
+
 
 // POST /article - יצירת מאמר חדש
 router.post(
   "/",
   isAdmin,
-  multiUploadMiddleware, // שימוש במידלוואר להעלאת תמונות
+  multiUpload,
   async (req: Request, res: Response, next) => {
     try {
       if (!req.payload) {
@@ -75,7 +75,7 @@ router.get("/:id", async (req, res, next) => {
 router.put(
   "/:id",
   isAdmin,
-  multiUploadMiddleware,
+  multiUpload,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // וידוא טוקן
