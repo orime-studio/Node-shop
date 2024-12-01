@@ -23,11 +23,10 @@ router.post(
 
       // יצירת מערך של URLs לתמונות
       const files = req.files as Express.Multer.File[];
-      const images =
-        files?.map((file) => ({
-          url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-          alt: req.body.alt,
-        })) || [];
+      const images = files.map((file) => ({
+        url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
+        alt: req.body.alt,
+      }));
 
       const articleData = {
         ...req.body,
@@ -85,11 +84,12 @@ router.put(
 
       // קביעת ה-URLs של התמונות
       const files = req.files as Express.Multer.File[];
-      const images =
-        files?.map((file) => ({
-          url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-          alt: req.body.alt,
-        })) || JSON.parse(req.body.images);
+      const images = files.length > 0
+        ? files.map((file) => ({
+            url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
+            alt: req.body.alt,
+          }))
+        : JSON.parse(req.body.images);
 
       const articleData = {
         ...req.body,
