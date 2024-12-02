@@ -20,21 +20,26 @@ router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images',
 
     // טיפול בתמונה הראשית
     const mainImage = req.file;  // זו התמונה הראשית (תמונה בודדת)
+    console.log('Main Image:', mainImage);  // הדפסת התמונה הראשית
 
     // טיפול בתמונות נוספות
     const additionalImages = req.files as Express.Multer.File[];  // מערך של תמונות נוספות
+    console.log('Additional Images:', additionalImages);  // הדפסת התמונות הנוספות
 
     // אם יש מערך של alt לכל תמונה
     const altTexts = req.body.alt; // אם הלקוח שלח מערך alt עבור כל תמונה
+    console.log('Alt Texts:', altTexts);  // הדפסת טקסט ה-Alt
 
     // יצירת מערך של URLs לתמונות נוספות (עם alt אם יש)
     const additionalImagesUrls = additionalImages.map((file, index) => ({
       url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
       alt: altTexts && altTexts[index] ? altTexts[index] : '', // אם יש alt לכל תמונה, אם לא, נשאיר ריק
     }));
+    console.log('Additional Images URLs:', additionalImagesUrls);  // הדפסת ה-URLs של התמונות הנוספות
 
     // אם יש תמונה ראשית, נוסיף אותה לנתונים של המאמר
     const mainImageUrl = mainImage ? `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}` : '';
+    console.log('Main Image URL:', mainImageUrl);  // הדפסת ה-URL של התמונה הראשית
 
     // יצירת הנתונים למאמר
     const articleData = {
@@ -42,16 +47,16 @@ router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images',
       mainImage: mainImageUrl, // התמונה הראשית
       images: additionalImagesUrls, // התמונות הנוספות
     };
+    console.log('Article Data:', articleData);  // הדפסת הנתונים של המאמר
 
     // יצירת המאמר
     const result = await articleService.createArticle(articleData);
     res.status(201).json(result);
   } catch (e) {
+    console.error('Error:', e);  // הדפסת שגיאות במקרה של בעיה
     next(e);
   }
 });
-
-
 
 
 
