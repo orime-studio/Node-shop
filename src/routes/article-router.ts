@@ -11,35 +11,40 @@ const router = Router();
 const multiUploadMiddleware = multiUpload.array("images");
 
 // POST /article - יצירת מאמר חדש
-router.post(
-  "/",
-  isAdmin,
-  multiUploadMiddleware, // שימוש במידלוואר להעלאת תמונות
-  async (req: Request, res: Response, next) => {
-    try {
-      if (!req.payload) {
-        throw new Error("Invalid token");
-      }
-
-      // יצירת מערך של URLs לתמונות
-      const files = req.files as Express.Multer.File[];
-      const images = files.map((file) => ({
-        url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-        alt: req.body.alt,
-      }));
-
-      const articleData = {
-        ...req.body,
-        images,
-      };
-
-      const result = await articleService.createArticle(articleData);
-      res.status(201).json(result);
-    } catch (e) {
-      next(e);
+router.post("/", isAdmin, multiUploadMiddleware, async (req: Request, res: Response, next) => {
+  try {
+    if (!req.payload) {
+      throw new Error("Invalid token");
     }
+
+    // יצירת מערך של URLs לתמונות
+    const files = req.files as Express.Multer.File[];
+
+    // תמונה ראשית
+    const mainImage = files[0] ? {
+      url: `https://node-tandt-shop.onrender.com/multi_uploads/${files[0].filename}`,
+      alt: req.body.mainImageAlt,  // ניתן לשלוח alt בנפרד לתמונה הראשית
+    } : null;
+
+    // תמונות נוספות
+    const images = files.slice(1).map((file) => ({
+      url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
+      alt: req.body.alt,  // אפשר להסתפק ב-alt אחד עבור התמונות הנוספות
+    }));
+
+    const articleData = {
+      ...req.body,
+      mainImage,  // הוספת תמונה ראשית
+      images,     // הוספת מערך של תמונות נוספות
+    };
+
+    const result = await articleService.createArticle(articleData);
+    res.status(201).json(result);
+  } catch (e) {
+    next(e);
   }
-);
+});
+
 
 
 // GET /article - שליפת כל המאמרים או המאמר האחרון

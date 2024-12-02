@@ -1,4 +1,4 @@
-// schemas/article-image-schema.ts
+/* // schemas/article-image-schema.ts
 
 import { Schema } from "mongoose";
 
@@ -10,3 +10,4 @@ const multyImageSchema = new Schema({
 });
 
 export default multyImageSchema;
+ */

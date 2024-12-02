@@ -1,6 +1,5 @@
 import multer from 'multer';
 import fs from 'fs';
-import path from 'path';
 
 // הגדרת תיקיית העלאת קבצים עבור מאמרים
 const multiUploadDirectory = 'public/multi_uploads';
