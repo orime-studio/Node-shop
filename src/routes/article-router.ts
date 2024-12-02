@@ -1,66 +1,71 @@
-import { NextFunction, Request, Response, Router } from "express";
+// routes/article-router.ts
+
+import express, { Request, Response, Router, NextFunction } from "express";
+import { articleService } from "../services/article-service";
 import { isAdmin } from "../middleware/is-admin";
 import upload from "../middleware/uploads";
-import { articleService } from "../services/article-service";
 
 const router = Router();
 
-// Helper function to construct image URLs with alt text
-const constructImageUrls = (files: Express.Multer.File[] | undefined, alts: string[] = []) => {
-  return files?.map((file, index) => ({
-    url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-    alt: alts[index] || "", // Use provided alt or fallback to an empty string
-  })) || [];
-};
+// עטיפת multer כפונקציה שתעבוד נכון עם TypeScript
+//const multiUploadMiddleware = multiUpload.array("images", 5);
 
-// POST /article - Create a new article
+// POST /article - יצירת מאמר חדש
 router.post(
   "/",
   isAdmin,
   upload.fields([
-    { name: "image", maxCount: 1 }, // Main image
-    { name: "images", maxCount: 5 }, // Additional images
-  ]),
-  async (req: Request, res: Response, next: NextFunction) => {
+    { name: 'mainImage', maxCount: 1 },  // תמונה ראשית
+    { name: 'additionalImages', maxCount: 5 },  // עד 5 תמונות נוספות
+  ]), // שימוש במידלוואר להעלאת תמונות
+  async (req: Request, res: Response, next) => {
     try {
       if (!req.payload) {
-        throw new Error("Unauthorized access: Missing valid token");
+        throw new Error("Invalid token");
       }
 
-      // Extract files
-      const mainImage = req.files && (req.files["image"] as Express.Multer.File[])[0];
-      const additionalImages = req.files && (req.files["images"] as Express.Multer.File[]);
-
-      // Extract alt texts from the request body
-      const altTexts: string[] = Array.isArray(req.body.alt) ? req.body.alt : [req.body.alt];
+      // יצירת מערך של URLs לתמונות
+      const files = req.files as Express.Multer.File[];
       
-      // Construct image URLs
-      const mainImageUrl = mainImage
-        ? `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}`
-        : null;
-      const additionalImagesUrls = constructImageUrls(additionalImages, altTexts);
+      // יצירת URL לתמונה הראשית
+      const mainImage = files.find((file) => file.fieldname === 'mainImage');
 
-      // Create article data
+      if (!mainImage) {
+        throw new Error("Main image is required");
+      }
+
+      // יצירת מערך של תמונות נוספות
+      const additionalImages = files
+        .filter((file) => file.fieldname === 'additionalImages')
+        .map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+          alt: req.body.alt || '',  // אם יש alt או לא
+        }));
+
       const articleData = {
         ...req.body,
-        mainImage: mainImageUrl,
-        images: additionalImagesUrls,
+        mainImage: {
+          url: `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}`,
+          alt: req.body.alt || '',  // אפשר להוסיף alt אם יש
+        },
+        additionalImages,
       };
 
-      // Save the article
       const result = await articleService.createArticle(articleData);
       res.status(201).json(result);
     } catch (e) {
-      console.error("Error creating article:", e);
       next(e);
     }
   }
 );
 
-// GET /article - Retrieve all articles or the latest article
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+
+
+// GET /article - שליפת כל המאמרים או המאמר האחרון
+router.get("/", async (req, res, next) => {
   try {
     const getLast = req.query.last === "true";
+
     const articles = await articleService.getArticles(getLast);
 
     if (!articles || (Array.isArray(articles) && articles.length === 0)) {
@@ -68,14 +73,13 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     }
 
     res.json(articles);
-  } catch (e) {
-    console.error("Error retrieving articles:", e);
-    next(e);
+  } catch (error) {
+    next(error);
   }
 });
 
-// GET /article/:id - Retrieve an article by ID
-router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+// GET /article/:id - שליפת מאמר לפי מזהה
+router.get("/:id", async (req, res, next) => {
   try {
     const article = await articleService.getArticle(req.params.id);
     if (!article) {
@@ -83,40 +87,33 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     }
     res.json(article);
   } catch (e) {
-    console.error("Error retrieving article:", e);
     next(e);
   }
 });
 
-// PUT /article/:id - Update an article by ID
+// PUT /article/:id - עדכון מאמר לפי מזהה
 router.put(
   "/:id",
   isAdmin,
-  upload.fields([
-    { name: "image", maxCount: 1 },
-    { name: "images", maxCount: 5 },
-  ]),
-  async (req: Request, res: Response, next: NextFunction) => {
+   // שימוש במידלוואר להעלאת תמונות
+  async (req: Request, res: Response, next) => {
     try {
       if (!req.payload) {
-        return res.status(401).json({ message: "Unauthorized access: Missing valid token" });
+        throw new Error("Invalid token");
       }
 
-      const mainImage = req.files && (req.files["image"] as Express.Multer.File[])[0];
-      const additionalImages = req.files && (req.files["images"] as Express.Multer.File[]);
-
-      const altTexts: string[] = Array.isArray(req.body.alt) ? req.body.alt : [req.body.alt];
-
-      const mainImageUrl = mainImage
-        ? `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}`
-        : req.body.mainImage; // Keep existing image if not updated
-
-      const additionalImagesUrls = constructImageUrls(additionalImages, altTexts);
+      // קביעת ה-URLs של התמונות
+      const files = req.files as Express.Multer.File[];
+      const images = files.length > 0
+        ? files.map((file) => ({
+            url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
+            alt: req.body.alt,
+          }))
+        : JSON.parse(req.body.images);
 
       const articleData = {
         ...req.body,
-        mainImage: mainImageUrl,
-        images: additionalImagesUrls,
+        images,
       };
 
       const updatedArticle = await articleService.editArticle(req.params.id, articleData);
@@ -127,22 +124,20 @@ router.put(
 
       res.json(updatedArticle);
     } catch (e) {
-      console.error("Error updating article:", e);
       next(e);
     }
   }
 );
 
-// DELETE /article/:id - Delete an article by ID
-router.delete("/:id", isAdmin, async (req: Request, res: Response, next: NextFunction) => {
+// DELETE /article/:id - מחיקת מאמר לפי מזהה
+router.delete("/:id", isAdmin, async (req, res, next) => {
   try {
     const article = await articleService.deleteArticle(req.params.id);
     if (!article) {
       return res.status(404).json({ message: "Article not found" });
     }
-    res.json({ message: "Article deleted successfully", article });
+    res.json(article);
   } catch (e) {
-    console.error("Error deleting article:", e);
     next(e);
   }
 });

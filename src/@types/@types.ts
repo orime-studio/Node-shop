@@ -205,7 +205,8 @@ export type ArticleInput = {
   source: string;          // שם המחבר
   title: string;           // כותרת המאמר
   miniText: string;        // תקציר שמתאר את המאמר
-  alt: string;             // תיאור התמונה (alt)
+  alt: string;    
+  mainImage?: File[];          // תיאור התמונה (alt)
   images: IImages[];        // מערך של תמונות למאמר
   longText: ArticleLongText[];    // רשימת עמודי המאמר
 };
