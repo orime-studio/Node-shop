@@ -16,10 +16,12 @@ if (!fs.existsSync(uploadDirectory)) {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         console.log("Setting destination for file upload...");
+        console.log(`Destination directory: ${uploadDirectory}`);
         cb(null, uploadDirectory);  // כל הקבצים יישמרו בתיקיית uploads
     },
     filename: (req, file, cb) => {
         console.log(`Uploading file: ${file.originalname}`);
+        console.log(`File size: ${file.size} bytes`);
         cb(null, `${Date.now()}-${file.originalname}`);  // שמירת שם הקובץ עם תאריך זמן ייחודי
     },
 });
@@ -27,7 +29,10 @@ const storage = multer.diskStorage({
 // הגדרת Multer להעלאת קבצים בודדים או מרובים
 const upload = multer({
     storage,
+    limits: {
+        fileSize: 10 * 1024 * 1024, // מגבלת גודל הקובץ (10MB)
     },
-);
+}) // או .array('images') אם אתה מעלה מספר תמונות
 
+// לא לשכוח להוסיף console.log כשיש צורך בתוך ה-handler של ה-upload (למשל על תוצאות הבקשה)
 export default upload;
