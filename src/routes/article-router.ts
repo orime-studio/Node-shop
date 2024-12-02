@@ -1,10 +1,7 @@
-// routes/article-router.ts
-
-import express, { Request, Response, Router, NextFunction } from "express";
-import { articleService } from "../services/article-service";
+import { NextFunction, Request, Response, Router } from "express";
 import { isAdmin } from "../middleware/is-admin";
-import multiUpload from "../middleware/multy-uploads";
 import upload from "../middleware/uploads";
+import { articleService } from "../services/article-service";
 
 const router = Router();
 
@@ -12,51 +9,59 @@ const router = Router();
 //const multiUploadMiddleware = multiUpload.array("images");
 
 // POST /article - יצירת מאמר חדש
-router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images', 5), async (req: Request, res: Response, next) => {
-  try {
-    if (!req.payload) {
-      throw new Error("Invalid token");
+router.post(
+  "/",
+  ...isAdmin,
+  upload.fields([
+    { name: 'image', maxCount: 1 }, // התמונה הראשית
+    { name: 'images', maxCount: 5 }, // התמונות הנוספות
+  ]),
+  async (req: Request, res: Response, next) => {
+    try {
+      if (!req.payload) {
+        throw new Error("Invalid token");
+      }
+
+      // טיפול בתמונה הראשית
+      const mainImage = req.files && (req.files['image'] as Express.Multer.File[])[0]; // התמונה הראשית
+      console.log('Main Image:', mainImage);
+
+      // טיפול בתמונות נוספות
+      const additionalImages = req.files && (req.files['images'] as Express.Multer.File[]);
+      console.log('Additional Images:', additionalImages);
+
+      // אם יש מערך של alt לכל תמונה
+      const altTexts = req.body.alt; // אם הלקוח שלח מערך alt עבור כל תמונה
+      console.log('Alt Texts:', altTexts);
+
+      // יצירת מערך של URLs לתמונות נוספות (עם alt אם יש)
+      const additionalImagesUrls = additionalImages?.map((file, index) => ({
+        url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+        alt: altTexts && altTexts[index] ? altTexts[index] : '', // אם יש alt לכל תמונה, אם לא, נשאיר ריק
+      })) || [];
+      console.log('Additional Images URLs:', additionalImagesUrls);
+
+      // אם יש תמונה ראשית, נוסיף אותה לנתונים של המאמר
+      const mainImageUrl = mainImage ? `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}` : '';
+      console.log('Main Image URL:', mainImageUrl);
+
+      // יצירת הנתונים למאמר
+      const articleData = {
+        ...req.body,
+        mainImage: mainImageUrl, // התמונה הראשית
+        images: additionalImagesUrls, // התמונות הנוספות
+      };
+      console.log('Article Data:', articleData);
+
+      // יצירת המאמר
+      const result = await articleService.createArticle(articleData);
+      res.status(201).json(result);
+    } catch (e) {
+      console.error('Error:', e);
+      next(e);
     }
-
-    // טיפול בתמונה הראשית
-    const mainImage = req.file;  // זו התמונה הראשית (תמונה בודדת)
-    console.log('Main Image:', mainImage);  // הדפסת התמונה הראשית
-
-    // טיפול בתמונות נוספות
-    const additionalImages = req.files as Express.Multer.File[];  // מערך של תמונות נוספות
-    console.log('Additional Images:', additionalImages);  // הדפסת התמונות הנוספות
-
-    // אם יש מערך של alt לכל תמונה
-    const altTexts = req.body.alt; // אם הלקוח שלח מערך alt עבור כל תמונה
-    console.log('Alt Texts:', altTexts);  // הדפסת טקסט ה-Alt
-
-    // יצירת מערך של URLs לתמונות נוספות (עם alt אם יש)
-    const additionalImagesUrls = additionalImages.map((file, index) => ({
-      url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-      alt: altTexts && altTexts[index] ? altTexts[index] : '', // אם יש alt לכל תמונה, אם לא, נשאיר ריק
-    }));
-    console.log('Additional Images URLs:', additionalImagesUrls);  // הדפסת ה-URLs של התמונות הנוספות
-
-    // אם יש תמונה ראשית, נוסיף אותה לנתונים של המאמר
-    const mainImageUrl = mainImage ? `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}` : '';
-    console.log('Main Image URL:', mainImageUrl);  // הדפסת ה-URL של התמונה הראשית
-
-    // יצירת הנתונים למאמר
-    const articleData = {
-      ...req.body,
-      mainImage: mainImageUrl, // התמונה הראשית
-      images: additionalImagesUrls, // התמונות הנוספות
-    };
-    console.log('Article Data:', articleData);  // הדפסת הנתונים של המאמר
-
-    // יצירת המאמר
-    const result = await articleService.createArticle(articleData);
-    res.status(201).json(result);
-  } catch (e) {
-    console.error('Error:', e);  // הדפסת שגיאות במקרה של בעיה
-    next(e);
   }
-});
+);
 
 
 
