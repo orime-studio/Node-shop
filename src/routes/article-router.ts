@@ -11,7 +11,7 @@ const router = Router();
 const multiUploadMiddleware = multiUpload.array("images");
 
 // POST /article - יצירת מאמר חדש
-router.post("/", isAdmin, multiUploadMiddleware, async (req: Request, res: Response, next) => {
+router.post("/", ...isAdmin, multiUploadMiddleware, async (req: Request, res: Response, next) => {
   try {
     if (!req.payload) {
       throw new Error("Invalid token");
@@ -19,31 +19,26 @@ router.post("/", isAdmin, multiUploadMiddleware, async (req: Request, res: Respo
 
     // יצירת מערך של URLs לתמונות
     const files = req.files as Express.Multer.File[];
-
-    // תמונה ראשית
-    const mainImage = files[0] ? {
-      url: `https://node-tandt-shop.onrender.com/multi_uploads/${files[0].filename}`,
-      alt: req.body.mainImageAlt,  // ניתן לשלוח alt בנפרד לתמונה הראשית
-    } : null;
-
-    // תמונות נוספות
-    const images = files.slice(1).map((file) => ({
+    const images = files.map((file) => ({
       url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-      alt: req.body.alt,  // אפשר להסתפק ב-alt אחד עבור התמונות הנוספות
+      alt: req.body.alt, // שמירת ה-alt בתוך כל תמונה במערך התמונות
     }));
 
+    // הנתונים למאמר
     const articleData = {
       ...req.body,
-      mainImage,  // הוספת תמונה ראשית
-      images,     // הוספת מערך של תמונות נוספות
+      images, // שולחים את התמונות בלבד עם ה-alt בתוכן שלהן
     };
 
+    // יצירת המאמר
     const result = await articleService.createArticle(articleData);
     res.status(201).json(result);
   } catch (e) {
     next(e);
   }
 });
+
+
 
 
 
