@@ -12,7 +12,7 @@ const router = Router();
 const multiUploadMiddleware = multiUpload.array("images");
 
 // POST /article - יצירת מאמר חדש
-router.post("/", ...isAdmin, upload.single('mainImage'), multiUpload.array('images', 5), async (req: Request, res: Response, next) => {
+router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images', 5), async (req: Request, res: Response, next) => {
   try {
     if (!req.payload) {
       throw new Error("Invalid token");
