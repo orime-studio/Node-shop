@@ -4,6 +4,7 @@ import express, { Request, Response, Router, NextFunction } from "express";
 import { articleService } from "../services/article-service";
 import { isAdmin } from "../middleware/is-admin";
 import multiUpload from "../middleware/multy-uploads";
+import upload from "../middleware/uploads";
 
 const router = Router();
 
@@ -11,7 +12,7 @@ const router = Router();
 const multiUploadMiddleware = multiUpload.array("images");
 
 // POST /article - יצירת מאמר חדש
-router.post("/", ...isAdmin, multiUploadMiddleware, async (req: Request, res: Response, next) => {
+router.post("/", ...isAdmin, upload.single('mainImage'), multiUpload.array('images', 5), async (req: Request, res: Response, next) => {
   try {
     if (!req.payload) {
       throw new Error("Invalid token");
@@ -19,15 +20,17 @@ router.post("/", ...isAdmin, multiUploadMiddleware, async (req: Request, res: Re
 
     // יצירת מערך של URLs לתמונות
     const files = req.files as Express.Multer.File[];
-    const images = files.map((file) => ({
+    const altTexts = req.body.alt; // אם יש מערך של alt לכל תמונה (יכול להיות שהלקוח שלח מערך)
+
+    const images = files.map((file, index) => ({
       url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-      alt: req.body.alt, // שמירת ה-alt בתוך כל תמונה במערך התמונות
+      alt: altTexts[index] || '', // אם יש alt לכל תמונה, אם לא, נשאיר ריק
     }));
 
     // הנתונים למאמר
     const articleData = {
       ...req.body,
-      images, // שולחים את התמונות בלבד עם ה-alt בתוכן שלהן
+      images, // שולחים את התמונות עם ה-alt המתאים לכל תמונה
     };
 
     // יצירת המאמר
@@ -37,7 +40,6 @@ router.post("/", ...isAdmin, multiUploadMiddleware, async (req: Request, res: Re
     next(e);
   }
 });
-
 
 
 
