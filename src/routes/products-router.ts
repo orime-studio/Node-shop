@@ -4,6 +4,7 @@ import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
+import Product from "../db/models/product-model";
 
 
 
@@ -92,14 +93,55 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", isProductId, async (req, res, next) => {
+
+
+
+/* router.get("/:id", isProductId, async (req, res, next) => {
   try {
     const product = await productService.getProduct(req.params.id);
     res.json(product);
   } catch (e) {
     next(e);
   }
+}); */
+
+
+router.get("/", async (req, res, next) => {
+  try {
+    const { minPrice, maxPrice, size, sortPrice } = req.query;
+    let filter: any = {};
+    
+    // Apply price filters if provided
+    if (minPrice) {
+      filter['variants.price'] = { $gte: Number(minPrice) };
+    }
+    if (maxPrice) {
+      filter['variants.price'] = { ...filter['variants.price'], $lte: Number(maxPrice) };
+    }
+    
+    // Apply size filter if provided
+    if (size) {
+      filter['variants.size'] = size;
+    }
+    
+    // Fetch products based on filters
+    let productsQuery = Product.find(filter);
+    
+    // Apply sort if provided
+    if (sortPrice) {
+      const sortDirection = sortPrice === "asc" ? 1 : -1;
+      productsQuery = productsQuery.sort({ "variants.price": sortDirection });
+    }
+    
+    const products = await productsQuery.exec();
+    res.json(products);
+  } catch (e) {
+    next(e);
+  }
 });
+
+
+
 
 
 router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
