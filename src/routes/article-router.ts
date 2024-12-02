@@ -9,7 +9,7 @@ import upload from "../middleware/uploads";
 const router = Router();
 
 // עטיפת multer כפונקציה שתעבוד נכון עם TypeScript
-const multiUploadMiddleware = multiUpload.array("images");
+//const multiUploadMiddleware = multiUpload.array("images");
 
 // POST /article - יצירת מאמר חדש
 router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images', 5), async (req: Request, res: Response, next) => {
@@ -18,19 +18,29 @@ router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images',
       throw new Error("Invalid token");
     }
 
-    // יצירת מערך של URLs לתמונות
-    const files = req.files as Express.Multer.File[];
-    const altTexts = req.body.alt; // אם יש מערך של alt לכל תמונה (יכול להיות שהלקוח שלח מערך)
+    // טיפול בתמונה הראשית
+    const mainImage = req.file;  // זו התמונה הראשית (תמונה בודדת)
 
-    const images = files.map((file, index) => ({
-      url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-      alt: altTexts[index] || '', // אם יש alt לכל תמונה, אם לא, נשאיר ריק
+    // טיפול בתמונות נוספות
+    const additionalImages = req.files as Express.Multer.File[];  // מערך של תמונות נוספות
+
+    // אם יש מערך של alt לכל תמונה
+    const altTexts = req.body.alt; // אם הלקוח שלח מערך alt עבור כל תמונה
+
+    // יצירת מערך של URLs לתמונות נוספות (עם alt אם יש)
+    const additionalImagesUrls = additionalImages.map((file, index) => ({
+      url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+      alt: altTexts && altTexts[index] ? altTexts[index] : '', // אם יש alt לכל תמונה, אם לא, נשאיר ריק
     }));
 
-    // הנתונים למאמר
+    // אם יש תמונה ראשית, נוסיף אותה לנתונים של המאמר
+    const mainImageUrl = mainImage ? `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}` : '';
+
+    // יצירת הנתונים למאמר
     const articleData = {
       ...req.body,
-      images, // שולחים את התמונות עם ה-alt המתאים לכל תמונה
+      mainImage: mainImageUrl, // התמונה הראשית
+      images: additionalImagesUrls, // התמונות הנוספות
     };
 
     // יצירת המאמר
@@ -40,6 +50,7 @@ router.post("/", ...isAdmin, upload.single('image'), multiUpload.array('images',
     next(e);
   }
 });
+
 
 
 
@@ -75,7 +86,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // PUT /article/:id - עדכון מאמר לפי מזהה
-router.put("/:id", ...isAdmin, multiUploadMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", ...isAdmin, async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.payload) {
       return res.status(401).json({ message: 'Invalid token' });
