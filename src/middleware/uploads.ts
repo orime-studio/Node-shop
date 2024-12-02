@@ -27,13 +27,7 @@ const storage = multer.diskStorage({
 // הגדרת Multer להעלאת קבצים בודדים או מרובים
 const upload = multer({
     storage,
-    limits: {
-        fileSize: 10 * 1024 * 1024, // מגבלת גודל קובץ 10MB
     },
-    fileFilter: (req, file, cb) => {
-        // אפשר להוסיף סינון קבצים כאן אם נדרש
-        cb(null, true);
-    },
-});
+);
 
 export default upload;
