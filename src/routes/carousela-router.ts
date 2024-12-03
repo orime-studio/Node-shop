@@ -26,7 +26,7 @@ router.post("/", isAdmin, upload.single("image"), async (req: Request, res: Resp
     const imageData = {
       url: imageUrl,
       alt: req.body.alt || "",
-      description: req.body.description || "",
+      /* description: req.body.description || "", */
     };
 
     const result = await carouselService.createCarouselImage(imageData);
@@ -80,7 +80,7 @@ router.put("/:id", isAdmin, upload.single("image"), async (req: Request, res: Re
       const imageData: CarouselImageUpdateInput = {
         ...(imageUrl && { url: imageUrl }), // נוסיף את ה-URL רק אם הוא קיים
         ...(req.body.alt && { alt: req.body.alt }),
-        ...(req.body.description && { description: req.body.description }),
+        /* ...(req.body.description && { description: req.body.description }), */
       };
   
       // קריאה לשירות לעדכון התמונה

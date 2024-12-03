@@ -236,8 +236,8 @@ export type CarouselImage = CarouselImageInput & {
 export type CarouselImageInput = {
   url: string;
   alt: string;
-  description?: string;
-};
+/*   description?: string;
+ */};
 
 // סוג חדש לעדכון תמונה
 export type CarouselImageUpdateInput = Partial<CarouselImageInput>;
