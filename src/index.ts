@@ -18,6 +18,7 @@ import pageRoute from './routes/page-router';
 import { newParashaRouter } from "./routes/new-parasha-router";
 import { videoRouter } from "./routes/video-router";
 import { articleRouter } from "./routes/article-router";
+import { carouselRouter } from "./routes/carousela-router";
 
 
 
@@ -50,6 +51,7 @@ app.use('/api/v1/pages', pageRoute);
 app.use('/api/v1/parasha', newParashaRouter);
 app.use('/api/v1/videos', videoRouter);
 app.use('/api/v1/article', articleRouter);
+app.use('/api/v1/carousela', carouselRouter);
 app.use(express.static("public"));
 
 app.use(errorHandler);
