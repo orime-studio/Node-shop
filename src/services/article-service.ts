@@ -6,12 +6,18 @@ export const articleService = {
   // פונקציה לקבלת כל המאמרים או מאמר אחרון
   getArticles: async (getLast: boolean) => {
     if (getLast) {
-      const lastArticle = await Article.findOne().sort({ createdAt: -1 }).exec();
-      return lastArticle;
+        // הבאת 3 המאמרים האחרונים
+        const lastArticles = await Article.find()
+            .sort({ createdAt: -1 }) // ממיין מהחדש לישן
+            .limit(3) // מגביל ל-3 מאמרים
+            .exec();
+        return lastArticles;
     }
+    // הבאת כל המאמרים
     const allArticles = await Article.find().exec();
     return allArticles;
-  },
+},
+
   // יצירת מאמר חדש
   createArticle: async (data: ArticleInput) => {
     const article = new Article(data);
