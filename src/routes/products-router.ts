@@ -84,63 +84,50 @@ router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
 
 
 
-router.get("/", async (req, res, next) => {
+/* router.get("/", async (req, res, next) => {
   try {
     const products = await productService.getProducts();
     res.json(products);
   } catch (e) {
     next(e);
   }
-});
+}); */
 
 
 
 
-/* router.get("/:id", isProductId, async (req, res, next) => {
+ router.get("/:id", isProductId, async (req, res, next) => {
   try {
     const product = await productService.getProduct(req.params.id);
     res.json(product);
   } catch (e) {
     next(e);
   }
-}); */
+}); 
+
+
 
 
 router.get("/", async (req, res, next) => {
   try {
-    const { minPrice, maxPrice, size, sortPrice } = req.query;
-    let filter: any = {};
-    
-    // Apply price filters if provided
-    if (minPrice) {
-      filter['variants.price'] = { $gte: Number(minPrice) };
-    }
-    if (maxPrice) {
-      filter['variants.price'] = { ...filter['variants.price'], $lte: Number(maxPrice) };
-    }
-    
-    // Apply size filter if provided
-    if (size) {
-      filter['variants.size'] = size;
-    }
-    
-    // Fetch products based on filters
-    let productsQuery = Product.find(filter);
-    
-    // Apply sort if provided
-    if (sortPrice) {
-      const sortDirection = sortPrice === "asc" ? 1 : -1;
-      productsQuery = productsQuery.sort({ "variants.price": sortDirection });
-    }
-    
-    const products = await productsQuery.exec();
+    const { minPrice, maxPrice, size, searchTerm } = req.query;
+
+    const filters = {
+      minPrice: minPrice ? parseFloat(minPrice as string) : undefined,
+      maxPrice: maxPrice ? parseFloat(maxPrice as string) : undefined,
+      size: size ? (size as string).split(",") : undefined,
+      searchTerm: searchTerm ? (searchTerm as string) : undefined,
+    };
+
+    console.log("Received filters:", filters);
+
+
+    const products = await productService.getProducts(filters);
     res.json(products);
   } catch (e) {
     next(e);
   }
 });
-
-
 
 
 
