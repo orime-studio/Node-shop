@@ -19,7 +19,7 @@ const ArticleSchema = new Schema({
         type: multyImageSchema, 
         required: true // התמונה הראשית היא חובה
     },
-    additionalImages: [{ 
+    images: [{ 
         type: multyImageSchema, 
         required: false // התמונות הנוספות אינן חובה
     }],
