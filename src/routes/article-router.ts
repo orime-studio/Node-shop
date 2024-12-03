@@ -147,7 +147,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     // לוג אם המאמר עודכן בהצלחה
     console.log("Article updated successfully:", updatedArticle);
 
-    // החזרת המאמר המעודכן
+    // החזרת המאמר המעודכן (ההמרה ל-JSON מתבצעת כאן)
     res.json(updatedArticle);
   } catch (error) {
     // לוג של שגיאות
@@ -155,6 +155,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     next(error);
   }
 });
+
 
 // DELETE /article/:id - מחיקת מאמר לפי מזהה
 router.delete("/:id", isAdmin, async (req, res, next) => {
