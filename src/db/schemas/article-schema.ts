@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import multyImageSchema from "./multy-images-schema";
 
 
 const longTextSchema = new Schema({
@@ -6,11 +7,11 @@ const longTextSchema = new Schema({
     text: { type: String, required: true },
 });
 
-const multyImageSchema = new Schema({
+/* const multyImageSchema = new Schema({
     url: { type: String, required: true },   // URL של התמונה
     alt: { type: String, required: true },   // תיאור התמונה (alt)
     description: { type: String, required: false }, // תיאור נוסף או כיתוב עבור התמונה
-});
+}); */
 
 // הגדרת הסכמה עבור מאמרים
 const ArticleSchema = new Schema({
