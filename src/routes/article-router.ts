@@ -128,7 +128,10 @@ router.put("/:id", ...isAdmin, upload.fields([
           alt: req.body.alt || "",
         }))
       : req.body.images && Array.isArray(req.body.images) 
-        ? req.body.images.map((image: { url: string; alt: string }) => image) // שימוש ישיר בתמונות מה-body
+        ? req.body.images.map((image: string) => ({
+            url: image, // הפוך את המיתרים לאובייקטים עם URL
+            alt: req.body.alt || "",
+        }))
         : []; // אם אין תמונות ב-body, נשאיר כ-array ריק
     console.log("Additional images data:", images);
 
