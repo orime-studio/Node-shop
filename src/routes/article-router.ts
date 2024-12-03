@@ -109,26 +109,27 @@ router.put("/:id", ...isAdmin, upload.fields([
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     console.log("Received files:", files);
 
+    // טיפול בתמונה ראשית
     const mainImage = files.mainImage && files.mainImage.length > 0
-      ?
-       {
-        url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
-        alt: req.body.alt || "",
-      }
+      ? {
+          url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+          alt: req.body.alt || "",
+        }
       : {
-        url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
-        alt: req.body.alt || "",
-      };
+          url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
+          alt: req.body.alt || "",
+        };
     console.log("Main image data:", mainImage);
 
-
-    // טיפול בתמונות הנוספות
+    // טיפול בתמונות הנוספות (ללא JSON.parse)
     const images = files.images && files.images.length > 0
       ? files.images.map((file) => ({
-        url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-        alt: req.body.alt || "",
-      }))
-      : req.body.images ? JSON.parse(req.body.images) : []; // אם יש תמונות ב-body, נשתמש בהם
+          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+          alt: req.body.alt || "",
+        }))
+      : req.body.images && Array.isArray(req.body.images) 
+        ? req.body.images.map((image: { url: string; alt: string }) => image) // שימוש ישיר בתמונות מה-body
+        : []; // אם אין תמונות ב-body, נשאיר כ-array ריק
     console.log("Additional images data:", images);
 
     // יצירת אובייקט הנתונים לעדכון
@@ -159,6 +160,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     next(error);
   }
 });
+
 
 
 
