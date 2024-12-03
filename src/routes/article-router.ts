@@ -96,54 +96,65 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", ...isAdmin, upload.fields([
   { name: "mainImage", maxCount: 1 }, // תמונה ראשית
   { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
-]),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // בדיקת תוקף טוקן
-      if (!req.payload) {
-        throw new Error("Invalid token.");
-      }
+]), async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // לוג: בדיקת תוקף טוקן
+    if (!req.payload) {
+      console.error("Invalid token.");
+      throw new Error("Invalid token.");
+    }
+    console.log("Token is valid:", req.payload);
 
-      // קבלת הקבצים מהבקשה
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    // לוג: קבלת הקבצים מהבקשה
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    console.log("Received files:", files);
 
-      // טיפול בתמונה הראשית
-      const mainImage = files.mainImage && files.mainImage.length > 0
-        ? {
+    // טיפול בתמונה הראשית
+    const mainImage = files.mainImage && files.mainImage.length > 0
+      ? {
           url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
           alt: req.body.alt || "",
         }
-        : JSON.parse(req.body.mainImage); // במידה ואין קובץ, נשתמש בנתון קיים
+      : JSON.parse(req.body.mainImage); // במידה ואין קובץ, נשתמש בנתון קיים
+    console.log("Main image data:", mainImage);
 
-      // טיפול בתמונות הנוספות
-      const images = files.images && files.images.length > 0
-        ? files.images.map((file) => ({
+    // טיפול בתמונות הנוספות
+    const images = files.images && files.images.length > 0
+      ? files.images.map((file) => ({
           url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
           alt: req.body.alt || "",
         }))
-        : JSON.parse(req.body.images); // במידה ואין קבצים, נשתמש בנתון קיים
+      : JSON.parse(req.body.images); // במידה ואין קבצים, נשתמש בנתון קיים
+    console.log("Additional images data:", images);
 
-      // יצירת אובייקט הנתונים לעדכון
-      const articleData = {
-        ...req.body,
-        mainImage,
-        images,
-      };
+    // יצירת אובייקט הנתונים לעדכון
+    const articleData = {
+      ...req.body,
+      mainImage,
+      images,
+    };
+    console.log("Article data to update:", articleData);
 
-      // קריאה לשירות לעדכון המאמר
-      const updatedArticle = await articleService.editArticle(req.params.id, articleData);
+    // קריאה לשירות לעדכון המאמר
+    const updatedArticle = await articleService.editArticle(req.params.id, articleData);
 
-      if (!updatedArticle) {
-        return res.status(404).json({ message: "Article not found." });
-      }
-
-      // החזרת המאמר המעודכן
-      res.json(updatedArticle);
-    } catch (error) {
-      next(error);
+    // לוג אם המאמר לא נמצא
+    if (!updatedArticle) {
+      console.error("Article not found for ID:", req.params.id);
+      return res.status(404).json({ message: "Article not found." });
     }
+
+    // לוג אם המאמר עודכן בהצלחה
+    console.log("Article updated successfully:", updatedArticle);
+
+    // החזרת המאמר המעודכן
+    res.json(updatedArticle);
+  } catch (error) {
+    // לוג של שגיאות
+    console.error("Error occurred:", error);
+    next(error);
   }
-);
+});
 
 // DELETE /article/:id - מחיקת מאמר לפי מזהה
 router.delete("/:id", isAdmin, async (req, res, next) => {
