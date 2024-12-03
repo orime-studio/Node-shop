@@ -11,10 +11,10 @@ const router = Router();
 //const multiUploadMiddleware = multiUpload.array("images", 5);
 
 // POST /article - יצירת מאמר חדש
-router.post( "/", isAdmin,upload.fields([
-    { name: "mainImage", maxCount: 1 }, // תמונה ראשית
-    { name: "additionalImages", maxCount: 5 }, // עד 5 תמונות נוספות
-  ]),
+router.post("/", isAdmin, upload.fields([
+  { name: "mainImage", maxCount: 1 }, // תמונה ראשית
+  { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
+]),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // בדיקת תוקף טוקן
@@ -37,18 +37,18 @@ router.post( "/", isAdmin,upload.fields([
       };
 
       // יצירת מערך של תמונות נוספות
-      const additionalImages = files.additionalImages
-        ? files.additionalImages.map((file) => ({
-            url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-            alt: req.body.alt || "", // תיאור התמונה (alt)
-          }))
+      const images = files.images
+        ? files.images.map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+          alt: req.body.alt || "", // תיאור התמונה (alt)
+        }))
         : [];
 
       // יצירת אובייקט הנתונים של המאמר
       const articleData = {
         ...req.body,
         mainImage,
-        additionalImages,
+        images,
       };
 
       // שמירת המאמר
@@ -93,10 +93,10 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // PUT /article/:id - עדכון מאמר לפי מזהה
-router.put("/:id",...isAdmin, upload.fields([
-    { name: "mainImage", maxCount: 1 }, // תמונה ראשית
-    { name: "additionalImages", maxCount: 5 }, // עד 5 תמונות נוספות
-  ]),
+router.put("/:id", ...isAdmin, upload.fields([
+  { name: "mainImage", maxCount: 1 }, // תמונה ראשית
+  { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
+]),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // בדיקת תוקף טוקן
@@ -110,24 +110,24 @@ router.put("/:id",...isAdmin, upload.fields([
       // טיפול בתמונה הראשית
       const mainImage = files.mainImage && files.mainImage.length > 0
         ? {
-            url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
-            alt: req.body.alt || "",
-          }
+          url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+          alt: req.body.alt || "",
+        }
         : JSON.parse(req.body.mainImage); // במידה ואין קובץ, נשתמש בנתון קיים
 
       // טיפול בתמונות הנוספות
-      const additionalImages = files.additionalImages && files.additionalImages.length > 0
-        ? files.additionalImages.map((file) => ({
-            url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-            alt: req.body.alt || "",
-          }))
-        : JSON.parse(req.body.additionalImages); // במידה ואין קבצים, נשתמש בנתון קיים
+      const images = files.images && files.images.length > 0
+        ? files.images.map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+          alt: req.body.alt || "",
+        }))
+        : JSON.parse(req.body.images); // במידה ואין קבצים, נשתמש בנתון קיים
 
       // יצירת אובייקט הנתונים לעדכון
       const articleData = {
         ...req.body,
         mainImage,
-        additionalImages,
+        images,
       };
 
       // קריאה לשירות לעדכון המאמר
