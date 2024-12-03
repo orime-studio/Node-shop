@@ -93,39 +93,54 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // PUT /article/:id - עדכון מאמר לפי מזהה
-router.put(
-  "/:id",
-  isAdmin,
-   // שימוש במידלוואר להעלאת תמונות
-  async (req: Request, res: Response, next) => {
+router.put("/:id",...isAdmin, upload.fields([
+    { name: "mainImage", maxCount: 1 }, // תמונה ראשית
+    { name: "additionalImages", maxCount: 5 }, // עד 5 תמונות נוספות
+  ]),
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // בדיקת תוקף טוקן
       if (!req.payload) {
-        throw new Error("Invalid token");
+        throw new Error("Invalid token.");
       }
 
-      // קביעת ה-URLs של התמונות
-      const files = req.files as Express.Multer.File[];
-      const images = files.length > 0
-        ? files.map((file) => ({
-            url: `https://node-tandt-shop.onrender.com/multi_uploads/${file.filename}`,
-            alt: req.body.alt,
-          }))
-        : JSON.parse(req.body.images);
+      // קבלת הקבצים מהבקשה
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
+      // טיפול בתמונה הראשית
+      const mainImage = files.mainImage && files.mainImage.length > 0
+        ? {
+            url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+            alt: req.body.alt || "",
+          }
+        : JSON.parse(req.body.mainImage); // במידה ואין קובץ, נשתמש בנתון קיים
+
+      // טיפול בתמונות הנוספות
+      const additionalImages = files.additionalImages && files.additionalImages.length > 0
+        ? files.additionalImages.map((file) => ({
+            url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+            alt: req.body.alt || "",
+          }))
+        : JSON.parse(req.body.additionalImages); // במידה ואין קבצים, נשתמש בנתון קיים
+
+      // יצירת אובייקט הנתונים לעדכון
       const articleData = {
         ...req.body,
-        images,
+        mainImage,
+        additionalImages,
       };
 
+      // קריאה לשירות לעדכון המאמר
       const updatedArticle = await articleService.editArticle(req.params.id, articleData);
 
       if (!updatedArticle) {
-        return res.status(404).json({ message: "Article not found" });
+        return res.status(404).json({ message: "Article not found." });
       }
 
+      // החזרת המאמר המעודכן
       res.json(updatedArticle);
-    } catch (e) {
-      next(e);
+    } catch (error) {
+      next(error);
     }
   }
 );
