@@ -110,16 +110,18 @@ router.put("/:id", ...isAdmin, upload.fields([
     console.log("Received files:", files);
 
     // טיפול בתמונה הראשית
-    const mainImage = files.mainImage && files.mainImage.length > 0
-      ? {
-          url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
-          alt: req.body.alt || "",
-        }
-      : {
-          url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
-          alt: req.body.alt || "",
-        };
-    console.log("Main image data:", mainImage);
+    // טיפול בתמונה הראשית
+const mainImage = files.mainImage && files.mainImage.length > 0
+? {
+    url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+    alt: req.body.alt || "",
+  }
+: {
+    url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
+    alt: req.body.alt || "",
+  };
+console.log("Main image data:", mainImage);
+
 
     // טיפול בתמונות הנוספות
     const images = files.images && files.images.length > 0
