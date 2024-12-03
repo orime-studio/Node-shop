@@ -222,3 +222,22 @@ export type Article = ArticleInput & {
   updatedAt: string;
   __v: number;
 };
+
+
+
+
+export type CarouselImage = CarouselImageInput & {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+export type CarouselImageInput = {
+  url: string;
+  alt: string;
+  description?: string;
+};
+
+// סוג חדש לעדכון תמונה
+export type CarouselImageUpdateInput = Partial<CarouselImageInput>;
