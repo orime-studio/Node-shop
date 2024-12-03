@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
     },
 });
 
-// הגדרת המידלוואר של Multer:
+// הגדרת multer לקבלת קבצים (במקרה של קבצים מרובים)
 const upload = multer({ storage });
 
 export default upload;

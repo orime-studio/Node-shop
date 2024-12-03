@@ -11,50 +11,51 @@ const router = Router();
 //const multiUploadMiddleware = multiUpload.array("images", 5);
 
 // POST /article - יצירת מאמר חדש
-router.post(
-  "/",
-  isAdmin,
-  upload.fields([
-    { name: 'mainImage', maxCount: 1 },  // תמונה ראשית
-    { name: 'additionalImages', maxCount: 5 },  // עד 5 תמונות נוספות
-  ]), // שימוש במידלוואר להעלאת תמונות
-  async (req: Request, res: Response, next) => {
+router.post( "/", isAdmin,upload.fields([
+    { name: "mainImage", maxCount: 1 }, // תמונה ראשית
+    { name: "additionalImages", maxCount: 5 }, // עד 5 תמונות נוספות
+  ]),
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // בדיקת תוקף טוקן
       if (!req.payload) {
-        throw new Error("Invalid token");
+        throw new Error("Invalid token.");
       }
 
-      // יצירת מערך של URLs לתמונות
-      const files = req.files as Express.Multer.File[];
-      
+      // קבלת הקבצים מהבקשה
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      // בדיקת תמונה ראשית
+      if (!files.mainImage || files.mainImage.length === 0) {
+        throw new Error("Main image is required.");
+      }
+
       // יצירת URL לתמונה הראשית
-      const mainImage = files.find((file) => file.fieldname === 'mainImage');
-
-      if (!mainImage) {
-        throw new Error("Main image is required");
-      }
+      const mainImage = {
+        url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+        alt: req.body.alt || "", // תיאור התמונה (alt)
+      };
 
       // יצירת מערך של תמונות נוספות
-      const additionalImages = files
-        .filter((file) => file.fieldname === 'additionalImages')
-        .map((file) => ({
-          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-          alt: req.body.alt || '',  // אם יש alt או לא
-        }));
+      const additionalImages = files.additionalImages
+        ? files.additionalImages.map((file) => ({
+            url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+            alt: req.body.alt || "", // תיאור התמונה (alt)
+          }))
+        : [];
 
+      // יצירת אובייקט הנתונים של המאמר
       const articleData = {
         ...req.body,
-        mainImage: {
-          url: `https://node-tandt-shop.onrender.com/uploads/${mainImage.filename}`,
-          alt: req.body.alt || '',  // אפשר להוסיף alt אם יש
-        },
+        mainImage,
         additionalImages,
       };
 
+      // שמירת המאמר
       const result = await articleService.createArticle(articleData);
       res.status(201).json(result);
-    } catch (e) {
-      next(e);
+    } catch (error) {
+      next(error);
     }
   }
 );
