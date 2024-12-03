@@ -21,7 +21,7 @@ router.post("/", isAdmin, upload.single("image"), async (req: Request, res: Resp
       throw new Error("Image file is required.");
     }
 
-    const imageUrl = `https://your-domain.com/uploads/${file.filename}`;
+    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${file.filename}`;
 
     const imageData = {
       url: imageUrl,
@@ -73,7 +73,7 @@ router.put("/:id", isAdmin, upload.single("image"), async (req: Request, res: Re
       // אם הקובץ קיים, ניצור URL חדש
       let imageUrl;
       if (file) {
-        imageUrl = `https://your-domain.com/uploads/${file.filename}`;
+        imageUrl = `https://node-tandt-shop.onrender.com/uploads/${file.filename}`;
       }
   
       // יצירת אובייקט הנתונים לעדכון
