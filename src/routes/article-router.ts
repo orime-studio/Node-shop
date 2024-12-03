@@ -115,7 +115,10 @@ router.put("/:id", ...isAdmin, upload.fields([
           url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
           alt: req.body.alt || "",
         }
-      : JSON.parse(req.body.mainImage); // במידה ואין קובץ, נשתמש בנתון קיים
+      : {
+          url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
+          alt: req.body.alt || "",
+        };
     console.log("Main image data:", mainImage);
 
     // טיפול בתמונות הנוספות
@@ -124,7 +127,7 @@ router.put("/:id", ...isAdmin, upload.fields([
           url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
           alt: req.body.alt || "",
         }))
-      : JSON.parse(req.body.images); // במידה ואין קבצים, נשתמש בנתון קיים
+      : req.body.images ? JSON.parse(req.body.images) : []; // אם יש תמונות ב-body, נשתמש בהם
     console.log("Additional images data:", images);
 
     // יצירת אובייקט הנתונים לעדכון
@@ -147,7 +150,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     // לוג אם המאמר עודכן בהצלחה
     console.log("Article updated successfully:", updatedArticle);
 
-    // החזרת המאמר המעודכן (ההמרה ל-JSON מתבצעת כאן)
+    // החזרת המאמר המעודכן
     res.json(updatedArticle);
   } catch (error) {
     // לוג של שגיאות
@@ -155,6 +158,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     next(error);
   }
 });
+
 
 
 // DELETE /article/:id - מחיקת מאמר לפי מזהה
