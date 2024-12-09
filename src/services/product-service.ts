@@ -110,68 +110,60 @@ export const productService = {
     maxPrice?: number;
     size?: string[];
     searchTerm?: string;
-}) => {
-    // אם אין פילטרים, מחזיר את כל המוצרים
-    if (!filters.minPrice && !filters.maxPrice && !filters.size && !filters.searchTerm) {
-        return await Product.find(); // מחזיר את כל המוצרים ללא סינון
-    }
-
-    const query: any = {};
-
-    // חיפוש לפי מילות מפתח
-    if (filters.searchTerm) {
-        const regex = new RegExp(filters.searchTerm, "i");
-        query.$or = [
-            { title: regex },
-            { subtitle: regex },
-            { description: regex },
-        ];
-    }
-
-    // הגדרת תנאים עבור ווריאנטים
-    if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-        query.variants = { $elemMatch: {} };
-
-        if (filters.size) {
-            query.variants.$elemMatch['size.value'] = { $in: filters.size }; // בדיקה לפי ערכי המידה
-        }
-
-        // סינון לפי מחיר
-        if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-            query.variants.$elemMatch.price = {};
-
-            if (filters.minPrice !== undefined) {
-                query.variants.$elemMatch.price.$gte = filters.minPrice;
-            }
-            if (filters.maxPrice !== undefined) {
-                query.variants.$elemMatch.price.$lte = filters.maxPrice;
-            }
-        }
-    }
-    console.log("MongoDB Query:", JSON.stringify(query, null, 2)); // הדפסת השאילתה
-
-    // שאילתה לבסיס הנתונים
-    const products = await Product.find(query);
-
-    // חישוב המחיר הסופי (במקרה שהפילטרים לא יכולים להיעשות בבסיס הנתונים ישירות)
-    const filteredProducts = products.filter(product => {
-        return product.variants.some(variant => {
-            const finalPrice =
-                product.basePrice +
-                (product.salePrice || 0) +
-                variant.size.additionalCost +
-                variant.color.additionalCost;
-
-            const isWithinPriceRange =
-                (filters.minPrice === undefined || finalPrice >= filters.minPrice) &&
-                (filters.maxPrice === undefined || finalPrice <= filters.maxPrice);
-
-            return isWithinPriceRange;
-        });
-    });
-
-    return filteredProducts;
-},
+  }) => {
+      // אם אין פילטרים, מחזיר את כל המוצרים
+      if (!filters.minPrice && !filters.maxPrice && !filters.size && !filters.searchTerm) {
+          return await Product.find();
+      }
+  
+      const query: any = {};
+  
+      // חיפוש לפי מילות מפתח
+      if (filters.searchTerm) {
+          const regex = new RegExp(filters.searchTerm, "i");
+          query.$or = [
+              { title: regex },
+              { subtitle: regex },
+              { description: regex },
+          ];
+      }
+  
+      // הגדרת תנאים עבור ווריאנטים
+      if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+          query.variants = { $elemMatch: {} };
+  
+          if (filters.size) {
+              query.variants.$elemMatch['size.value'] = { $in: filters.size };
+          }
+  
+          // הסרת הסינון לפי מחיר מתוך השאילתה
+      }
+  
+      console.log("MongoDB Query:", JSON.stringify(query, null, 2));
+  
+      // שאילתת הבסיס הנתונים
+      const products = await Product.find(query);
+  
+      // סינון לפי מחיר לאחר הפיכת המידע
+      const filteredProducts = products.filter(product => {
+          return product.variants.some(variant => {
+              const finalPrice =
+                  product.basePrice +
+                  (product.salePrice || 0) +
+                  variant.size.additionalCost +
+                  variant.color.additionalCost;
+  
+              const isWithinPriceRange =
+                  (filters.minPrice === undefined || finalPrice >= filters.minPrice) &&
+                  (filters.maxPrice === undefined || finalPrice <= filters.maxPrice);
+  
+              return isWithinPriceRange;
+          });
+      });
+  
+      return filteredProducts;
+  },
+  
 
 
 
