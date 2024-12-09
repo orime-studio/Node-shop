@@ -44,7 +44,8 @@ export const productService = {
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
 
-  getProducts: async (filters: {
+
+ /*  getProducts: async (filters: {
     minPrice?: number;
     maxPrice?: number;
     size?: string[];
@@ -101,6 +102,70 @@ export const productService = {
     const products = await Product.find(query);
     return products;
   },
+ */
+
+
+  getProducts: async (filters: {
+    minPrice?: number;
+    maxPrice?: number;
+    size?: string[];
+    searchTerm?: string;
+}) => {
+    const query: any = {};
+
+    // חיפוש לפי מילות מפתח
+    if (filters.searchTerm) {
+        const regex = new RegExp(filters.searchTerm, "i");
+        query.$or = [
+            { title: regex },
+            { subtitle: regex },
+            { description: regex },
+        ];
+    }
+
+    // הגדרת תנאים עבור ווריאנטים
+    if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+        query.variants = { $elemMatch: {} };
+
+        if (filters.size) {
+            query.variants.$elemMatch['size.value'] = { $in: filters.size }; // בדיקה לפי ערכי המידה
+        }
+
+        // סינון לפי מחיר
+        if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+            query.variants.$elemMatch.price = {};
+
+            if (filters.minPrice !== undefined) {
+                query.variants.$elemMatch.price.$gte = filters.minPrice;
+            }
+            if (filters.maxPrice !== undefined) {
+                query.variants.$elemMatch.price.$lte = filters.maxPrice;
+            }
+        }
+    }
+
+    // שאילתה לבסיס הנתונים
+    const products = await Product.find(query);
+
+    // חישוב המחיר הסופי (במקרה שהפילטרים לא יכולים להיעשות בבסיס הנתונים ישירות)
+    const filteredProducts = products.filter(product => {
+        return product.variants.some(variant => {
+            const finalPrice =
+                product.basePrice +
+                (product.salePrice || 0) +
+                variant.size.additionalCost +
+                variant.color.additionalCost;
+
+            const isWithinPriceRange =
+                (filters.minPrice === undefined || finalPrice >= filters.minPrice) &&
+                (filters.maxPrice === undefined || finalPrice <= filters.maxPrice);
+
+            return isWithinPriceRange;
+        });
+    });
+
+    return filteredProducts;
+},
 
 
   deleteProduct: async (id: string) => {
