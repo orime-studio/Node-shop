@@ -78,21 +78,29 @@ export interface ICartWithTotals extends ICart {
 
 export type IVariant = {
   _id?: string;
-  size: string;
+  color: {
+    value: string;
+    additionalCost: number;
+  };
+  size: {
+    value: string;
+    additionalCost: number;
+  };
   quantity: number;
-  price: number;
 };
-
-
 
 
 export type IProductInput = {
   title: string;
   subtitle: string;
   description: string;
-  image: IImage;
+  images: IImage[];
   alt: string;
   variants: IVariant[];
+  categories: string[];
+  basePrice: number;
+  salePrice?: number;
+  shippingTime?: number;
 };
 
 export type IProduct = IProductInput & {
@@ -238,6 +246,10 @@ export type CarouselImageInput = {
   alt: string;
 /*   description?: string;
  */};
+
+ export interface UploadRequest extends Request {
+  files: { images?: Express.Multer.File[] }; // נניח שיש שדה בשם 'images' שמכיל מערך קבצים
+}
 
 // סוג חדש לעדכון תמונה
 export type CarouselImageUpdateInput = Partial<CarouselImageInput>;

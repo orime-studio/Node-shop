@@ -1,58 +1,49 @@
 import { Router } from "express";
-import { productService } from "../services/product-service";
-import { validateToken } from "../middleware/validate-token";
+import { IProductInput } from "../@types/@types";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
-import Product from "../db/models/product-model";
-
-
+import { validateToken } from "../middleware/validate-token";
+import { productService } from "../services/product-service";
 
 
 const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+router.post("/", isAdmin, upload.fields([ // תמונה ראשית
+  { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
+]), async (req, res, next) => {
   try {
-    // בדיקת הטוקן
     if (!req.payload) {
       console.log("Token validation failed.");
       throw new Error("Invalid token");
     }
 
-    // הדפסת המידע על הקובץ שהועלה
-    console.log("Uploaded file:", req.file);
-
-    // יצירת כתובת URL של התמונה
-    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
-    console.log("Image URL:", imageUrl);
-
-    // הדפסת המידע על הנתונים שהתקבלו בגוף הבקשה
-    console.log("Request body:", req.body);
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    console.log("Received files:", files);
+    
+    // יצירת מערך של תמונות נוספות
+    const images = files.images
+      ? files.images.map((file) => ({
+        url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+        alt: req.body.alt || "", // תיאור התמונה (alt)
+      }))
+      : [];
 
     // בניית המידע עבור המוצר
-    const productData = {
+    const productData: IProductInput = {
       ...req.body,
-      image: {
-        url: imageUrl,
-        alt: req.body.alt
-      }
+      images, // חיבור מערך התמונות
     };
-    console.log("Product data:", productData);
 
-    // יצירת המוצר בשירות
     const result = await productService.createProduct(productData, req.payload._id);
-    console.log("Product creation result:", result);
-
-    // שליחת תשובה ללקוח
     res.status(201).json(result);
   } catch (e) {
     console.error("Error during product creation:", e.message);
     next(e);
   }
 });
-
 
 
 
