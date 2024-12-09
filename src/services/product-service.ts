@@ -111,6 +111,11 @@ export const productService = {
     size?: string[];
     searchTerm?: string;
 }) => {
+    // אם אין פילטרים, מחזיר את כל המוצרים
+    if (!filters.minPrice && !filters.maxPrice && !filters.size && !filters.searchTerm) {
+        return await Product.find(); // מחזיר את כל המוצרים ללא סינון
+    }
+
     const query: any = {};
 
     // חיפוש לפי מילות מפתח
@@ -166,6 +171,7 @@ export const productService = {
 
     return filteredProducts;
 },
+
 
 
   deleteProduct: async (id: string) => {
