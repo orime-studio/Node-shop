@@ -68,21 +68,36 @@ export const productService = {
         query.variants.$elemMatch.size = { $in: filters.size };
       }
 
-      if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-        const priceConditions: any = {};
-        if (filters.minPrice !== undefined) {
-          priceConditions.$gte = filters.minPrice;
-        }
-        if (filters.maxPrice !== undefined) {
-          priceConditions.$lte = filters.maxPrice;
-        }
-        query.variants.$elemMatch.price = priceConditions;
+      const priceConditions: any = {};
+      if (filters.minPrice !== undefined) {
+        // נשים לב שזה מחיר סופי: basePrice + salePrice(אם קיים) + additionalCost
+        // כאן קצת מורכב כי המחיר הסופי מחושב דינמית. כפתרון פשוט, נניח שהמחיר של variant לא מחושב כאן.
+        // אפשר לשמור מחיר סופי בסכמה עצמה אם תרצי, אך כעת נשאיר כך.
+        // בהתאם לדרישה שלך, אפשר להוסיף שדה "finalPrice" במוצר או מחושבת On-The-Fly.
+        // לצורך דוגמה נשאיר כמו שהיה (משתמשים priceConditions רק if needed)
+        priceConditions.$gte = filters.minPrice;
+      }
+      if (filters.maxPrice !== undefined) {
+        priceConditions.$lte = filters.maxPrice;
+      }
+
+      // במקרה הנוכחי, אין לנו שדה מחיר סופי בווריאנט בסכמה החדשה.
+      // אם תרצי, אפשר להוסיף שדה finalPrice: Number מחושב ובקוד העדכני לאתחל אותו.
+      // כאן נשאיר באופן פשוט, כאילו אנחנו מסננים לפי basePrice בלבד,
+      // או נוסיף שדה finalPrice בעת יצירת מוצר.
+
+      // לצורך הפשטה - אם תרצי לסנן, תצטרכי לחשב את finalPrice לשמירה מראש.
+      // כרגע נמחק את הסינון לפי מחיר ב-query הזה, או נשאיר אותו כמסומן בהערה.
+
+      if (Object.keys(priceConditions).length > 0) {
+        // במציאות, צריך finalPrice בווריאנט. נניח שהadditionalCost בסה"כ נוסף לbasePrice.
+        // finalPrice = (basePrice (+salePrice?)) + variant.color.additionalCost + variant.size.additionalCost
+        // כדי לסנן לפי זה, צריך דרך מראש לחשב finalPrice ולשמור בסכמה או לשנות לשאילתת Aggregation.
+        // כרגע נשמיט את הסינון הזה או נשתמש רק בסינון גס על basePrice (לא לגמרי מדויק):
+        query.basePrice = priceConditions;
       }
     }
 
-    console.log("MongoDB Query:", JSON.stringify(query, null, 2));
-
-    
     const products = await Product.find(query);
     return products;
   },
@@ -93,7 +108,7 @@ export const productService = {
     return product;
   },
 
-  bulkReplenishStock: async (updates: { id: string; size: string; quantity: number }[]) => {
+  /* bulkReplenishStock: async (updates: { id: string; size: string; quantity: number }[]) => {
     if (!Array.isArray(updates) || updates.length === 0) {
       throw new BizCardsError(400, "Updates must be a non-empty array");
     }
@@ -120,5 +135,5 @@ export const productService = {
     }
 
     return results;
-  },
+  }, */
 };

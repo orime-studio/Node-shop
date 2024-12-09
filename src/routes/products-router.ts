@@ -11,9 +11,7 @@ const router = Router();
 
 
 // Add products
-router.post("/", isAdmin, upload.fields([ // תמונה ראשית
-  { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
-]), async (req, res, next) => {
+router.post("/", ...isAdmin, upload.array("images", 10), async (req, res, next) => {
   try {
     if (!req.payload) {
       console.log("Token validation failed.");
@@ -122,7 +120,7 @@ router.get("/", async (req, res, next) => {
 
 
 
-router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
+/* router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
   try {
     const updates = req.body;
     const products = await productService.bulkReplenishStock(updates);
@@ -130,6 +128,6 @@ router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
+}); */
 
 export { router as productRouter };
