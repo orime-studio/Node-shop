@@ -148,6 +148,7 @@ export const productService = {
             }
         }
     }
+    console.log("MongoDB Query:", JSON.stringify(query, null, 2)); // הדפסת השאילתה
 
     // שאילתה לבסיס הנתונים
     const products = await Product.find(query);
