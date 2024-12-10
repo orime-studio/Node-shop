@@ -1,47 +1,58 @@
 import { Router } from "express";
-import { IProductInput } from "../@types/@types";
+import { productService } from "../services/product-service";
+import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
-import { validateToken } from "../middleware/validate-token";
-import { productService } from "../services/product-service";
+import Product from "../db/models/product-model";
+
+
 
 
 const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, upload.array("images", 10), async (req, res, next) => {
+router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
+    // בדיקת הטוקן
     if (!req.payload) {
       console.log("Token validation failed.");
       throw new Error("Invalid token");
     }
 
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    console.log("Received files:", files);
-    
-    // יצירת מערך של תמונות נוספות
-    const images = files.images
-      ? files.images.map((file) => ({
-        url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-        alt: req.body.alt || "", // תיאור התמונה (alt)
-      }))
-      : [];
+    // הדפסת המידע על הקובץ שהועלה
+    console.log("Uploaded file:", req.file);
+
+    // יצירת כתובת URL של התמונה
+    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
+    console.log("Image URL:", imageUrl);
+
+    // הדפסת המידע על הנתונים שהתקבלו בגוף הבקשה
+    console.log("Request body:", req.body);
 
     // בניית המידע עבור המוצר
-    const productData: IProductInput = {
+    const productData = {
       ...req.body,
-      images, // חיבור מערך התמונות
+      image: {
+        url: imageUrl,
+        alt: req.body.alt
+      }
     };
+    console.log("Product data:", productData);
 
+    // יצירת המוצר בשירות
     const result = await productService.createProduct(productData, req.payload._id);
+    console.log("Product creation result:", result);
+
+    // שליחת תשובה ללקוח
     res.status(201).json(result);
   } catch (e) {
     console.error("Error during product creation:", e.message);
     next(e);
   }
 });
+
 
 
 
@@ -120,7 +131,7 @@ router.get("/", async (req, res, next) => {
 
 
 
-/* router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
+router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
   try {
     const updates = req.body;
     const products = await productService.bulkReplenishStock(updates);
@@ -128,6 +139,6 @@ router.get("/", async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}); */
+});
 
 export { router as productRouter };

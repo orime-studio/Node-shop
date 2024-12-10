@@ -44,8 +44,7 @@ export const productService = {
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
 
-
- /*  getProducts: async (filters: {
+  getProducts: async (filters: {
     minPrice?: number;
     maxPrice?: number;
     size?: string[];
@@ -69,102 +68,24 @@ export const productService = {
         query.variants.$elemMatch.size = { $in: filters.size };
       }
 
-      const priceConditions: any = {};
-      if (filters.minPrice !== undefined) {
-        // נשים לב שזה מחיר סופי: basePrice + salePrice(אם קיים) + additionalCost
-        // כאן קצת מורכב כי המחיר הסופי מחושב דינמית. כפתרון פשוט, נניח שהמחיר של variant לא מחושב כאן.
-        // אפשר לשמור מחיר סופי בסכמה עצמה אם תרצי, אך כעת נשאיר כך.
-        // בהתאם לדרישה שלך, אפשר להוסיף שדה "finalPrice" במוצר או מחושבת On-The-Fly.
-        // לצורך דוגמה נשאיר כמו שהיה (משתמשים priceConditions רק if needed)
-        priceConditions.$gte = filters.minPrice;
-      }
-      if (filters.maxPrice !== undefined) {
-        priceConditions.$lte = filters.maxPrice;
-      }
-
-      // במקרה הנוכחי, אין לנו שדה מחיר סופי בווריאנט בסכמה החדשה.
-      // אם תרצי, אפשר להוסיף שדה finalPrice: Number מחושב ובקוד העדכני לאתחל אותו.
-      // כאן נשאיר באופן פשוט, כאילו אנחנו מסננים לפי basePrice בלבד,
-      // או נוסיף שדה finalPrice בעת יצירת מוצר.
-
-      // לצורך הפשטה - אם תרצי לסנן, תצטרכי לחשב את finalPrice לשמירה מראש.
-      // כרגע נמחק את הסינון לפי מחיר ב-query הזה, או נשאיר אותו כמסומן בהערה.
-
-      if (Object.keys(priceConditions).length > 0) {
-        // במציאות, צריך finalPrice בווריאנט. נניח שהadditionalCost בסה"כ נוסף לbasePrice.
-        // finalPrice = (basePrice (+salePrice?)) + variant.color.additionalCost + variant.size.additionalCost
-        // כדי לסנן לפי זה, צריך דרך מראש לחשב finalPrice ולשמור בסכמה או לשנות לשאילתת Aggregation.
-        // כרגע נשמיט את הסינון הזה או נשתמש רק בסינון גס על basePrice (לא לגמרי מדויק):
-        query.basePrice = priceConditions;
-      }
-    }
-
-    const products = await Product.find(query);
-    return products;
-  },
- */
-
-
-  getProducts: async (filters: {
-  minPrice?: number;
-  maxPrice?: number;
-  size?: string[];
-  searchTerm?: string;
-}) => {
-    // אם אין פילטרים, מחזיר את כל המוצרים
-    if (!filters.minPrice && !filters.maxPrice && !filters.size && !filters.searchTerm) {
-        return await Product.find();
-    }
-
-    const query: any = {};
-
-    // חיפוש לפי מילות מפתח
-    if (filters.searchTerm) {
-        const regex = new RegExp(filters.searchTerm, "i");
-        query.$or = [
-            { title: regex },
-            { subtitle: regex },
-            { description: regex },
-        ];
-    }
-
-    // הגדרת תנאים עבור ווריאנטים
-    if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-        query.variants = { $elemMatch: {} };
-
-        if (filters.size) {
-            query.variants.$elemMatch['size.value'] = { $in: filters.size };
+      if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+        const priceConditions: any = {};
+        if (filters.minPrice !== undefined) {
+          priceConditions.$gte = filters.minPrice;
         }
-
-        // הסרת הסינון לפי מחיר מתוך השאילתה
+        if (filters.maxPrice !== undefined) {
+          priceConditions.$lte = filters.maxPrice;
+        }
+        query.variants.$elemMatch.price = priceConditions;
+      }
     }
 
     console.log("MongoDB Query:", JSON.stringify(query, null, 2));
 
-    // שאילתת הבסיס הנתונים
+    
     const products = await Product.find(query);
-
-    // סינון לפי מחיר לאחר הפיכת המידע
-    const filteredProducts = products.filter(product => {
-        return product.variants.some(variant => {
-            const finalPrice =
-                product.basePrice +
-                (product.salePrice || 0) +
-                variant.size.additionalCost +
-                variant.color.additionalCost;
-
-            const isWithinPriceRange =
-                (filters.minPrice === undefined || finalPrice >= filters.minPrice) &&
-                (filters.maxPrice === undefined || finalPrice <= filters.maxPrice);
-
-            return isWithinPriceRange;
-        });
-    });
-
-    return filteredProducts;
-},
-
-
+    return products;
+  },
 
 
   deleteProduct: async (id: string) => {
@@ -172,7 +93,7 @@ export const productService = {
     return product;
   },
 
-  /* bulkReplenishStock: async (updates: { id: string; size: string; quantity: number }[]) => {
+  bulkReplenishStock: async (updates: { id: string; size: string; quantity: number }[]) => {
     if (!Array.isArray(updates) || updates.length === 0) {
       throw new BizCardsError(400, "Updates must be a non-empty array");
     }
@@ -199,5 +120,5 @@ export const productService = {
     }
 
     return results;
-  }, */
+  },
 };
