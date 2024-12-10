@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import { IProduct, IVariant } from "../../@types/@types";
+import imageSchema from "./image-schema";
 
 
 const VariantSchema = new Schema<IVariant>({
@@ -18,12 +19,9 @@ const ProductSchema = new Schema<IProduct>({
   subtitle: { type: String, required: true },
   description: { type: String, required: true },
   images: [
-    {
-      url: String,
-      alt: String
-    }
+    imageSchema
   ],
-  alt: { type: String, required: true },
+  alt: { type: String, required: false },
   variants: [VariantSchema], // Array of embedded documents
 });
 
