@@ -17,9 +17,12 @@ const ProductSchema = new Schema<IProduct>({
   title: { type: String, required: true },
   subtitle: { type: String, required: true },
   description: { type: String, required: true },
-  image: {
-    url: { type: String, required: true },
-  },
+  images: [
+    {
+      url: String,
+      alt: String
+    }
+  ],
   alt: { type: String, required: true },
   variants: [VariantSchema], // Array of embedded documents
 });

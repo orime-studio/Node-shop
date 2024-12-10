@@ -13,7 +13,7 @@ const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+router.post("/", ...isAdmin, upload.array("images", 10), async (req, res, next) => {
   try {
     // בדיקת הטוקן
     if (!req.payload) {
@@ -21,12 +21,17 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
       throw new Error("Invalid token");
     }
 
-    // הדפסת המידע על הקובץ שהועלה
-    console.log("Uploaded file:", req.file);
+    // בדיקת הקבצים שהועלו
+    if (!req.files || !Array.isArray(req.files)) {
+      throw new Error("No images were uploaded.");
+    }
 
-    // יצירת כתובת URL של התמונה
-    const imageUrl = `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}`;
-    console.log("Image URL:", imageUrl);
+    // יצירת כתובות URL עבור כל התמונות שהועלו
+    const images = req.files.map((file: Express.Multer.File) => ({
+      url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+      alt: req.body.alt || "Image description",
+    }));
+    console.log("Uploaded images:", images);
 
     // הדפסת המידע על הנתונים שהתקבלו בגוף הבקשה
     console.log("Request body:", req.body);
@@ -34,10 +39,7 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     // בניית המידע עבור המוצר
     const productData = {
       ...req.body,
-      image: {
-        url: imageUrl,
-        alt: req.body.alt
-      }
+      images, // מערך של תמונות
     };
     console.log("Product data:", productData);
 
@@ -52,6 +54,7 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     next(e);
   }
 });
+
 
 
 

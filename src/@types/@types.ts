@@ -17,6 +17,7 @@ export type IAddress = {
 
 export type IImage = {
   url: string;
+  alt?: string;
 };
 
 export type IUserInput = {
@@ -90,7 +91,7 @@ export type IProductInput = {
   title: string;
   subtitle: string;
   description: string;
-  image: IImage;
+  images: IImage[];
   alt: string;
   variants: IVariant[];
 };
