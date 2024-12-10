@@ -68,15 +68,58 @@ router.post("/", ...isAdmin, upload.fields([
 
 
 
-
-router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
+// update product
+router.put("/:id", ...isAdmin, upload.fields([
+  { name: "mainImage", maxCount: 1 }, // תמונה ראשית
+  { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
+]), async (req, res, next) => {
   try {
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-    const imageUrl = req.file ? `https://node-tandt-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
-    const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
+
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    console.log("Received files:", files);
+
+    const mainImage = files.mainImage && files.mainImage.length > 0
+    ? {
+        url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+        alt: req.body.alt || "",
+      }
+    : {
+        url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
+        alt: req.body.alt || "",
+      };
+  console.log("Main image data:", mainImage);
+
+     
+      const images = files.images && files.images.length > 0
+      ? files.images.map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+          alt: req.body.alt || "",
+        }))
+      : req.body.images && Array.isArray(req.body.images) 
+        ? req.body.images.map((image: string) => ({
+            url: image, // הפוך את המיתרים לאובייקטים עם URL
+            alt: req.body.alt || "",
+        }))
+        : []; // אם אין תמונות ב-body, נשאיר כ-array ריק
+    console.log("Additional images data:", images);
+
+
+    const productData = { 
+      ...req.body, 
+      mainImage,
+      images};
+
     const updatedProduct = await productService.updateProduct(req.params.id, productData);
+
+    if (!updatedProduct) {
+      console.error("Product not found for ID:", req.params.id);
+      
+      return res.status(404).json({ message: "Product not found." });
+    }
+
     res.json(updatedProduct);
   } catch (e) {
     next(e);
