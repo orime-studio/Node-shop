@@ -91,7 +91,8 @@ export type IProductInput = {
   title: string;
   subtitle: string;
   description: string;
-  images: IImage[];
+  mainImage?: IImage;          // תיאור התמונה (alt)
+  images: IImage[];    
   alt: string;
   variants: IVariant[];
 };

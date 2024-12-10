@@ -13,7 +13,10 @@ const router = Router();
 
 
 // Add products
-router.post("/", ...isAdmin, upload.array("images", 10), async (req, res, next) => {
+router.post("/", ...isAdmin, upload.fields([
+  { name: "mainImage", maxCount: 1 },
+  { name: "images", maxCount: 5 }]),
+  async (req, res, next) => {
   try {
     // בדיקת הטוקן
     if (!req.payload) {
@@ -22,23 +25,30 @@ router.post("/", ...isAdmin, upload.array("images", 10), async (req, res, next) 
     }
 
     // בדיקת הקבצים שהועלו
-    if (!req.files || !Array.isArray(req.files)) {
-      throw new Error("No images were uploaded.");
-    }
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    // יצירת כתובות URL עבור כל התמונות שהועלו
-    const images = req.files.map((file: Express.Multer.File) => ({
-      url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
-      alt: req.body.alt || "Image description",
-    }));
-    console.log("Uploaded images:", images);
+      // בדיקת תמונה ראשית
+      if (!files.mainImage || files.mainImage.length === 0) {
+        throw new Error("Main image is required.");
+      }
 
-    // הדפסת המידע על הנתונים שהתקבלו בגוף הבקשה
-    console.log("Request body:", req.body);
+      // יצירת URL לתמונה הראשית
+      const mainImage = {
+        url: `https://node-tandt-shop.onrender.com/uploads/${files.mainImage[0].filename}`,
+        alt: req.body.alt || "", // תיאור התמונה (alt)
+      };
 
+      // יצירת מערך של תמונות נוספות
+      const images = files.images
+        ? files.images.map((file) => ({
+          url: `https://node-tandt-shop.onrender.com/uploads/${file.filename}`,
+          alt: req.body.alt || "", // תיאור התמונה (alt)
+        }))
+        : [];
     // בניית המידע עבור המוצר
     const productData = {
       ...req.body,
+      mainImage,
       images, // מערך של תמונות
     };
     console.log("Product data:", productData);

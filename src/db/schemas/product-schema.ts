@@ -18,9 +18,14 @@ const ProductSchema = new Schema<IProduct>({
   title: { type: String, required: true },
   subtitle: { type: String, required: true },
   description: { type: String, required: true },
-  images: [
-    imageSchema
-  ],
+  mainImage: { 
+    type: imageSchema, 
+    required: true // התמונה הראשית היא חובה
+},
+images: [{ 
+    type: imageSchema, 
+    required: false // התמונות הנוספות אינן חובה
+}],
   alt: { type: String, required: false },
   variants: [VariantSchema], // Array of embedded documents
 });
