@@ -88,6 +88,7 @@ export type IVariant = {
 
 
 export type IProductInput = {
+  // שדות קיימים
   title: string;
   subtitle: string;
   description: string;
@@ -95,6 +96,10 @@ export type IProductInput = {
   images: IImage[];    
   alt: string;
   variants: IVariant[];
+
+  // קטגוריה ראשית ותגים
+  mainCategory: string; // קטגוריה ראשית (לדוגמה: "בגדים")
+  tags: string[]; // תגים נוספים (לדוגמה: ["חולצות", "טי-שירט"])
 };
 
 export type IProduct = IProductInput & {
@@ -105,6 +110,7 @@ export type IProduct = IProductInput & {
   sold: number;
   userId: string;
 };
+
 
 export type IOrderProduct = {
   productId: string;

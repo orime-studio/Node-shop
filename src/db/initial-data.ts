@@ -77,6 +77,8 @@ const products: IProductInput[] = [
       { size: "M", quantity: 35, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
   },
   {
     title: "Black Blazer",
@@ -92,6 +94,8 @@ const products: IProductInput[] = [
       { size: "M", quantity: 15, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
   },
   {
     title: "Checked Blazer",
@@ -107,6 +111,8 @@ const products: IProductInput[] = [
       { size: "M", quantity: 45, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
   },
   {
     title: "Oversized Blazer",
@@ -122,7 +128,9 @@ const products: IProductInput[] = [
       { size: "M", quantity: 15, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
-  },
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
+  },  
   {
     title: "Beige Blazer",
     subtitle: "Sleek and Sophisticated",
@@ -137,6 +145,8 @@ const products: IProductInput[] = [
       { size: "M", quantity: 25, price: 333 },
       { size: "L", quantity: 30, price: 444 },
     ],
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
   },
   {
     title: "Fashionable Blazer",
@@ -152,7 +162,9 @@ const products: IProductInput[] = [
       { size: "M", quantity: 15, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
-  },
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
+  },  
   {
     title: "White Blouse",
     subtitle: "Crisp and Clean",
@@ -167,6 +179,8 @@ const products: IProductInput[] = [
       { size: "M", quantity: 25, price: 333 },
       { size: "L", quantity: 30, price: 444 },
     ],
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
   },
   {
     title: "Elegant Beige Blazer",
@@ -182,7 +196,9 @@ const products: IProductInput[] = [
       { size: "M", quantity: 15, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
-  },
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
+  },  
   {
     title: "Sophisticated Blazer",
     subtitle: "Elegant and Timeless",
@@ -197,6 +213,8 @@ const products: IProductInput[] = [
       { size: "M", quantity: 15, price: 333 },
       { size: "L", quantity: 20, price: 444 },
     ],
+    mainCategory: "clothing",
+    tags: ["elegant", "versatile"],
   },
 ];
 
