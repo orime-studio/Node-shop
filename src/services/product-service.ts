@@ -124,11 +124,11 @@ export const productService = {
 
   //get all categories
   getAllCategories: async () => {
-    const categories = await Product.distinct("category");
+    const categories = await Product.distinct("mainCategory");
     return categories;
   },
   getProductsByCategory: async (category: string) => {
-    const products = await Product.find({ category: category });
+    const products = await Product.find({ mainCategory: category });
     return products;
   },
 
