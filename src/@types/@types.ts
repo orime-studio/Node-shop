@@ -77,30 +77,31 @@ export interface ICartWithTotals extends ICart {
 };
 
 
+export type IColor = {
+  name: string; // שם הצבע (לדוגמה: "אדום", "כחול")
+  quantity: number; // כמות המלאי של הצבע הזה
+};
+
 export type IVariant = {
   _id?: string;
-  size: string;
-  quantity: number;
-  price: number;
+  size: string; // גודל המוצר (לדוגמה: "S", "M", "L")
+  colors: IColor[]; // מערך של צבעים, לכל צבע יש כמות משלו
+  quantity: number; // כמות המלאי של הווריאנט הזה
+  price: number; // מחיר עבור הווריאנט הזה
 };
-
-
-
 
 export type IProductInput = {
-  // שדות קיימים
-  title: string;
-  subtitle: string;
-  description: string;
-  mainImage?: IImage;      
-  images: IImage[];    
-  alt: string;
-  variants: IVariant[];
-
-  // קטגוריה ראשית ותגים
-  mainCategory: string; // קטגוריה ראשית (לדוגמה: "בגדים")
-  tags: string[]; // תגים נוספים (לדוגמה: ["חולצות", "טי-שירט"])
+  title: string; // כותרת המוצר
+  subtitle: string; // תת כותרת
+  description: string; // תיאור המוצר
+  mainImage?: IImage; // תמונה ראשית (אופציונלית)
+  images: IImage[]; // מערך של תמונות נוספות
+  alt: string; // טקסט חלופי לתמונה
+  variants: IVariant[]; // מערך של וריאנטים
+  mainCategory: string; // קטגוריה ראשית
+  tags: string[]; // תגים נוספים
 };
+
 
 export type IProduct = IProductInput & {
   _id: string;

@@ -73,9 +73,35 @@ const products: IProductInput[] = [
     ],
     alt: "Black Ribbed Sweater",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 35, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -90,9 +116,36 @@ const products: IProductInput[] = [
     ],
     alt: "Black Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 15, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -107,9 +160,36 @@ const products: IProductInput[] = [
     ],
     alt: "Checked Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 45, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -124,9 +204,35 @@ const products: IProductInput[] = [
     ],
     alt: "Oversized Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 15, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -141,9 +247,35 @@ const products: IProductInput[] = [
     ],
     alt: "Beige Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 25, price: 333 },
-      { size: "L", quantity: 30, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+      },  
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+        },  
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -158,9 +290,44 @@ const products: IProductInput[] = [
     ],
     alt: "Fashionable Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 15, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+      },    
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+        },  
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
+        {
+          size: "XL",
+          price: 110,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -175,9 +342,34 @@ const products: IProductInput[] = [
     ],
     alt: "White Blouse",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 25, price: 333 },
-      { size: "L", quantity: 30, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -192,9 +384,33 @@ const products: IProductInput[] = [
     ],
     alt: "Elegant Beige Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 15, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -209,9 +425,33 @@ const products: IProductInput[] = [
     ],
     alt: "Sophisticated Blazer",
     variants: [
-      { size: "S", quantity: 40, price: 222 },
-      { size: "M", quantity: 15, price: 333 },
-      { size: "L", quantity: 20, price: 444 },
+      {
+        size: "S",
+        price: 80,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+      },
+      {
+        size: "M",
+        price: 90,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+        quantity: 15,
+        },
+        {
+          size: "L",
+          price: 100,
+          colors: [
+            { name: "אדום", quantity: 10 },
+            { name: "כחול", quantity: 5 },
+          ],
+          quantity: 15,
+        },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],

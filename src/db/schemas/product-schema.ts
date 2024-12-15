@@ -1,11 +1,17 @@
 import { Schema } from "mongoose";
-import { IProduct, IVariant } from "../../@types/@types";
+import { IColor, IProduct, IVariant } from "../../@types/@types";
 import imageSchema from "./image-schema";
+
+const ColorSchema = new Schema<IColor>({
+  name: { type: String, required: true }, // שם הצבע
+  quantity: { type: Number, required: true, min: 0 }, 
+})
 
 const VariantSchema = new Schema<IVariant>({
   size: { type: String, required: true },
-  quantity: { type: Number, required: true },
+  colors: { type: [ColorSchema], required: true }, // מערך של צבעים
   price: { type: Number, required: true },
+  quantity: { type: Number, required: true, min: 0 }, 
 });
 
 const ProductSchema = new Schema<IProduct>({
