@@ -196,36 +196,5 @@ router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
   }
 });
 
-//get all categories
-router.get("/categories", async (req, res, next) => {
-  try {
-    const categories = await productService.getAllCategories();
-    res.json(categories);
-  } catch (e) {
-    next(e);
-  }
-});
-
-//get all products by category
-router.get("/category/:category", async (req, res, next) => {
-  try {
-    const category = req.params.category;
-    const products = await productService.getProductsByCategory(category);
-    res.json(products);
-  } catch (e) {
-    next(e);
-  }
-});
-
-//get all products by tag
-router.get("/tag/:tag", async (req, res, next) => {
-  try {
-    const tag = req.params.tag;
-    const products = await productService.getProductsByTag(tag);
-    res.json(products);
-  } catch (e) {
-    next(e);
-  }
-});
 
 export { router as productRouter };
