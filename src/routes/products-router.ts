@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { productService } from "../services/product-service";
-import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
-import Product from "../db/models/product-model";
+import { validateToken } from "../middleware/validate-token";
+import { productService } from "../services/product-service";
 
 
 
@@ -151,7 +150,7 @@ router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
 
 
 
-
+// get product by id
  router.get("/:id", isProductId, async (req, res, next) => {
   try {
     const product = await productService.getProduct(req.params.id);
@@ -163,7 +162,7 @@ router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
 
 
 
-
+// get all products
 router.get("/", async (req, res, next) => {
   try {
     const { minPrice, maxPrice, size, searchTerm } = req.query;
@@ -186,11 +185,43 @@ router.get("/", async (req, res, next) => {
 });
 
 
-
+// replenish stock
 router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
   try {
     const updates = req.body;
     const products = await productService.bulkReplenishStock(updates);
+    res.json(products);
+  } catch (e) {
+    next(e);
+  }
+});
+
+//get all categories
+router.get("/categories", async (req, res, next) => {
+  try {
+    const categories = await productService.getAllCategories();
+    res.json(categories);
+  } catch (e) {
+    next(e);
+  }
+});
+
+//get all products by category
+router.get("/category/:category", async (req, res, next) => {
+  try {
+    const category = req.params.category;
+    const products = await productService.getProductsByCategory(category);
+    res.json(products);
+  } catch (e) {
+    next(e);
+  }
+});
+
+//get all products by tag
+router.get("/tag/:tag", async (req, res, next) => {
+  try {
+    const tag = req.params.tag;
+    const products = await productService.getProductsByTag(tag);
     res.json(products);
   } catch (e) {
     next(e);

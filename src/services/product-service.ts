@@ -1,4 +1,4 @@
-import _ from "underscore";
+import _, { get } from "underscore";
 import { IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
@@ -121,4 +121,26 @@ export const productService = {
 
     return results;
   },
+
+  //get all categories
+  getAllCategories: async () => {
+    const categories = await Product.distinct("category");
+    return categories;
+  },
+  getProductsByCategory: async (category: string) => {
+    const products = await Product.find({ category: category });
+    return products;
+  },
+
+  getProductsByTag: async (tag: string) => {
+    const products = await Product.find({ tags: tag });
+    return products;
+  },
+
+  //get all tags
+  getAllTags: async () => {
+    const tags = await Product.distinct("tags");
+    return tags;
+  },
+  
 };
