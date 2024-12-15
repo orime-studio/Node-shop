@@ -31,6 +31,7 @@ const app = express();
 //middleware chain:
 app.use(json());
 app.use(morgan("dev"));
+app.options("*", cors());
 app.use(cors());
 //http://localhost:8080/api/v1/users  
  
