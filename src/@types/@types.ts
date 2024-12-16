@@ -86,7 +86,6 @@ export type IVariant = {
   _id?: string;
   size: string; // גודל המוצר (לדוגמה: "S", "M", "L")
   colors: IColor[]; // מערך של צבעים, לכל צבע יש כמות משלו
-  quantity: number; // כמות המלאי של הווריאנט הזה
   price: number; // מחיר עבור הווריאנט הזה
 };
 

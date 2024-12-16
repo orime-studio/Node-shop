@@ -80,7 +80,6 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
       },
       {
         size: "M",
@@ -89,19 +88,17 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
 
-        },
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -123,7 +120,6 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
       },
       {
@@ -133,19 +129,17 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
 
-        },
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -167,7 +161,7 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
+
 
       },
       {
@@ -177,19 +171,19 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
 
-        },
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -211,7 +205,7 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
+
 
       },
       {
@@ -221,22 +215,22 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
+
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
-  },  
+  },
   {
     title: "Beige Blazer",
     subtitle: "Sleek and Sophisticated",
@@ -254,9 +248,9 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-      },  
+
+      },
       {
         size: "M",
         price: 90,
@@ -264,18 +258,18 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-        },  
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
+
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -297,9 +291,9 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-      },    
+
+      },
       {
         size: "M",
         price: 90,
@@ -307,37 +301,37 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
 
-        },  
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
-        {
-          size: "XL",
-          price: 110,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
+
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
+      {
+        size: "XL",
+        price: 110,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
-  },  
+  },
   {
     title: "White Blouse",
     subtitle: "Crisp and Clean",
     description: "A crisp and clean white blouse. Ideal for both professional and casual settings.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/8.png" },
-    images: [ 
+    images: [
       { url: "https://node-tandt-shop.onrender.com/uploads/9.png" },
     ],
     alt: "White Blouse",
@@ -349,7 +343,7 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
+
 
       },
       {
@@ -359,17 +353,17 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
+
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
@@ -391,7 +385,7 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
+
       },
       {
         size: "M",
@@ -400,21 +394,21 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
+
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],
-  },  
+  },
   {
     title: "Sophisticated Blazer",
     subtitle: "Elegant and Timeless",
@@ -432,7 +426,7 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
+
       },
       {
         size: "M",
@@ -441,17 +435,17 @@ const products: IProductInput[] = [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
         ],
-        quantity: 15,
-        },
-        {
-          size: "L",
-          price: 100,
-          colors: [
-            { name: "אדום", quantity: 10 },
-            { name: "כחול", quantity: 5 },
-          ],
-          quantity: 15,
-        },
+
+      },
+      {
+        size: "L",
+        price: 100,
+        colors: [
+          { name: "אדום", quantity: 10 },
+          { name: "כחול", quantity: 5 },
+        ],
+
+      },
     ],
     mainCategory: "clothing",
     tags: ["elegant", "versatile"],

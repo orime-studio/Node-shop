@@ -11,7 +11,6 @@ const VariantSchema = new Schema<IVariant>({
   size: { type: String, required: true },
   colors: { type: [ColorSchema], required: true }, // מערך של צבעים
   price: { type: Number, required: true },
-  quantity: { type: Number, required: true, min: 0 }, 
 });
 
 const ProductSchema = new Schema<IProduct>({

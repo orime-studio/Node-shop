@@ -2,7 +2,6 @@ import { Router } from "express";
 import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
-import { validateToken } from "../middleware/validate-token";
 import { productService } from "../services/product-service";
 
 
@@ -185,16 +184,6 @@ router.get("/", async (req, res, next) => {
 });
 
 
-// replenish stock
-router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
-  try {
-    const updates = req.body;
-    const products = await productService.bulkReplenishStock(updates);
-    res.json(products);
-  } catch (e) {
-    next(e);
-  }
-});
 
 
 export { router as productRouter };
