@@ -68,7 +68,6 @@ router.post("/", validateToken, isAdmin, async (req, res, next) => {
 }); */
 
 
-
 // עדכון עמוד קיים
 router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
     try {
