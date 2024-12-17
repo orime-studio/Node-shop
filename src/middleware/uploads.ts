@@ -3,8 +3,7 @@ const multer = require('multer');
 const path = require('path');
 
 // הגדרת תיקיית העלאת קבצים
-const uploadDirectory = 'uploads/';
-
+const uploadDirectory = process.env.PERSISTENT_DISK_PATH;
 // אם התיקיה לא קיימת, ניצור אותה
 if (!fs.existsSync(uploadDirectory)) {
     console.log("Creating upload directory...");
