@@ -16,9 +16,9 @@ if (!fs.existsSync(uploadDirectory)) {
 // בדיקת הרשאות קריאה וכתיבה על התיקיה
 fs.access(uploadDirectory, fs.constants.R_OK | fs.constants.W_OK, (err) => {
     if (err) {
-        console.log(`No read/write permission for the directory: ${uploadDirectory}`);
+        console.log(`No read/write permission for the directory:22222 ${uploadDirectory}`);
     } else {
-        console.log(`Read/write permissions are available for the directory: ${uploadDirectory}`);
+        console.log(`Read/write permissions are available for the directory111111: ${uploadDirectory}`);
     }
 });
 
