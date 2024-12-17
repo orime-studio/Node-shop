@@ -1,41 +1,59 @@
-const fs = require('fs');
-const multer = require('multer');
-const path = require('path');
+import fs from 'fs';
+import multer from 'multer';
+import path from 'path';
 
-// הגדרת תיקיית העלאת קבצים
+// הגדרת תיקיית העלאת קבצים מהסביבה
 const uploadDirectory = process.env.PERSISTENT_DISK_PATH;
-// אם התיקיה לא קיימת, ניצור אותה
-if (!fs.existsSync(uploadDirectory)) {
-    console.log("Creating upload directory...");
-    fs.mkdirSync(uploadDirectory, { recursive: true });
-} else {
-    console.log("Upload directory already exists.");
+
+if (!uploadDirectory) {
+    throw new Error("Environment variable PERSISTENT_DISK_PATH is not set. Please configure it in your .env file.");
 }
 
-// בדיקת הרשאות קריאה וכתיבה על התיקיה
+// יצירת התיקייה אם היא לא קיימת
+if (!fs.existsSync(uploadDirectory)) {
+    console.log(`Creating upload directory: ${uploadDirectory}`);
+    fs.mkdirSync(uploadDirectory, { recursive: true });
+} else {
+    console.log(`Upload directory already exists: ${uploadDirectory}`);
+}
+
+// בדיקת הרשאות קריאה וכתיבה
 fs.access(uploadDirectory, fs.constants.R_OK | fs.constants.W_OK, (err) => {
     if (err) {
-        console.log(`No read/write permission for the directory:22222 ${uploadDirectory}`);
+        console.error(`No read/write permissions for directory: ${uploadDirectory}`);
+        throw new Error(`Permission issue with directory: ${uploadDirectory}`);
     } else {
-        console.log(`Read/write permissions are available for the directory111111: ${uploadDirectory}`);
+        console.log(`Directory has read/write permissions: ${uploadDirectory}`);
     }
 });
 
-// הגדרת Multer לשמירת קבצים בתיקיית uploads
+// הגדרת Multer לשמירת קבצים בתיקייה
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("Setting destination for file upload...");
-        cb(null, uploadDirectory);  // כל הקבצים יישמרו בתיקייה אחת
+        console.log(`Setting destination for file upload to: ${uploadDirectory}`);
+        cb(null, uploadDirectory);  // כל הקבצים יישמרו בתיקייה זו
     },
     filename: (req, file, cb) => {
-        console.log(`Preparing to upload file: ${file.originalname}`);
         const uniqueFilename = `${Date.now()}-${file.originalname}`;
         console.log(`Generated unique filename: ${uniqueFilename}`);
-        cb(null, uniqueFilename);  // שם קובץ ייחודי עם timestamp
+        cb(null, uniqueFilename);  // יצירת שם קובץ ייחודי
     },
 });
 
-const upload = multer({ storage });
+// הגדרת Multer עם מגבלות ומחסומי קלט
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // מגבלת גודל קובץ - 5MB
+    },
+    fileFilter: (req, file, cb) => {
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            return cb(new Error('Only JPEG, PNG, and PDF files are allowed!'));
+        }
+        cb(null, true);
+    },
+});
 
-
+// ייצוא פונקציות להעלאה
 export default upload;
