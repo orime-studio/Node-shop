@@ -1,9 +1,9 @@
-import multer from 'multer';
-import fs from 'fs';
-import path from 'path';
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 // הגדרת תיקיית העלאת קבצים
-const uploadDirectory = path.join(__dirname, 'uploads');  // נתיב לשמירת הקבצים ב-Render
+const uploadDirectory = 'uploads/';
 
 // אם התיקיה לא קיימת, ניצור אותה
 if (!fs.existsSync(uploadDirectory)) {
@@ -25,7 +25,6 @@ const storage = multer.diskStorage({
     },
 });
 
-// הגדרת multer לקבלת קבצים (במקרה של קבצים מרובים)
 const upload = multer({ storage });
 
 export default upload;
