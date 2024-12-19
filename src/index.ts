@@ -19,6 +19,7 @@ import { newParashaRouter } from "./routes/new-parasha-router";
 import { videoRouter } from "./routes/video-router";
 import { articleRouter } from "./routes/article-router";
 import { carouselRouter } from "./routes/carousela-router";
+import upload from "./middleware/uploads";
 
 
 
