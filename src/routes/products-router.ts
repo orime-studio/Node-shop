@@ -49,7 +49,6 @@ router.post("/", ...isAdmin, upload.fields([
       mainImage,
       images, // מערך של תמונות
     };
-    console.log("Product data:", productData);
 
     // יצירת המוצר בשירות
     const result = await productService.createProduct(productData, req.payload._id);
