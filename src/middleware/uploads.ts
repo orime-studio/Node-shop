@@ -39,6 +39,8 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const uniqueFilename = `${Date.now()}-${file.originalname}`;
         console.log(`Generated unique filename: ${uniqueFilename}`);
+        const fullPath = path.join(uploadDirectory, uniqueFilename);
+        console.log(`Full file path: ${fullPath}`);  // הדפסת הנתיב המלא של הקובץ
         cb(null, uniqueFilename);  // יצירת שם קובץ ייחודי
     },
 });
