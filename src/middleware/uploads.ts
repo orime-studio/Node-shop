@@ -5,6 +5,9 @@ import path from 'path';
 // הגדרת תיקיית העלאת קבצים מהסביבה
 const uploadDirectory = process.env.PERSISTENT_DISK_PATH;
 
+// הדפסת המיקום של התיקייה
+console.log(`Upload directory is set to: ${uploadDirectory}`);
+
 if (!uploadDirectory) {
     throw new Error("Environment variable PERSISTENT_DISK_PATH is not set. Please configure it in your .env file.");
 }
