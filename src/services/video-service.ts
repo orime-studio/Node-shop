@@ -15,18 +15,14 @@ const fetchLatestVideo = async () => {
   
         // בדוק אם קיים מזהה וידאו
         if (latestVideoId) {
-          console.log("Latest video ID:", latestVideoId);
           return `https://www.youtube.com/watch?v=${latestVideoId}`;
         } else {
-          console.error("Video ID is undefined.");
           return null;
         }
       } else {
-        console.error("No videos found for the channel.");
         return null;
       }
     } catch (error) {
-      console.error("Error fetching video:", error.message);
       throw error;
     }
   };

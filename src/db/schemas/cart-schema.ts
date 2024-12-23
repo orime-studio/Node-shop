@@ -9,11 +9,11 @@ const cartItemSchema = new Schema({
     title: { type: String, required: true },
     price: { type: Number, required: true },
     size: { type: String, required: true },
-    image: imageSchema,
+    mainImage: imageSchema,
 });
 
 const cartSchema = new Schema<ICart>({
-    userId: { type: String }, // הפיכת userId לאופציונלי
+    userId: { type: String, required: false }, // הפיכת userId לאופציונלי
     items: [cartItemSchema],
     isGuest: { type: Boolean, default: false }, // הוספת שדה לזיהוי משתמש אורח
 });

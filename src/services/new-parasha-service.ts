@@ -24,14 +24,12 @@ export const parashaService = {
   },
   editParasha: async (id: string, data: ParashaInput) => {
     // בדוק את נתוני התמונה לפני השמירה
-    console.log("Updating Parasha with image:", data.image);
     
     const parasha = await NewParasha.findByIdAndUpdate(id, data, { new: true });
 
     if (!parasha) throw new Error("Parasha not found");
     
     // גם כאן נוודא שהתמונה נשמרה ב-MongoDB
-    console.log("Updated Parasha:", parasha);
 
     return parasha;
 },

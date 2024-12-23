@@ -3,6 +3,7 @@ import { isAdmin } from "../middleware/is-admin";
 import isProductId from "../middleware/is-product-Id";
 import upload from "../middleware/uploads";
 import { productService } from "../services/product-service";
+import BizCardsError from "../errors/BizCardsError";
 
 
 
@@ -18,8 +19,7 @@ router.post("/", ...isAdmin, upload.fields([
   try {
     // בדיקת הטוקן
     if (!req.payload) {
-      console.log("Token validation failed.");
-      throw new Error("Invalid token");
+      throw new BizCardsError(400, "Invalid token");
     }
 
     // בדיקת הקבצים שהועלו
@@ -27,7 +27,7 @@ router.post("/", ...isAdmin, upload.fields([
 
       // בדיקת תמונה ראשית
       if (!files.mainImage || files.mainImage.length === 0) {
-        throw new Error("Main image is required.");
+        throw new BizCardsError(400, "Main image is required.");
       }
 
       // יצירת URL לתמונה הראשית
@@ -52,12 +52,10 @@ router.post("/", ...isAdmin, upload.fields([
 
     // יצירת המוצר בשירות
     const result = await productService.createProduct(productData, req.payload._id);
-    console.log("Product creation result:", result);
 
     // שליחת תשובה ללקוח
     res.status(201).json(result);
   } catch (e) {
-    console.error("Error during product creation:", e.message);
     next(e);
   }
 });
@@ -72,11 +70,10 @@ router.put("/:id", ...isAdmin, upload.fields([
 ]), async (req, res, next) => {
   try {
     if (!req.payload) {
-      throw new Error("Invalid token");
+      throw new BizCardsError(400, "Invalid token");
     }
 
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    console.log("Received files:", files);
 
     const mainImage = files.mainImage && files.mainImage.length > 0
     ? {
@@ -87,7 +84,6 @@ router.put("/:id", ...isAdmin, upload.fields([
         url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
         alt: req.body.alt || "",
       };
-  console.log("Main image data:", mainImage);
 
      
       const images = files.images && files.images.length > 0
@@ -101,7 +97,6 @@ router.put("/:id", ...isAdmin, upload.fields([
             alt: req.body.alt || "",
         }))
         : []; // אם אין תמונות ב-body, נשאיר כ-array ריק
-    console.log("Additional images data:", images);
 
 
     const productData = { 
@@ -112,9 +107,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     const updatedProduct = await productService.updateProduct(req.params.id, productData);
 
     if (!updatedProduct) {
-      console.error("Product not found for ID:", req.params.id);
-      
-      return res.status(404).json({ message: "Product not found." });
+      throw new BizCardsError(404, "Product not found.");
     }
 
     res.json(updatedProduct);
@@ -171,9 +164,6 @@ router.get("/", async (req, res, next) => {
       size: size ? (size as string).split(",") : undefined,
       searchTerm: searchTerm ? (searchTerm as string) : undefined,
     };
-
-    console.log("Received filters:", filters);
-
 
     const products = await productService.getProducts(filters);
     res.json(products);

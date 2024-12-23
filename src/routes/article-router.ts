@@ -4,6 +4,7 @@ import express, { Request, Response, Router, NextFunction } from "express";
 import { articleService } from "../services/article-service";
 import { isAdmin } from "../middleware/is-admin";
 import upload from "../middleware/uploads";
+import BizCardsError from "../errors/BizCardsError";
 
 const router = Router();
 
@@ -98,16 +99,13 @@ router.put("/:id", ...isAdmin, upload.fields([
   { name: "images", maxCount: 5 }, // עד 5 תמונות נוספות
 ]), async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // לוג: בדיקת תוקף טוקן
+    // לוג: בדיקת תוקן
     if (!req.payload) {
-      console.error("Invalid token.");
-      throw new Error("Invalid token.");
+      throw new BizCardsError( 400, "Invalid token.");
     }
-    console.log("Token is valid:", req.payload);
 
     // לוג: קבלת הקבצים מהבקשה
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    console.log("Received files:", files);
 
     // טיפול בתמונה ראשית
     const mainImage = files.mainImage && files.mainImage.length > 0
@@ -119,7 +117,6 @@ router.put("/:id", ...isAdmin, upload.fields([
           url: req.body.mainImageUrl || '', // אם לא הועלתה תמונה, נשתמש ב-URL קיים מה-body
           alt: req.body.alt || "",
         };
-    console.log("Main image data:", mainImage);
 
     // טיפול בתמונות הנוספות (ללא JSON.parse)
     const images = files.images && files.images.length > 0
@@ -133,7 +130,6 @@ router.put("/:id", ...isAdmin, upload.fields([
             alt: req.body.alt || "",
         }))
         : []; // אם אין תמונות ב-body, נשאיר כ-array ריק
-    console.log("Additional images data:", images);
 
     // יצירת אובייקט הנתונים לעדכון
     const articleData = {
@@ -141,25 +137,21 @@ router.put("/:id", ...isAdmin, upload.fields([
       mainImage,
       images,
     };
-    console.log("Article data to update:", articleData);
 
     // קריאה לשירות לעדכון המאמר
     const updatedArticle = await articleService.editArticle(req.params.id, articleData);
 
     // לוג אם המאמר לא נמצא
     if (!updatedArticle) {
-      console.error("Article not found for ID:", req.params.id);
       return res.status(404).json({ message: "Article not found." });
     }
 
     // לוג אם המאמר עודכן בהצלחה
-    console.log("Article updated successfully:", updatedArticle);
 
     // החזרת המאמר המעודכן
     res.json(updatedArticle);
   } catch (error) {
     // לוג של שגיאות
-    console.error("Error occurred:", error);
     next(error);
   }
 });

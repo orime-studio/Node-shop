@@ -29,7 +29,6 @@ export const cartService = {
             } as ICartWithTotals;
 
         } catch (error) {
-            console.error("Error fetching cart:", error);
             throw new BizCardsError(400, 'Error fetching cart');
         }
     },
@@ -55,13 +54,11 @@ export const cartService = {
 
         const product = await Product.findById(productId);
         if (!product) {
-            console.error(`Product not found for productId: ${productId}`);
             throw new BizCardsError(404, 'Product not found');
         }
 
         const variant = product.variants.find(v => v._id.toString() === variantId);
         if (!variant) {
-            console.error(`Variant not found for variantId: ${variantId}`);
             throw new BizCardsError(404, 'Variant not found');
         }
 
@@ -79,7 +76,7 @@ export const cartService = {
                 size,
                 title: product.title,
                 price: variant.price,
-                image: product.image,
+                mainImage: product.mainImage
             });
         }
 
