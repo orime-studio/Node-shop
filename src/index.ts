@@ -57,7 +57,7 @@ app.use('/api/v1/videos', videoRouter);
 app.use('/api/v1/article', articleRouter);
 app.use('/api/v1/carousela', carouselRouter);
 app.use(express.static("public"));
-app.use('/uploads', express.static(path.join(__dirname, 'mnt', 'uploads')));
+app.use('/uploads', express.static(path.join('/mnt', 'uploads')));
 
 
 app.use(errorHandler);
