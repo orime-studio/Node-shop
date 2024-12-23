@@ -1,4 +1,3 @@
-
 import express, { json } from "express";
 import usersRouter from "./routes/users-router";
 import notFound from "./middleware/not-found";
