@@ -72,10 +72,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/3.png" },
     ],
     alt: "Black Ribbed Sweater",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -83,7 +84,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -92,7 +93,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -112,10 +113,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/4.png" },
     ],
     alt: "Black Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -124,7 +126,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -133,7 +135,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -153,10 +155,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/5.png" },
     ],
     alt: "Checked Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -166,7 +169,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90, 
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -176,7 +179,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -197,10 +200,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/6.png" },
     ],
     alt: "Oversized Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -210,7 +214,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -220,7 +224,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -240,10 +244,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/7.png" },
     ],
     alt: "Beige Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -253,7 +258,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -263,7 +268,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -283,10 +288,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/8.png" },
     ],
     alt: "Fashionable Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -296,7 +302,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -306,7 +312,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -315,7 +321,7 @@ const products: IProductInput[] = [
       },
       {
         size: "XL",
-        price: 110,
+        priceAddition: 110,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -335,10 +341,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/9.png" },
     ],
     alt: "White Blouse",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -348,7 +355,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -357,7 +364,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -377,10 +384,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/10.png" },
     ],
     alt: "Elegant Beige Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -389,7 +397,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -398,7 +406,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -418,10 +426,11 @@ const products: IProductInput[] = [
       { url: "https://node-tandt-shop.onrender.com/uploads/2.png" },
     ],
     alt: "Sophisticated Blazer",
+    basePrice: 70,
     variants: [
       {
         size: "S",
-        price: 80,
+        priceAddition: 80,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -430,7 +439,7 @@ const products: IProductInput[] = [
       },
       {
         size: "M",
-        price: 90,
+        priceAddition: 90,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
@@ -439,7 +448,7 @@ const products: IProductInput[] = [
       },
       {
         size: "L",
-        price: 100,
+        priceAddition: 100,
         colors: [
           { name: "אדום", quantity: 10 },
           { name: "כחול", quantity: 5 },
