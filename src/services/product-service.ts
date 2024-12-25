@@ -44,7 +44,12 @@ export const productService = {
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
 
-  getProducts: async (filters: ProductFilter): Promise<IProduct[]> => {
+  getProducts: async (filters: {
+    minPrice?: number;
+    maxPrice?: number;
+    size?: string[];
+    searchTerm?: string;
+  }) => {
     const query: any = {};
 
     // חיפוש לפי שם, כותרת או תיאור
@@ -65,19 +70,6 @@ export const productService = {
       if (filters.size) {
         query.variants.$elemMatch.size = { $in: filters.size };
       }
-
-      // פילטר לפי מחיר
-      if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-        const priceConditions: any = {};
-        if (filters.minPrice !== undefined) {
-          priceConditions.$gte = filters.minPrice;
-        }
-        if (filters.maxPrice !== undefined) {
-          priceConditions.$lte = filters.maxPrice;
-        }
-        // הפעלת הפילטר על המחיר הסופי של הווריאנט (מחיר בסיס + תוספות)
-        query.variants.$elemMatch.finalPrice = priceConditions;
-      }
     }
 
     console.log("MongoDB Query:", JSON.stringify(query, null, 2));
@@ -92,9 +84,21 @@ export const productService = {
         variant.finalPrice = product.basePrice + variant.priceAddition;
         return variant;
       });
+
+      // סינון המוצרים לפי minPrice ו-maxPrice
+      if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+        product.variants = product.variants.filter(variant => {
+          const finalPrice = variant.finalPrice;
+          if (filters.minPrice && finalPrice < filters.minPrice) return false;
+          if (filters.maxPrice && finalPrice > filters.maxPrice) return false;
+          return true;
+        });
+      }
+
       return product;
     });
 
+    // החזרת המוצרים אחרי חישוב וסינון
     return updatedProducts;
   },
 
