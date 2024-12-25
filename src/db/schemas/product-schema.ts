@@ -11,6 +11,7 @@ const VariantSchema = new Schema<IVariant>({
   size: { type: String, required: true },
   colors: { type: [ColorSchema], required: true }, // מערך של צבעים
   priceAddition: { type: Number, required: true }, // תוספת למחיר הבסיס
+  finalPrice: { type: Number, required: false },
 });
 
 const ProductSchema = new Schema<IProduct>({

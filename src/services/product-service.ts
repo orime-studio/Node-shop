@@ -51,7 +51,8 @@ export const productService = {
     searchTerm?: string;
   }) => {
     const query: any = {};
-
+  
+    // חיפוש לפי שם, כותרת או תיאור
     if (filters.searchTerm) {
       const regex = new RegExp(filters.searchTerm, "i");
       query.$or = [
@@ -60,14 +61,17 @@ export const productService = {
         { description: regex },
       ];
     }
-
+  
+    // פילטרים לפי גודל ומחיר
     if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
       query.variants = { $elemMatch: {} };
-
+  
+      // פילטר לפי גודל
       if (filters.size) {
         query.variants.$elemMatch.size = { $in: filters.size };
       }
-
+  
+      // פילטר לפי מחיר
       if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         const priceConditions: any = {};
         if (filters.minPrice !== undefined) {
@@ -76,17 +80,29 @@ export const productService = {
         if (filters.maxPrice !== undefined) {
           priceConditions.$lte = filters.maxPrice;
         }
-        query.variants.$elemMatch.price = priceConditions;
+        // הפעלת הפילטר על המחיר הסופי של הווריאנט (מחיר בסיס + תוספות)
+        query.variants.$elemMatch.finalPrice = priceConditions;
       }
     }
-
+  
     console.log("MongoDB Query:", JSON.stringify(query, null, 2));
-
-    
+  
+    // שליפת המוצרים מהדאטה בייס
     const products = await Product.find(query);
-    return products;
+  
+    // חישוב המחיר הסופי של כל וריאנט
+    const updatedProducts = products.map(product => {
+      product.variants = product.variants.map(variant => {
+        // חישוב המחיר הסופי של כל וריאנט (מחיר בסיס + תוספת המחיר)
+        variant.finalPrice = product.basePrice + variant.priceAddition;
+        return variant;
+      });
+      return product;
+    });
+  
+    return updatedProducts;
   },
-
+  
 
   deleteProduct: async (id: string) => {
     const product = await Product.findByIdAndDelete(id);

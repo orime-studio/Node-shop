@@ -86,6 +86,7 @@ export type IVariant = {
   size: string; // גודל המוצר (לדוגמה: "S", "M", "L")
   colors: IColor[]; // מערך של צבעים, לכל צבע יש כמות משלו
   priceAddition: number; // תוספת למחיר הבסיס עבור הווריאנט הזה
+  finalPrice?: number; // מחיר סופי לצורך הצגה בממשק
 };
 
 export type IProductInput = {
