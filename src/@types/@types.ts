@@ -250,5 +250,14 @@ export type CarouselImageInput = {
 /*   description?: string;
  */};
 
+export type ProductFilter = {
+  minPrice?: number;
+  maxPrice?: number;
+  size?: string[];
+  searchTerm?: string;
+};
+
 // סוג חדש לעדכון תמונה
 export type CarouselImageUpdateInput = Partial<CarouselImageInput>;
+
+

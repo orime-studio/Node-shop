@@ -1,5 +1,5 @@
 import _ from "underscore";
-import { IProductInput } from "../@types/@types";
+import { IProduct, IProductInput, ProductFilter } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 import BizCardsError from "../errors/BizCardsError";
@@ -28,30 +28,25 @@ export const productService = {
     return product.save();
   },
 
-// Update product
+  // Update product
   updateProduct: async (id: string, data: FormData) => {
-      const product = await Product.findByIdAndUpdate(id, data, { new: true });
-      if (!product) throw new Error("Product not found");
-      return product;
-    },
- 
+    const product = await Product.findByIdAndUpdate(id, data, { new: true });
+    if (!product) throw new Error("Product not found");
+    return product;
+  },
 
 
-/*   getProducts: async () => Product.find(),
- */
+
+  /*   getProducts: async () => Product.find(),
+   */
   getProduct: async (id: string) => Product.findById(id),
 
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
 
-  getProducts: async (filters: {
-    minPrice?: number;
-    maxPrice?: number;
-    size?: string[];
-    searchTerm?: string;
-  }) => {
+  getProducts: async (filters: ProductFilter): Promise<IProduct[]> => {
     const query: any = {};
-  
+
     // חיפוש לפי שם, כותרת או תיאור
     if (filters.searchTerm) {
       const regex = new RegExp(filters.searchTerm, "i");
@@ -61,16 +56,16 @@ export const productService = {
         { description: regex },
       ];
     }
-  
+
     // פילטרים לפי גודל ומחיר
     if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
       query.variants = { $elemMatch: {} };
-  
+
       // פילטר לפי גודל
       if (filters.size) {
         query.variants.$elemMatch.size = { $in: filters.size };
       }
-  
+
       // פילטר לפי מחיר
       if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         const priceConditions: any = {};
@@ -84,12 +79,12 @@ export const productService = {
         query.variants.$elemMatch.finalPrice = priceConditions;
       }
     }
-  
+
     console.log("MongoDB Query:", JSON.stringify(query, null, 2));
-  
+
     // שליפת המוצרים מהדאטה בייס
     const products = await Product.find(query);
-  
+
     // חישוב המחיר הסופי של כל וריאנט
     const updatedProducts = products.map(product => {
       product.variants = product.variants.map(variant => {
@@ -99,10 +94,11 @@ export const productService = {
       });
       return product;
     });
-  
+
     return updatedProducts;
   },
-  
+
+
 
   deleteProduct: async (id: string) => {
     const product = await Product.findByIdAndDelete(id);
