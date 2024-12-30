@@ -1,8 +1,7 @@
 import _ from "underscore";
-import { IProduct, IProductInput, ProductFilter } from "../@types/@types";
+import { IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
-import BizCardsError from "../errors/BizCardsError";
 
 
 const generateBizNumber = async () => {
