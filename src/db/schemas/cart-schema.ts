@@ -1,14 +1,13 @@
 import { Schema } from 'mongoose';
-import { ICart, ICartItem } from '../../@types/@types';
+import { ICart } from '../../@types/@types';
 import imageSchema from './image-schema';
 
-const cartItemSchema = new Schema<ICartItem>({
+const cartItemSchema = new Schema({
     productId: { type: String, required: true },
     variantId: { type: String, required: true },
     quantity: { type: Number, required: true },
     title: { type: String, required: true },
-    basePrice: { type: Number, required: true },
-    priceAddition: { type: Number, required: true },
+    price: { type: Number, required: true },
     size: { type: String, required: true },
     mainImage: imageSchema,
 });

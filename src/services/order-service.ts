@@ -7,57 +7,67 @@ export const orderService = {
 
     createOrder: async (userId: string, products: IOrderProduct[]) => {
         try {
-            const orderProducts = await Promise.all(products.map(async (product) => {
+            const orderProducts = await Promise.all(products.map(async product => {
                 const productDetails = await Product.findById(product.productId);
-                if (!productDetails) throw new BizCardsError(404, "Product not found");
-    
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (!variant) throw new BizCardsError(404, "Variant not found");
-    
-                const color = variant.colors.find(c => c.name === product.color); // Assuming `product.color` exists
-                if (!color) throw new BizCardsError(404, "Color not found");
-                if (color.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
-    
-                // Update stock for the specific color
-                color.quantity -= product.quantity;
-    
-                // Update sold count for the product
+                if (variant.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
+
+                // עדכון מלאי המוצר
+                variant.quantity -= product.quantity;
                 productDetails.sold += product.quantity;
-    
                 await productDetails.save();
-    
+
                 return {
                     productId: product.productId,
                     title: productDetails.title,
                     barcode: productDetails.barcode,
                     quantity: product.quantity,
-                    price: productDetails.basePrice + variant.priceAddition, // Include price addition
+                    price: variant.price,
                     size: product.size,
-                    color: product.color,
                 };
             }));
-    
-            // Calculate total amount
-            const totalAmount = orderProducts.reduce(
-                (acc, product) => acc + product.quantity * product.price,
-                0
-            );
-    
-            // Create and save the order
+
+            // Calculate totalAmount
+            const totalAmount = orderProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0);
+
             const order = new Order({
                 userId,
                 products: orderProducts,
                 totalAmount,
                 orderNumber: `ORD-${Date.now().toString()}`,
             });
-    
+
             return await order.save();
         } catch (error) {
             console.error("Error creating order:", error.message);
             throw error;
         }
     },
-    
+
+
+    cancelOrder: async (orderId: string) => {
+        const order = await Order.findById(orderId);
+        if (!order) throw new Error("Order not found");
+
+        if (order.status === "cancelled") {
+            throw new Error("Order is already cancelled");
+        }
+
+        for (const product of order.products) {
+            const productDetails = await Product.findById(product.productId);
+            if (productDetails) {
+                const variant = productDetails.variants.find(v => v.size === product.size);
+                if (variant) {
+                    variant.quantity += product.quantity;
+                }
+                productDetails.sold -= product.quantity;
+                await productDetails.save();
+            }
+        }
+        order.status = "cancelled";
+        return await order.save();
+    },
 
 
 

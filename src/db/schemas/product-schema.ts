@@ -5,12 +5,12 @@ import imageSchema from "./image-schema";
 const ColorSchema = new Schema<IColor>({
   name: { type: String, required: true }, // שם הצבע
   quantity: { type: Number, required: true, min: 0 }, 
-});
+})
 
 const VariantSchema = new Schema<IVariant>({
   size: { type: String, required: true },
   colors: { type: [ColorSchema], required: true }, // מערך של צבעים
-  priceAddition: { type: Number, required: true }, // תוספת למחיר הבסיס
+  price: { type: Number, required: true },
 });
 
 const ProductSchema = new Schema<IProduct>({
@@ -22,7 +22,6 @@ const ProductSchema = new Schema<IProduct>({
   title: { type: String, required: true },
   subtitle: { type: String, required: true },
   description: { type: String, required: true },
-  basePrice: { type: Number, required: true }, // מחיר בסיסי למוצר
   mainImage: { 
     type: imageSchema, 
     required: true // התמונה הראשית היא חובה
