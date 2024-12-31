@@ -2,6 +2,7 @@ import _ from "underscore";
 import { IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
+import BizCardsError from "../errors/BizCardsError";
 
 
 const generateBizNumber = async () => {
@@ -27,17 +28,17 @@ export const productService = {
     return product.save();
   },
 
-  // Update product
+// Update product
   updateProduct: async (id: string, data: FormData) => {
-    const product = await Product.findByIdAndUpdate(id, data, { new: true });
-    if (!product) throw new Error("Product not found");
-    return product;
-  },
+      const product = await Product.findByIdAndUpdate(id, data, { new: true });
+      if (!product) throw new Error("Product not found");
+      return product;
+    },
+ 
 
 
-
-  /*   getProducts: async () => Product.find(),
-   */
+/*   getProducts: async () => Product.find(),
+ */
   getProduct: async (id: string) => Product.findById(id),
 
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
@@ -51,7 +52,6 @@ export const productService = {
   }) => {
     const query: any = {};
 
-    // חיפוש לפי שם, כותרת או תיאור
     if (filters.searchTerm) {
       const regex = new RegExp(filters.searchTerm, "i");
       query.$or = [
@@ -61,46 +61,31 @@ export const productService = {
       ];
     }
 
-    // פילטרים לפי גודל ומחיר
     if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
       query.variants = { $elemMatch: {} };
 
-      // פילטר לפי גודל
       if (filters.size) {
         query.variants.$elemMatch.size = { $in: filters.size };
+      }
+
+      if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+        const priceConditions: any = {};
+        if (filters.minPrice !== undefined) {
+          priceConditions.$gte = filters.minPrice;
+        }
+        if (filters.maxPrice !== undefined) {
+          priceConditions.$lte = filters.maxPrice;
+        }
+        query.variants.$elemMatch.price = priceConditions;
       }
     }
 
     console.log("MongoDB Query:", JSON.stringify(query, null, 2));
 
-    // שליפת המוצרים מהדאטה בייס
+    
     const products = await Product.find(query);
-
-    // חישוב המחיר הסופי של כל וריאנט
-    const updatedProducts = products.map(product => {
-      product.variants = product.variants.map(variant => {
-        // חישוב המחיר הסופי של כל וריאנט (מחיר בסיס + תוספת המחיר)
-        variant.finalPrice = product.basePrice + variant.priceAddition;
-        return variant;
-      });
-
-      // סינון המוצרים לפי minPrice ו-maxPrice
-      if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-        product.variants = product.variants.filter(variant => {
-          const finalPrice = variant.finalPrice;
-          if (filters.minPrice && finalPrice < filters.minPrice) return false;
-          if (filters.maxPrice && finalPrice > filters.maxPrice) return false;
-          return true;
-        });
-      }
-
-      return product;
-    });
-
-    // החזרת המוצרים אחרי חישוב וסינון
-    return updatedProducts;
+    return products;
   },
-
 
 
   deleteProduct: async (id: string) => {

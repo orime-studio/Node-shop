@@ -107,9 +107,7 @@ router.put("/:id", ...isAdmin, upload.fields([
     const updatedProduct = await productService.updateProduct(req.params.id, productData);
 
     if (!updatedProduct) {
-      console.error("Product not found for ID:", req.params.id);
-      
-      return res.status(404).json({ message: "Product not found." });
+      throw new BizCardsError(404, "Product not found.");
     }
 
     res.json(updatedProduct);
@@ -166,8 +164,6 @@ router.get("/", async (req, res, next) => {
       size: size ? (size as string).split(",") : undefined,
       searchTerm: searchTerm ? (searchTerm as string) : undefined,
     };
-
-    console.log("Received filters:", filters);
 
     const products = await productService.getProducts(filters);
     res.json(products);
