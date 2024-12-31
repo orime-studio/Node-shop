@@ -36,7 +36,6 @@ export type IUser = IUserInput & {
   createdAt: Date;
   isAdmin: boolean;
   cart?: ICart[];
-  
 };
 
 
