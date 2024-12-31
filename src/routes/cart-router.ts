@@ -22,7 +22,7 @@ router.get('/', validateToken, async (req, res, next) => {
 //add to cart
 router.post('/add', validateAddToCart, async (req, res, next) => {
     try {
-        const { productId, variantId, quantity, size } = req.body;
+        const { productId, variantId, quantity, size, color } = req.body;
 
         // בדיקה אם המשתמש מחובר
         if (!req.payload || !req.payload._id) {
@@ -31,7 +31,7 @@ router.post('/add', validateAddToCart, async (req, res, next) => {
         }
 
         const userId = req.payload._id;
-        const cart = await cartService.addProductToCart(userId, productId, variantId, quantity, size);
+        const cart = await cartService.addProductToCart(userId, productId, variantId, quantity, size, color);
         res.json(cart);
     } catch (e) {
         next(e);

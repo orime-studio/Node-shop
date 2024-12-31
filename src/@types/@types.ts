@@ -58,8 +58,10 @@ export interface ICartItem {
   title: string;
   price: number;
   size: string;
+  color: string; // Add color property
   quantity: number;
   mainImage: IImage;
+
 }
 
 

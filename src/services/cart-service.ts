@@ -40,6 +40,7 @@ export const cartService = {
         variantId: string,
         quantity: number,
         size: string,
+        color: string
     ): Promise<ICart | null> => {
         
         let cart = await CartModel.findOne({ userId });
@@ -74,6 +75,7 @@ export const cartService = {
                 variantId,
                 quantity,
                 size,
+                color,
                 title: product.title,
                 price: variant.price,
                 mainImage: product.mainImage
