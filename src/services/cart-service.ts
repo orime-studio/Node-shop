@@ -64,7 +64,7 @@ export const cartService = {
         }
 
         const itemIndex = cart.items.findIndex(
-            item => item.productId === productId && item.size === size && item.variantId === variantId
+            item => item.productId === productId && item.size === size && item.variantId === variantId && item.color === color
         );
 
         if (itemIndex > -1) {
