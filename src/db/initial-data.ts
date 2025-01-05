@@ -154,7 +154,7 @@ const products: IProductInput[] = [
         price: 80,
         colors: [
           { name: "שחור", quantity: 8 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
       {
@@ -162,7 +162,7 @@ const products: IProductInput[] = [
         price: 90,
         colors: [
           { name: "שחור", quantity: 8 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
       {
@@ -170,7 +170,7 @@ const products: IProductInput[] = [
         price: 100,
         colors: [
           { name: "שחור", quantity: 8 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
     ],
@@ -230,7 +230,7 @@ const products: IProductInput[] = [
         price: 80,
         colors: [
           { name: "בז'", quantity: 10 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
       {
@@ -238,7 +238,7 @@ const products: IProductInput[] = [
         price: 90,
         colors: [
           { name: "בז'", quantity: 10 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אופרייט", quantity: 6 },
         ],
       },
       {
@@ -246,7 +246,7 @@ const products: IProductInput[] = [
         price: 100,
         colors: [
           { name: "בז'", quantity: 10 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
     ],
@@ -314,7 +314,7 @@ const products: IProductInput[] = [
         price: 80,
         colors: [
           { name: "לבן", quantity: 7 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
       {
@@ -322,7 +322,7 @@ const products: IProductInput[] = [
         price: 90,
         colors: [
           { name: "לבן", quantity: 7 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אופרייט", quantity: 6 },
         ],
       },
       {
@@ -330,7 +330,7 @@ const products: IProductInput[] = [
         price: 100,
         colors: [
           { name: "לבן", quantity: 7 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
     ],
@@ -380,9 +380,7 @@ const products: IProductInput[] = [
     subtitle: "Elegant and Timeless",
     description: "A sophisticated blazer that is both elegant and timeless. Perfect for any occasion.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/10.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/2.png" },
-    ],
+    images: [ ],
     alt: "Sophisticated Blazer",
     variants: [
       {
@@ -390,7 +388,7 @@ const products: IProductInput[] = [
         price: 80,
         colors: [
           { name: "שחור", quantity: 8 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
       {
@@ -398,7 +396,7 @@ const products: IProductInput[] = [
         price: 90,
         colors: [
           { name: "שחור", quantity: 8 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "אפור", quantity: 6 },
         ],
       },
       {
@@ -412,265 +410,6 @@ const products: IProductInput[] = [
     ],
     mainCategory: "Jacket",
     tags: ["elegant", "timeless"],
-  },
-  {
-    title: "Elegant Charm",
-    subtitle: "Unique and Stylish",
-    description: "An exceptional bag that combines modern aesthetics with practical design.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/11.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/12.png" },
-    ],
-    alt: "Elegant Charm Bag",
-    variants: [
-      {
-        size: "S",
-        price: 80,
-        colors: [
-          { name: "שחור", quantity: 10 },
-          { name: "בז'", quantity: 10 },
-        ],
-      },
-      {
-        size: "M",
-        price: 90,
-        colors: [
-          { name: "שחור", quantity: 10 },
-          { name: "בז'", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Bag",
-    tags: ["unique", "stylish"],
-  },
-  {
-    title: "Modern Edge",
-    subtitle: "Unique and Stylish",
-    description: "An exceptional coat with modern touches, perfect for any occasion.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/12.png" },
-    images: [],
-    alt: "Modern Edge Coat",
-    variants: [
-      {
-        size: "S",
-        price: 120,
-        colors: [
-          { name: "אפור", quantity: 10 },
-          { name: "לבן", quantity: 10 },
-        ],
-      },
-      {
-        size: "M",
-        price: 130,
-        colors: [
-          { name: "אפור", quantity: 10 },
-          { name: "לבן", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Coat",
-    tags: ["modern", "elegant"],
-  },
-  {
-    title: "Timeless Grace",
-    subtitle: "Unique and Stylish",
-    description: "A timeless jewelry piece that enhances your beauty and style.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/13.png" },
-    images: [
-    ],
-    alt: "Timeless Grace Jewelry",
-    variants: [
-      {
-        size: "1",
-        price: 200,
-        colors: [
-          { name: "זהב", quantity: 10 },
-          { name: "כסף", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Jewelry",
-    tags: ["timeless", "graceful"],
-  },
-  {
-    title: "Bold Ambition",
-    subtitle: "Unique and Stylish",
-    description: "An eye-catching pair of shoes designed for bold personalities.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/14.png" },
-    images: [],
-    alt: "Bold Ambition Shoes",
-    variants: [
-      {
-        size: "37",
-        price: 150,
-        colors: [
-          { name: "שחור", quantity: 10 },
-          { name: "אדום", quantity: 10 },
-        ],
-      },
-      {
-        size: "38",
-        price: 160,
-        colors: [
-          { name: "שחור", quantity: 10 },
-          { name: "אדום", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Shoes",
-    tags: ["bold", "ambition"],
-  },
-  {
-    title: "Casual Luxe",
-    subtitle: "Unique and Stylish",
-    description: "A casual yet luxurious bag for everyday use.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/15.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/16.png" },
-    ],
-    alt: "Casual Luxe Bag",
-    variants: [
-      {
-        size: "1",
-        price: 90,
-        colors: [
-          { name: "חום", quantity: 10 },
-          { name: "בז'", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Bag",
-    tags: ["casual", "luxury"],
-  },
-  {
-    title: "Golden Glow",
-    subtitle: "Unique and Stylish",
-    description: "A radiant piece of jewelry that exudes golden charm.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/16.png" },
-    images: [],
-    alt: "Golden Glow Jewelry",
-    variants: [
-      {
-        size: "1",
-        price: 250,
-        colors: [
-          { name: "זהב", quantity: 10 },
-          { name: "חום", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Jewelry",
-    tags: ["golden", "glow"],
-  },
-  {
-    title: "Silver Sparkle",
-    subtitle: "Unique and Stylish",
-    description: "Elegant shoes with a touch of silver sparkle.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/17.png" },
-    images: [],
-    alt: "Silver Sparkle Shoes",
-    variants: [
-      {
-        size: "39",
-        price: 180,
-        colors: [
-          { name: "כסף", quantity: 10 },
-          { name: "שחור", quantity: 10 },
-        ],
-      },
-      {
-        size: "40",
-        price: 190,
-        colors: [
-          { name: "כסף", quantity: 10 },
-          { name: "שחור", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Shoes",
-    tags: ["silver", "sparkle"],
-  },
-  {
-    title: "Chic Neutral",
-    subtitle: "Unique and Stylish",
-    description: "A chic and neutral bag perfect for any look.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/18.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/19.png" },
-    ],
-    alt: "Chic Neutral Bag",
-    variants: [
-      {
-        size: "1",
-        price: 100,
-        colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "לבן", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Bag",
-    tags: ["chic", "neutral"],
-  },
-  {
-    title: "Crimson Elegance",
-    subtitle: "Unique and Stylish",
-    description: "Elegant shoes in a bold crimson color.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/19.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/20.png" },
-    ],
-    alt: "Crimson Elegance Shoes",
-    variants: [
-      {
-        size: "37",
-        price: 150,
-        colors: [
-          { name: "אדום", quantity: 10 },
-          { name: "בז'", quantity: 10 },
-        ],
-      },
-      {
-        size: "38",
-        price: 160,
-        colors: [
-          { name: "אדום", quantity: 10 },
-          { name: "בז'", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Shoes",
-    tags: ["crimson", "elegance"],
-  },
-  {
-    title: "Royal Velvet",
-    subtitle: "Unique and Stylish",
-    description: "A luxurious coat made of soft velvet for a royal feel.",
-    mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/20.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/11.png" },
-    ],
-    alt: "Royal Velvet Coat",
-    variants: [
-      {
-        size: "M",
-        price: 300,
-        colors: [
-          { name: "חום", quantity: 10 },
-          { name: "שחור", quantity: 10 },
-        ],
-      },
-      {
-        size: "L",
-        price: 320,
-        colors: [
-          { name: "חום", quantity: 10 },
-          { name: "שחור", quantity: 10 },
-        ],
-      },
-    ],
-    mainCategory: "Coat",
-    tags: ["royal", "velvet"],
   },
   {
     title: "Blush Classic Leather Bag",
