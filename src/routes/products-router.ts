@@ -156,13 +156,14 @@ router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
 // get all products
 router.get("/", async (req, res, next) => {
   try {
-    const { minPrice, maxPrice, size, searchTerm } = req.query;
+    const { minPrice, maxPrice, size, searchTerm, category } = req.query;
 
     const filters = {
       minPrice: minPrice ? parseFloat(minPrice as string) : undefined,
       maxPrice: maxPrice ? parseFloat(maxPrice as string) : undefined,
       size: size ? (size as string).split(",") : undefined,
       searchTerm: searchTerm ? (searchTerm as string) : undefined,
+      category: category ? (category as string) : undefined, // הוספת קטגוריה
     };
 
     const products = await productService.getProducts(filters);

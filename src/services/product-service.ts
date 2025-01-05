@@ -49,6 +49,7 @@ export const productService = {
     maxPrice?: number;
     size?: string[];
     searchTerm?: string;
+    category?: string;
   }) => {
     const query: any = {};
 
@@ -59,6 +60,11 @@ export const productService = {
         { subtitle: regex },
         { description: regex },
       ];
+    }
+
+    if (filters.category) {
+      // סינון לפי קטגוריה ראשית
+      query.mainCategory = filters.category;
     }
 
     if (filters.size || filters.minPrice !== undefined || filters.maxPrice !== undefined) {
