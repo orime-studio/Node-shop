@@ -448,9 +448,7 @@ const products: IProductInput[] = [
     subtitle: "Unique and Stylish",
     description: "An exceptional coat with modern touches, perfect for any occasion.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/12.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/13.png" },
-    ],
+    images: [],
     alt: "Modern Edge Coat",
     variants: [
       {
@@ -479,12 +477,11 @@ const products: IProductInput[] = [
     description: "A timeless jewelry piece that enhances your beauty and style.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/13.png" },
     images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/14.png" },
     ],
     alt: "Timeless Grace Jewelry",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 200,
         colors: [
           { name: "זהב", quantity: 10 },
@@ -500,9 +497,7 @@ const products: IProductInput[] = [
     subtitle: "Unique and Stylish",
     description: "An eye-catching pair of shoes designed for bold personalities.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/14.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/15.png" },
-    ],
+    images: [],
     alt: "Bold Ambition Shoes",
     variants: [
       {
@@ -536,7 +531,7 @@ const products: IProductInput[] = [
     alt: "Casual Luxe Bag",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 90,
         colors: [
           { name: "חום", quantity: 10 },
@@ -552,13 +547,11 @@ const products: IProductInput[] = [
     subtitle: "Unique and Stylish",
     description: "A radiant piece of jewelry that exudes golden charm.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/16.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/17.png" },
-    ],
+    images: [],
     alt: "Golden Glow Jewelry",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 250,
         colors: [
           { name: "זהב", quantity: 10 },
@@ -574,9 +567,7 @@ const products: IProductInput[] = [
     subtitle: "Unique and Stylish",
     description: "Elegant shoes with a touch of silver sparkle.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/17.png" },
-    images: [
-      { url: "https://node-tandt-shop.onrender.com/uploads/18.png" },
-    ],
+    images: [],
     alt: "Silver Sparkle Shoes",
     variants: [
       {
@@ -610,7 +601,7 @@ const products: IProductInput[] = [
     alt: "Chic Neutral Bag",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 100,
         colors: [
           { name: "בז'", quantity: 10 },
@@ -690,7 +681,7 @@ const products: IProductInput[] = [
     alt: "Blush Leather Bag",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 120,
         colors: [
           { name: "ורוד עתיק", quantity: 15 },
@@ -710,7 +701,7 @@ const products: IProductInput[] = [
     alt: "Polka Dot Bag",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 110,
         colors: [
           { name: "לבן", quantity: 12 }
@@ -729,7 +720,7 @@ const products: IProductInput[] = [
     alt: "Black Leather Tote",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 130,
         colors: [
           { name: "שחור", quantity: 10 },
@@ -749,7 +740,7 @@ const products: IProductInput[] = [
     alt: "Sky Blue Bag",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 125,
         colors: [
           { name: "תכלת", quantity: 8 },
@@ -769,7 +760,7 @@ const products: IProductInput[] = [
     alt: "Pearl Jewelry Set",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 200,
         colors: [
           { name: "לבן", quantity: 10 }
@@ -788,7 +779,7 @@ const products: IProductInput[] = [
     alt: "Heart Pendant Necklace",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 150,
         colors: [
           { name: "זהב עתיק", quantity: 12 },
@@ -808,7 +799,7 @@ const products: IProductInput[] = [
     alt: "Gold Chains",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 180,
         colors: [
           { name: "זהב", quantity: 15 }
@@ -827,7 +818,7 @@ const products: IProductInput[] = [
     alt: "Gold Ring",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 120,
         colors: [
           { name: "זהב", quantity: 8 },
@@ -945,7 +936,7 @@ const products: IProductInput[] = [
     alt: "Red Leather Bag",
     variants: [
       {
-        size: "One Size",
+        size: "1",
         price: 150,
         colors: [
           { name: "אדום", quantity: 8 }

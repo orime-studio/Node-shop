@@ -26,7 +26,7 @@ const initDB = async () => {
     }
 
     const cardsCount = await Card.countDocuments();
-    if (cardsCount >= 9) {
+    if (cardsCount >= 29) {
       Logger.log("3 or more cards already exist. Skipping card initialization.");
       return;
     }
