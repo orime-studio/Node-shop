@@ -9,7 +9,7 @@ export const articleService = {
         // הבאת 3 המאמרים האחרונים
         const lastArticles = await Article.find()
             .sort({ createdAt: -1 }) // ממיין מהחדש לישן
-            .limit(3) // מגביל ל-3 מאמרים
+            .limit(2) // מגביל ל-3 מאמרים
             .exec();
         return lastArticles;
     }
