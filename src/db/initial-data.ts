@@ -77,24 +77,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "חום", quantity: 5 },
+          { name: "beige", quantity: 10 },
+          { name: "brown", quantity: 5 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "חום", quantity: 5 },
+          { name: "beige", quantity: 10 },
+          { name: "brown", quantity: 5 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "חום", quantity: 5 },
+          { name: "beige", quantity: 10 },
+          { name: "brown", quantity: 5 },
         ],
       },
     ],
@@ -115,24 +115,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "לבן", quantity: 7 },
+          { name: "Black", quantity: 8 },
+          { name: "white", quantity: 7 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "לבן", quantity: 7 },
+          { name: "Black", quantity: 8 },
+          { name: "white", quantity: 7 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "לבן", quantity: 7 },
+          { name: "Black", quantity: 8 },
+          { name: "white", quantity: 7 },
         ],
       },
     ],
@@ -153,24 +153,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "אפור", quantity: 6 },
+          { name: "Black", quantity: 8 },
+          { name: "gray", quantity: 6 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "אפור", quantity: 6 },
+          { name: "Black", quantity: 8 },
+          { name: "gray", quantity: 6 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "אפור", quantity: 6 },
+          { name: "Black", quantity: 8 },
+          { name: "gray", quantity: 6 },
         ],
       },
     ],
@@ -191,24 +191,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "שחור", quantity: 8 },
+          { name: "beige", quantity: 10 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "שחור", quantity: 8 },
+          { name: "beige", quantity: 10 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "שחור", quantity: 8 },
+          { name: "beige", quantity: 10 },
+          { name: "Black", quantity: 8 },
         ],
       },
     ],
@@ -229,24 +229,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "אפור", quantity: 6 },
+          { name: "beige", quantity: 10 },
+          { name: "gray", quantity: 6 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "אופרייט", quantity: 6 },
+          { name: "beige", quantity: 10 },
+          { name: "off-white", quantity: 6 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "אפור", quantity: 6 },
+          { name: "beige", quantity: 10 },
+          { name: "gray", quantity: 6 },
         ],
       },
     ],
@@ -267,32 +267,32 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "חום", quantity: 5 },
-          { name: "שחור", quantity: 8 },
+          { name: "brown", quantity: 5 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "חום", quantity: 5 },
-          { name: "שחור", quantity: 8 },
+          { name: "brown", quantity: 5 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "חום", quantity: 5 },
-          { name: "שחור", quantity: 8 },
+          { name: "brown", quantity: 5 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "XL",
         price: 110,
         colors: [
-          { name: "חום", quantity: 5 },
-          { name: "שחור", quantity: 8 },
+          { name: "brown", quantity: 5 },
+          { name: "Black", quantity: 8 },
         ],
       },
     ],
@@ -313,24 +313,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "לבן", quantity: 7 },
-          { name: "אפור", quantity: 6 },
+          { name: "white", quantity: 7 },
+          { name: "gray", quantity: 6 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "לבן", quantity: 7 },
-          { name: "אופרייט", quantity: 6 },
+          { name: "white", quantity: 7 },
+          { name: "off-white", quantity: 6 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "לבן", quantity: 7 },
-          { name: "אפור", quantity: 6 },
+          { name: "white", quantity: 7 },
+          { name: "gray", quantity: 6 },
         ],
       },
     ],
@@ -351,24 +351,24 @@ const products: IProductInput[] = [
         size: "S",
         price: 80,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "שחור", quantity: 8 },
+          { name: "beige", quantity: 10 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "שחור", quantity: 8 },
+          { name: "beige", quantity: 10 },
+          { name: "Black", quantity: 8 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "בז'", quantity: 10 },
-          { name: "שחור", quantity: 8 },
+          { name: "beige", quantity: 10 },
+          { name: "Black", quantity: 8 },
         ],
       },
     ],
@@ -380,31 +380,31 @@ const products: IProductInput[] = [
     subtitle: "Elegant and Timeless",
     description: "A sophisticated blazer that is both elegant and timeless. Perfect for any occasion.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/10.png" },
-    images: [ ],
+    images: [],
     alt: "Sophisticated Blazer",
     variants: [
       {
         size: "S",
         price: 80,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "אפור", quantity: 6 },
+          { name: "Black", quantity: 8 },
+          { name: "gray", quantity: 6 },
         ],
       },
       {
         size: "M",
         price: 90,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "אפור", quantity: 6 },
+          { name: "Black", quantity: 8 },
+          { name: "gray", quantity: 6 },
         ],
       },
       {
         size: "L",
         price: 100,
         colors: [
-          { name: "שחור", quantity: 8 },
-          { name: "אפור אופרייט", quantity: 6 },
+          { name: "Black", quantity: 8 },
+          { name: "gray off-white", quantity: 6 },
         ],
       },
     ],
@@ -423,8 +423,8 @@ const products: IProductInput[] = [
         size: "1",
         price: 120,
         colors: [
-          { name: "ורוד עתיק", quantity: 15 },
-          { name: "בז'", quantity: 10 }
+          { name: "antique pink", quantity: 15 },
+          { name: "beige", quantity: 10 }
         ]
       }
     ],
@@ -443,7 +443,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 110,
         colors: [
-          { name: "לבן", quantity: 12 }
+          { name: "white", quantity: 12 }
         ]
       }
     ],
@@ -462,7 +462,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 130,
         colors: [
-          { name: "שחור", quantity: 10 },
+          { name: "Black", quantity: 10 },
           { name: "כסף", quantity: 8 }
         ]
       }
@@ -482,8 +482,8 @@ const products: IProductInput[] = [
         size: "1",
         price: 125,
         colors: [
-          { name: "תכלת", quantity: 8 },
-          { name: "לבן", quantity: 6 }
+          { name: "light blue", quantity: 8 },
+          { name: "white", quantity: 6 }
         ]
       }
     ],
@@ -502,7 +502,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 200,
         colors: [
-          { name: "לבן", quantity: 10 }
+          { name: "white", quantity: 10 }
         ]
       }
     ],
@@ -521,7 +521,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 150,
         colors: [
-          { name: "זהב עתיק", quantity: 12 },
+          { name: "gold עתיק", quantity: 12 },
           { name: "כסף", quantity: 10 }
         ]
       }
@@ -541,7 +541,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 180,
         colors: [
-          { name: "זהב", quantity: 15 }
+          { name: "gold", quantity: 15 }
         ]
       }
     ],
@@ -560,8 +560,8 @@ const products: IProductInput[] = [
         size: "1",
         price: 120,
         colors: [
-          { name: "זהב", quantity: 8 },
-          { name: "ורוד עתיק", quantity: 5 }
+          { name: "gold", quantity: 8 },
+          { name: "antique pink", quantity: 5 }
         ]
       }
     ],
@@ -580,7 +580,7 @@ const products: IProductInput[] = [
         size: "37",
         price: 140,
         colors: [
-          { name: "לבן", quantity: 6 },
+          { name: "white", quantity: 6 },
           { name: "כסף", quantity: 4 }
         ]
       }
@@ -600,8 +600,8 @@ const products: IProductInput[] = [
         size: "38",
         price: 150,
         colors: [
-          { name: "חום", quantity: 5 },
-          { name: "שחור", quantity: 7 }
+          { name: "brown", quantity: 5 },
+          { name: "Black", quantity: 7 }
         ]
       }
     ],
@@ -620,8 +620,8 @@ const products: IProductInput[] = [
         size: "38",
         price: 160,
         colors: [
-          { name: "אדום", quantity: 4 },
-          { name: "שחור", quantity: 6 }
+          { name: "red", quantity: 4 },
+          { name: "Black", quantity: 6 }
         ]
       }
     ],
@@ -640,7 +640,7 @@ const products: IProductInput[] = [
         size: "39",
         price: 140,
         colors: [
-          { name: "שחור", quantity: 10 }
+          { name: "Black", quantity: 10 }
         ]
       }
     ],
@@ -659,7 +659,7 @@ const products: IProductInput[] = [
         size: "40",
         price: 200,
         colors: [
-          { name: "שחור", quantity: 6 }
+          { name: "Black", quantity: 6 }
         ]
       }
     ],
@@ -678,7 +678,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 150,
         colors: [
-          { name: "אדום", quantity: 8 }
+          { name: "red", quantity: 8 }
         ]
       }
     ],
@@ -697,7 +697,7 @@ const products: IProductInput[] = [
         size: "M",
         price: 220,
         colors: [
-          { name: "בז'", quantity: 5 }
+          { name: "beige", quantity: 5 }
         ]
       }
     ],
@@ -716,7 +716,7 @@ const products: IProductInput[] = [
         size: "L",
         price: 240,
         colors: [
-          { name: "חום", quantity: 4 }
+          { name: "brown", quantity: 4 }
         ]
       }
     ],
@@ -735,8 +735,8 @@ const products: IProductInput[] = [
         size: "M",
         price: 210,
         colors: [
-          { name: "בז'", quantity: 5 },
-          { name: "חום", quantity: 5 }
+          { name: "beige", quantity: 5 },
+          { name: "brown", quantity: 5 }
         ]
       }
     ],
@@ -755,8 +755,8 @@ const products: IProductInput[] = [
         size: "L",
         price: 260,
         colors: [
-          { name: "שחור", quantity: 3 },
-          { name: "לבן", quantity: 3 }
+          { name: "Black", quantity: 3 },
+          { name: "white", quantity: 3 }
         ]
       }
     ],
@@ -775,7 +775,7 @@ const products: IProductInput[] = [
         size: "M",
         price: 230,
         colors: [
-          { name: "ורוד עתיק", quantity: 4 }
+          { name: "antique pink", quantity: 4 }
         ]
       }
     ],
@@ -794,8 +794,8 @@ const products: IProductInput[] = [
         size: "M",
         price: 250,
         colors: [
-          { name: "בז'", quantity: 5 },
-          { name: "חום", quantity: 5 }
+          { name: "beige", quantity: 5 },
+          { name: "brown", quantity: 5 }
         ]
       }
     ],

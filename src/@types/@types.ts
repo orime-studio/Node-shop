@@ -27,8 +27,8 @@ export type IUserInput = {
   /* isBusiness: boolean; */
   address: IAddress;
   name: IName;
- /*  image?: IImage;
-  alt: string; */
+  /*  image?: IImage;
+   alt: string; */
 };
 
 export type IUser = IUserInput & {
@@ -79,7 +79,7 @@ export interface ICartWithTotals extends ICart {
 
 
 export type IColor = {
-  name: string; // שם הצבע (לדוגמה: "אדום", "כחול")
+  name: string; // שם הצבע (לדוגמה: "red", "כחול")
   quantity: number; // כמות המלאי של הצבע הזה
 };
 
@@ -188,7 +188,7 @@ export type IPage = {
 
 
 export type IParashaComponent = {
-  type: 'banner' |'title' | 'text'; // סוג הרכיב (כמו תוכן, תמונה, כותרת)
+  type: 'banner' | 'title' | 'text'; // סוג הרכיב (כמו תוכן, תמונה, כותרת)
   content: string; // תוכן הרכיב - טקסט או URL לתמונה
   image: IImage; // מבנה של תמונה (לא חובה)
   alt?: string; // תיאור התמונה (alt)
@@ -215,7 +215,7 @@ export type ArticleInput = {
   source: string;          // שם המחבר
   title: string;           // כותרת המאמר
   miniText: string;        // תקציר שמתאר את המאמר
-  alt: string;    
+  alt: string;
   mainImage?: IImages;          // תיאור התמונה (alt)
   images: IImages[];        // מערך של תמונות למאמר
   longText: ArticleLongText[];    // רשימת עמודי המאמר
