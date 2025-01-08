@@ -1,5 +1,5 @@
 import _ from "underscore";
-import { IProductInput } from "../@types/@types";
+import { IProduct, IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 import BizCardsError from "../errors/BizCardsError";
@@ -98,5 +98,14 @@ export const productService = {
     const product = await Product.findByIdAndDelete(id);
     return product;
   },
+    // Get top 4 best-selling products
+    getTopSellingProducts: async (): Promise<IProduct[]> => {
+      try {
+        const products = await Product.find().sort({ sold: -1 }).limit(4);
+        return products;
+      } catch (error) {
+        throw new BizCardsError(400, 'Error fetching top selling products');
+      }
+    }
 
 }

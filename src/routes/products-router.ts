@@ -172,6 +172,14 @@ router.get("/", async (req, res, next) => {
     next(e);
   }
 });
+router.get("/top-selling", async (req, res, next) => {
+  try {
+    const topSellingProducts = await productService.getTopSellingProducts();
+    res.json(topSellingProducts);
+  } catch (e) {
+    next(e);
+  }
+});
 
 
 
