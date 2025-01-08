@@ -381,7 +381,7 @@ const products: IProductInput[] = [
     description: "A sophisticated blazer that is both elegant and timeless. Perfect for any occasion.",
     mainImage: { url: "https://node-tandt-shop.onrender.com/uploads/10.png" },
     images: [],
-    images: [],
+   
     alt: "Sophisticated Blazer",
     variants: [
       {
@@ -444,7 +444,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 110,
         colors: [
-          { name: "white", quantity: 12 }
+          { name: "white", quantity: 12 },
           { name: "white", quantity: 12 }
         ]
       }
@@ -504,7 +504,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 200,
         colors: [
-          { name: "white", quantity: 10 }
+          { name: "white", quantity: 10 },
           { name: "white", quantity: 10 }
         ]
       }
@@ -681,7 +681,7 @@ const products: IProductInput[] = [
         size: "1",
         price: 150,
         colors: [
-          { name: "red", quantity: 8 }
+          { name: "red", quantity: 8 },
           { name: "red", quantity: 8 }
         ]
       }
@@ -720,8 +720,8 @@ const products: IProductInput[] = [
         size: "L",
         price: 240,
         colors: [
-          { name: "brown", quantity: 4 }
-          { name: "brown", quantity: 4 }
+          { name: "brown", quantity: 4 },
+          { name: "black", quantity: 4 }
         ]
       }
     ],
