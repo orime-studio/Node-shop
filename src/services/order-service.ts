@@ -9,22 +9,23 @@ export const orderService = {
         try {
             const orderProducts = await Promise.all(products.map(async product => {
                 const productDetails = await Product.findById(product.productId);
-                if (!productDetails) throw new BizCardsError(404, "Product not found");
-            
+                if (!productDetails) throw new BizCardsError(404, `Product with ID ${product.productId} not found`);
+    
                 const variant = productDetails.variants.find(v => v.size === product.size);
-                if (!variant) throw new BizCardsError(404, "Variant not found");
-            
-                const color = variant.colors.find(c => c.name === product.color); // בדיקת הצבע
-                if (!color) throw new BizCardsError(404, "Color not found");
-            
-                if (color.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
-            
+                if (!variant) throw new BizCardsError(404, `Variant with size ${product.size} not found for product ${product.productId}`);
+    
+                const color = variant.colors.find(c => c.name === product.color);
+                if (!color) throw new BizCardsError(404, `Color ${product.color} not available for product ${product.productId}`);
+    
+                if (color.quantity < product.quantity) throw new BizCardsError(400, `Not enough stock for color ${product.color} in product ${product.productId}`);
+    
                 // עדכון מלאי הצבע
                 color.quantity -= product.quantity;
-            
+    
                 productDetails.sold += product.quantity;
                 await productDetails.save();
-            
+    
+                // החזרת פרטי המוצר לשמירה בהזמנה
                 return {
                     productId: product.productId,
                     title: productDetails.title,
@@ -32,27 +33,29 @@ export const orderService = {
                     quantity: product.quantity,
                     price: variant.price,
                     size: product.size,
-                    color: product.color, // שמירת הצבע בהזמנה
+                    color: product.color,
+                    mainImage: productDetails.mainImage,
+                    description: productDetails.description,
                 };
             }));
-            
-
-            // Calculate totalAmount
+    
+            // חישוב סכום כולל
             const totalAmount = orderProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0);
-
+    
+            // יצירת הזמנה
             const order = new Order({
                 userId,
                 products: orderProducts,
                 totalAmount,
-                orderNumber: `ORD-${Date.now().toString()}`,
+                orderNumber: `ORD-${Date.now().toString()}-${Math.floor(Math.random() * 10000)}`,
             });
-
+    
             return await order.save();
         } catch (error) {
             console.error("Error creating order:", error.message);
             throw error;
         }
-    },
+    },    
 
 
     cancelOrder: async (orderId: string) => {
