@@ -8,7 +8,7 @@ export const orderService = {
     createOrder: async (userId: string, products: IOrderProduct[]) => {
         try {
             const orderProducts = await Promise.all(products.map(async product => {
-                const productDetails = await Product.findById(product.productId);
+                const productDetails = await Product.findById((product as IOrderProduct).productId);
                 if (!productDetails) throw new BizCardsError(404, `Product with ID ${product.productId} not found`);
     
                 const variant = productDetails.variants.find(v => v.size === product.size);
@@ -67,7 +67,7 @@ export const orderService = {
         }
 
         for (const product of order.products) {
-            const productDetails = await Product.findById(product.productId);
+            const productDetails = await Product.findById(product._id);
             if (productDetails) {
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (variant) {
