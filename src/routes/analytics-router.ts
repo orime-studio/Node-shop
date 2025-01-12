@@ -10,25 +10,29 @@ const router = Router();
 // Get all orders
 router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     try {
-        const order = await Order.findById(req.params.id).exec();
-        if (!order) {
-          return res.status(404).send('Order not found');
+        const orders = await Order.find().exec(); // כל ההזמנות
+        if (!orders || orders.length === 0) {
+          return res.status(404).send('No orders found');
         }
     
-        const items = await Promise.all(order.products.map(async (item) => {
-          const product = await Product.findById(item.productId).exec();
-          if (!product) {
-            return { ...item.toObject(), deleted: true }; // סימון המוצר שנמחק
-          }
-          return { ...item.toObject(), product };
+        const ordersWithItems = await Promise.all(orders.map(async (order) => {
+          const items = await Promise.all(order.products.map(async (item) => {
+            const product = await Product.findById(item.productId).exec();
+            if (!product) {
+              return { ...item.toObject(), deleted: true }; // סימון המוצר שנמחק
+            }
+            return { ...item.toObject(), product };
+          }));
+          return { ...order.toObject(), items };
         }));
     
-        res.json({ ...order.toObject(), items });
+        res.json(ordersWithItems); // החזרת כל ההזמנות עם המוצרים
       } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
       }
 });
+
 
 
 // sales-router.js
