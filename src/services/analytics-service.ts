@@ -5,9 +5,8 @@ import BizCardsError from "../errors/BizCardsError";
 
 export const analyticsService = {
 
-
-    // get all orders
-    getAllOrders: async (): Promise<IOrder[]> => {
+    // Get all orders
+    getAllOrders: async (): Promise<{ orders: IOrder[], count: number }> => {
         const orders = await Order.find().populate({
             path: 'userId',
             select: 'name', // אכלוס השדה name מתוך userId
@@ -15,7 +14,7 @@ export const analyticsService = {
 
         const count = await Order.countDocuments(); // ספירת כמות ההזמנות
 
-        return orders.map(order => ({
+        const formattedOrders = orders.map(order => ({
             userId: order.userId._id.toString(),
             products: order.products.map(product => ({
                 productId: product.productId._id.toString(),
@@ -31,6 +30,8 @@ export const analyticsService = {
             createdAt: order.createdAt,
             orderNumber: order.orderNumber,
         }));
+
+        return { orders: formattedOrders, count };
     },
 
 
