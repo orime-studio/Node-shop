@@ -17,7 +17,7 @@ export const analyticsService = {
         const formattedOrders = orders.map(order => ({
             userId: order.userId._id.toString(),
             products: order.products.map(product => ({
-                productId: product.productId._id.toString(),
+                productId: product._id.toString(),
                 title: product.title, // שימוש ב- productId כדי לקבל את ה-title
                 barcode: product.barcode, // שימוש ב- productId כדי לקבל את ה-barcode
                 quantity: product.quantity,
