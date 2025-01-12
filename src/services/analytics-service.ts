@@ -1,13 +1,13 @@
 import Product from "../db/models/product-model";
 import Order from "../db/models/order-model";
-import { IOrderProduct } from "../@types/@types";
+import { IOrder, IOrderProduct } from "../@types/@types";
 import BizCardsError from "../errors/BizCardsError";
 
 export const analyticsService = {
 
 
     // get all orders
-    getAllOrders: async () => {
+    getAllOrders: async (): Promise<IOrder[]> => {
         const orders = await Order.find().populate({
             path: 'userId',
             select: 'name', // אכלוס השדה name מתוך userId
@@ -15,27 +15,22 @@ export const analyticsService = {
 
         const count = await Order.countDocuments(); // ספירת כמות ההזמנות
 
-        return {
-            orders: orders.map(order => ({
-                orderNumber: order.orderNumber,
-                orderId: order._id,
-                userId: order.userId._id, // הוספת השדה name של המשתמש
-               /*  userId: order.userId.name, // הוספת השדה name של המשתמש */
-                products: order.products.map(product => ({
-                    productId: product.productId._id,
-                    title: product.title, // שימוש ב- productId כדי לקבל את ה-title
-                    barcode: product.barcode, // שימוש ב- productId כדי לקבל את ה-barcode
-                    quantity: product.quantity,
-                    price: product.price,
-                    size: product.size,
-                })),
-                totalAmount: order.totalAmount,
-                status: order.status,
-                createdAt: order.createdAt,
-
+        return orders.map(order => ({
+            userId: order.userId._id.toString(),
+            products: order.products.map(product => ({
+                productId: product.productId._id.toString(),
+                title: product.title, // שימוש ב- productId כדי לקבל את ה-title
+                barcode: product.barcode, // שימוש ב- productId כדי לקבל את ה-barcode
+                quantity: product.quantity,
+                price: product.price,
+                size: product.size,
+                color: product.color, // הוספת הצבע
             })),
-            count // הוספת כמות ההזמנות לפלט
-        };
+            totalAmount: order.totalAmount,
+            status: order.status,
+            createdAt: order.createdAt,
+            orderNumber: order.orderNumber,
+        }));
     },
 
 
