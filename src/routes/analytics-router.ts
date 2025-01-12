@@ -25,7 +25,7 @@ router.get("/all-orders", ...isAdmin, async (req, res, next) => {
           }));
           return { ...order.toObject(), items };
         }));
-    
+    console.log('ordersWithItems:', ordersWithItems);
         res.json(ordersWithItems); // החזרת כל ההזמנות עם המוצרים
       } catch (error) {
         console.error(error);
