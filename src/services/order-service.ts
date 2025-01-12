@@ -9,15 +9,22 @@ export const orderService = {
         try {
             const orderProducts = await Promise.all(products.map(async product => {
                 const productDetails = await Product.findById(product.productId);
+                if (!productDetails) throw new BizCardsError(404, "Product not found");
+            
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (!variant) throw new BizCardsError(404, "Variant not found");
-                if (variant.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
-
-                // עדכון מלאי המוצר
-                variant.quantity -= product.quantity;
+            
+                const color = variant.colors.find(c => c.name === product.color); // בדיקת הצבע
+                if (!color) throw new BizCardsError(404, "Color not found");
+            
+                if (color.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
+            
+                // עדכון מלאי הצבע
+                color.quantity -= product.quantity;
+            
                 productDetails.sold += product.quantity;
                 await productDetails.save();
-
+            
                 return {
                     productId: product.productId,
                     title: productDetails.title,
@@ -25,8 +32,10 @@ export const orderService = {
                     quantity: product.quantity,
                     price: variant.price,
                     size: product.size,
+                    color: product.color, // שמירת הצבע בהזמנה
                 };
             }));
+            
 
             // Calculate totalAmount
             const totalAmount = orderProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0);
@@ -59,7 +68,10 @@ export const orderService = {
             if (productDetails) {
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (variant) {
-                    variant.quantity += product.quantity;
+                    const color = variant.colors.find(c => c.name === product.color);
+                    if (color) {
+                        color.quantity += product.quantity;
+                    }
                 }
                 productDetails.sold -= product.quantity;
                 await productDetails.save();
