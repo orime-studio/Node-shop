@@ -7,6 +7,7 @@ import { isAdminOrOwner } from "../middleware/isAdminOrOwner";
 
 const router = Router();
 
+//create order
 router.post("/", validateToken, async (req, res, next) => {
     try {
         const userId = req.payload._id;
@@ -19,7 +20,8 @@ router.post("/", validateToken, async (req, res, next) => {
     }
 });
 
-router.get("/:id", ...isAdmin, async (req, res, next) => {
+//get order by id
+router.get("/:id", ...isAdminOrSelfUser, async (req, res, next) => {
     try {
         const orderId = req.params.id;
         const order = await orderService.getOrder(orderId);
@@ -29,7 +31,7 @@ router.get("/:id", ...isAdmin, async (req, res, next) => {
     }
 });
 
-
+//
 router.get("/user/:userId", isAdminOrSelfUser, async (req, res, next) => {
     try {
         const userId = req.params.userId;

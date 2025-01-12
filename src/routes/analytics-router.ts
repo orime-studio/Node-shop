@@ -2,16 +2,32 @@ import { Router, Request, Response, NextFunction } from "express";
 import { analyticsService } from "../services/analytics-service";
 import { isAdmin } from "../middleware/is-admin";
 import BizCardsError from "../errors/BizCardsError";
+import Order from "../db/models/order-model";
+import Product from "../db/models/product-model";
 
 const router = Router();
 
+// Get all orders
 router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     try {
-        const orders = await analyticsService.getAllOrders();
-        res.json(orders);
-    } catch (e) {
-        next(e);
-    }
+        const order = await Order.findById(req.params.id).exec();
+        if (!order) {
+          return res.status(404).send('Order not found');
+        }
+    
+        const items = await Promise.all(order.products.map(async (item) => {
+          const product = await Product.findById(item.productId).exec();
+          if (!product) {
+            return { ...item.toObject(), deleted: true }; // סימון המוצר שנמחק
+          }
+          return { ...item.toObject(), product };
+        }));
+    
+        res.json({ ...order.toObject(), items });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
 });
 
 
