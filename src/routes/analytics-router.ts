@@ -10,28 +10,25 @@ const router = Router();
 // Get all orders
 router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     try {
-        const orders = await Order.find().exec(); // כל ההזמנות
-        if (!orders || orders.length === 0) {
-          return res.status(404).send('No orders found');
-        }
-    
+        const orders = await Order.find({}).exec(); // לאו דווקא לפי ID, אלא כל ההזמנות
         const ordersWithItems = await Promise.all(orders.map(async (order) => {
-          const items = await Promise.all(order.products.map(async (item) => {
-            const product = await Product.findById(item.productId).exec();
-            if (!product) {
-              return { ...item.toObject(), deleted: true }; // סימון המוצר שנמחק
-            }
-            return { ...item.toObject(), product };
-          }));
-          return { ...order.toObject(), items };
+            const items = await Promise.all(order.products.map(async (item) => {
+                const product = await Product.findById(item.productId).exec();
+                if (!product) {
+                    return { ...item.toObject(), deleted: true }; // סימון המוצר שנמחק
+                }
+                return { ...item.toObject(), product: product.toObject() }; // החזרת המוצר כ-JSON
+            }));
+            return { ...order.toObject(), items };
         }));
-    console.log('ordersWithItems:', ordersWithItems);
-        res.json(ordersWithItems); // החזרת כל ההזמנות עם המוצרים
-      } catch (error) {
+        console.log('Orders with items:', ordersWithItems);
+        res.json(ordersWithItems);
+    } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
-      }
+    }
 });
+
 
 
 
