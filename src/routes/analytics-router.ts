@@ -12,13 +12,12 @@ router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     try {
         const orders = await Order.find({}).exec(); // לאו דווקא לפי ID, אלא כל ההזמנות
         const ordersWithItems = await Promise.all(orders.map(async (order) => {
-            const items = await Promise.all(order.products.map(async (item: any) => {
-                const product = await Product.findById(item.productId).exec();
-                if (!product) {
-                    return { ...item.toObject(), deleted: true }; // סימון המוצר שנמחק
+            const items = order.products.map((item: any) => {
+                if (!item) {
+                    return { ...item, deleted: true }; // סימון המוצר שנמחק
                 }
-                return { ...item.toObject(), product: product.toObject() }; // החזרת המוצר כ-JSON
-            }));
+                return { ...item }; // החזרת המוצר כ-JSON
+            });
             return { ...order.toObject(), items };
         }));
         console.log('Orders with items:', ordersWithItems);
