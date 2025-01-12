@@ -2,33 +2,17 @@ import { Router, Request, Response, NextFunction } from "express";
 import { analyticsService } from "../services/analytics-service";
 import { isAdmin } from "../middleware/is-admin";
 import BizCardsError from "../errors/BizCardsError";
-import Order from "../db/models/order-model";
-import Product from "../db/models/product-model";
 
 const router = Router();
 
-// Get all orders
 router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     try {
-        const orders = await Order.find({}).exec(); // לאו דווקא לפי ID, אלא כל ההזמנות
-        const ordersWithItems = await Promise.all(orders.map(async (order) => {
-            const items = order.products.map((item: any) => {
-                if (!item) {
-                    return { ...item, deleted: true }; // סימון המוצר שנמחק
-                }
-                return { ...item }; // החזרת המוצר כ-JSON
-            });
-            return { ...order.toObject(), items };
-        }));
-        console.log('Orders with items:', ordersWithItems);
-        res.json(ordersWithItems);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
+        const orders = await analyticsService.getAllOrders();
+        res.json(orders);
+    } catch (e) {
+        next(e);
     }
 });
-
-
 
 
 // sales-router.js

@@ -120,8 +120,6 @@ export type IOrderProduct = {
   size: string;
   price: number;
   title: string;
-  color: string;
-  barcode: number;
 };
 
 // טיפוס עבור הזמנה

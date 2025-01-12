@@ -8,24 +8,16 @@ export const orderService = {
     createOrder: async (userId: string, products: IOrderProduct[]) => {
         try {
             const orderProducts = await Promise.all(products.map(async product => {
-                const productDetails = await Product.findById((product as IOrderProduct).productId);
-                if (!productDetails) throw new BizCardsError(404, `Product with ID ${product.productId} not found`);
-    
+                const productDetails = await Product.findById(product.productId);
                 const variant = productDetails.variants.find(v => v.size === product.size);
-                if (!variant) throw new BizCardsError(404, `Variant with size ${product.size} not found for product ${product.productId}`);
-    
-                const color = variant.colors.find(c => c.name === product.color);
-                if (!color) throw new BizCardsError(404, `Color ${product.color} not available for product ${product.productId}`);
-    
-                if (color.quantity < product.quantity) throw new BizCardsError(400, `Not enough stock for color ${product.color} in product ${product.productId}`);
-    
-                // עדכון מלאי הצבע
-                color.quantity -= product.quantity;
-    
+                if (!variant) throw new BizCardsError(404, "Variant not found");
+                if (variant.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
+
+                // עדכון מלאי המוצר
+                variant.quantity -= product.quantity;
                 productDetails.sold += product.quantity;
                 await productDetails.save();
-    
-                // החזרת פרטי המוצר לשמירה בהזמנה
+
                 return {
                     productId: product.productId,
                     title: productDetails.title,
@@ -33,29 +25,25 @@ export const orderService = {
                     quantity: product.quantity,
                     price: variant.price,
                     size: product.size,
-                    color: product.color,
-                    mainImage: productDetails.mainImage,
-                    description: productDetails.description,
                 };
             }));
-    
-            // חישוב סכום כולל
+
+            // Calculate totalAmount
             const totalAmount = orderProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0);
-    
-            // יצירת הזמנה
+
             const order = new Order({
                 userId,
                 products: orderProducts,
                 totalAmount,
-                orderNumber: `ORD-${Date.now().toString()}-${Math.floor(Math.random() * 10000)}`,
+                orderNumber: `ORD-${Date.now().toString()}`,
             });
-    
+
             return await order.save();
         } catch (error) {
             console.error("Error creating order:", error.message);
             throw error;
         }
-    },    
+    },
 
 
     cancelOrder: async (orderId: string) => {
@@ -67,14 +55,11 @@ export const orderService = {
         }
 
         for (const product of order.products) {
-            const productDetails = await Product.findById(product._id);
+            const productDetails = await Product.findById(product.productId);
             if (productDetails) {
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (variant) {
-                    const color = variant.colors.find(c => c.name === product.color);
-                    if (color) {
-                        color.quantity += product.quantity;
-                    }
+                    variant.quantity += product.quantity;
                 }
                 productDetails.sold -= product.quantity;
                 await productDetails.save();
