@@ -11,20 +11,19 @@ export const analyticsService = {
         const orders = await Order.find().populate({
             path: 'userId',
             select: 'name', // אכלוס השדה name מתוך userId
-        }).populate('products.productId');
-
+        });
+        
         const count = await Order.countDocuments(); // ספירת כמות ההזמנות
-
+    
         return {
             orders: orders.map(order => ({
                 orderNumber: order.orderNumber,
                 orderId: order._id,
-                userId: order.userId._id, // הוספת השדה name של המשתמש
-               /*  userId: order.userId.name, // הוספת השדה name של המשתמש */
+                userId: order.userId._id,
                 products: order.products.map(product => ({
-                    productId: product.productId._id,
-                    title: product.title, // שימוש ב- productId כדי לקבל את ה-title
-                    barcode: product.barcode, // שימוש ב- productId כדי לקבל את ה-barcode
+                    productId: product.productId ? product.productId._id : null,
+                    title: product.title,
+                    barcode: product.barcode,
                     quantity: product.quantity,
                     price: product.price,
                     size: product.size,
@@ -32,11 +31,11 @@ export const analyticsService = {
                 totalAmount: order.totalAmount,
                 status: order.status,
                 createdAt: order.createdAt,
-
             })),
             count // הוספת כמות ההזמנות לפלט
         };
     },
+    
 
 
     getSalesByDate: async (startDate: Date, endDate: Date) => {
