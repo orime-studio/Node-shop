@@ -4,17 +4,19 @@ import { IOrderProduct } from "../@types/@types";
 import BizCardsError from "../errors/BizCardsError";
 
 export const orderService = {
-
     createOrder: async (userId: string, products: IOrderProduct[]) => {
         try {
             const orderProducts = await Promise.all(products.map(async product => {
                 const productDetails = await Product.findById(product.productId);
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (!variant) throw new BizCardsError(404, "Variant not found");
-                if (variant.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
 
-                // עדכון מלאי המוצר
-                variant.quantity -= product.quantity;
+                const color = variant.colors.find(c => c.name === product.color);
+                if (!color) throw new BizCardsError(404, "Color not found");
+                if (color.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock for the selected color");
+
+                // Update stock for the selected color
+                color.quantity -= product.quantity;
                 productDetails.sold += product.quantity;
                 await productDetails.save();
 
@@ -25,6 +27,7 @@ export const orderService = {
                     quantity: product.quantity,
                     price: variant.price,
                     size: product.size,
+                    color: product.color, // Include the color in the order
                 };
             }));
 
@@ -45,7 +48,6 @@ export const orderService = {
         }
     },
 
-
     cancelOrder: async (orderId: string) => {
         const order = await Order.findById(orderId);
         if (!order) throw new Error("Order not found");
@@ -59,7 +61,10 @@ export const orderService = {
             if (productDetails) {
                 const variant = productDetails.variants.find(v => v.size === product.size);
                 if (variant) {
-                    variant.quantity += product.quantity;
+                    const color = variant.colors.find(c => c.name === product.color);
+                    if (color) {
+                        color.quantity += product.quantity;
+                    }
                 }
                 productDetails.sold -= product.quantity;
                 await productDetails.save();
@@ -68,8 +73,6 @@ export const orderService = {
         order.status = "cancelled";
         return await order.save();
     },
-
-
 
     getOrder: async (orderId: string) => {
         const order = await Order.findById(orderId).populate("products.productId");
@@ -81,12 +84,9 @@ export const orderService = {
         return Order.find({ userId }).populate("products.productId");
     },
 
-    
     getAllOrders: async () => {
         const orders = await Order.find(({ status: { $ne: "cancelled" } })).populate("products.productId");
         const count = await Order.countDocuments({ status: { $ne: "cancelled" } });
         return { orders: orders.map(order => order.toObject()), count };
-
-        },
-
+    },
 };

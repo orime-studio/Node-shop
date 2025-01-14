@@ -9,6 +9,7 @@ const orderSchema = new Schema({
         price: { type: Number, required: true },
         size: { type: String, required: true },
         barcode: { type: Number, required: true },
+        color: { type: String, required: true },
     }],
     totalAmount: { type: Number, required: true },
     status: {
