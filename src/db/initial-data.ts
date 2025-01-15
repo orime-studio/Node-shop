@@ -524,8 +524,8 @@ const products: IProductInput[] = [
         size: "1",
         price: 150,
         colors: [
-          { name: "gold עתיק", quantity: 12 },
-          { name: "כסף", quantity: 10 }
+          { name: "gold", quantity: 12 },
+          { name: "silver", quantity: 10 }
         ]
       }
     ],
@@ -584,7 +584,7 @@ const products: IProductInput[] = [
         price: 140,
         colors: [
           { name: "white", quantity: 6 },
-          { name: "כסף", quantity: 4 }
+          { name: "silver", quantity: 4 }
         ]
       }
     ],
