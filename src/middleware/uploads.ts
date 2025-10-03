@@ -3,7 +3,8 @@ import multer from 'multer';
 import path from 'path';
 
 // הגדרת תיקיית העלאת קבצים מהסביבה
-const uploadDirectory = process.env.PERSISTENT_DISK_PATH || path.join(__dirname, '../../uploads');
+const uploadDirectory = process.env.PERSISTENT_DISK_PATH || '/tmp/uploads';
+
 
 // הדפסת המיקום של התיקייה
 
